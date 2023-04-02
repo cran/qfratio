@@ -364,33 +364,29 @@ Forms</h1>
 
 
 <p><span class="math display">\[
-\require{boldsymbol}
-\DeclareMathOperator{\E}{E}
-\DeclareMathOperator{\tr}{tr}
-\newcommand{\m}[1]{\mathbf{#1}}
-\newcommand{\bm}[1]{\boldsymbol{#1}}
-\newcommand{\brc}[1]{\left[ {#1} \right]}
-\newcommand{\Cit}[7]{ C^{#1, #2, #3}_{#4} \! \left( #5, #6, #7 \right) }
-\newcommand{\Ciq}[9]{ C^{#1, #2, #3, #4}_{#5} \! \left( #6, #7, #8, #9
+\DeclareMathOperator{\qfrE}{E}
+\DeclareMathOperator{\qfrtr}{tr}
+\newcommand{\qfrbrc}[1]{\left[ {#1} \right]}
+\newcommand{\qfrCit}[7]{ C^{#1, #2, #3}_{#4} \! \left( #5, #6, #7
 \right) }
-\newcommand{\rf}[2][k]{\left( #2 \right)_{#1}}
-\newcommand{\dk}[2][k]{ d_{#1} \! \left( #2 \right) }
-% \newcommand{\dij}[3][k]{ d_{#1} \! \left( #2, #3 \right) }
-\newcommand{\dijk}[4][k]{ d_{#1} \! \left( #2, #3, #4 \right) }
-\newcommand{\dijkl}[5][k]{ d_{#1} \! \left( #2, #3, #4, #5 \right) }
-\newcommand{\dtk}[3][k]{ \tilde{d}_{#1} \! \left( #2, #3 \right) }
-\newcommand{\hij}[3][k]{ h_{#1} \! \left( #2, #3 \right) }
-\newcommand{\hijk}[4][k]{ h_{#1} \! \left( #2, #3, #4 \right) }
-\newcommand{\htij}[3][k]{ \tilde{h}_{#1} \! \left( #2; #3 \right) }
-\newcommand{\htijk}[4][k]{ \tilde{h}_{#1} \! \left( #2; #3, #4 \right) }
-\newcommand{\hhij}[3][k]{ \hat{h}_{#1} \! \left( #2; #3 \right) }
-\newcommand{\hhijk}[4][k]{ \hat{h}_{#1} \! \left( #2; #3, #4 \right) }
+\newcommand{\qfrrf}[2][k]{\left( #2 \right)_{#1}}
+\newcommand{\qfrdk}[2][k]{ d_{#1} \! \left( #2 \right) }
+\newcommand{\qfrdijk}[4][k]{ d_{#1} \! \left( #2, #3, #4 \right) }
+\newcommand{\qfrdijkl}[5][k]{ d_{#1} \! \left( #2, #3, #4, #5 \right) }
+\newcommand{\qfrdtk}[3][k]{ \tilde{d}_{#1} \! \left( #2, #3 \right) }
+\newcommand{\qfrhij}[3][k]{ h_{#1} \! \left( #2, #3 \right) }
+\newcommand{\qfrhijk}[4][k]{ h_{#1} \! \left( #2, #3, #4 \right) }
+\newcommand{\qfrhtij}[3][k]{ \tilde{h}_{#1} \! \left( #2; #3 \right) }
+\newcommand{\qfrhtijk}[4][k]{ \tilde{h}_{#1} \! \left( #2; #3, #4
+\right) }
+\newcommand{\qfrhhij}[3][k]{ \hat{h}_{#1} \! \left( #2; #3 \right) }
+\newcommand{\qfrhhijk}[4][k]{ \hat{h}_{#1} \! \left( #2; #3, #4 \right)
+}
 \renewcommand{\det}[1]{\left\lvert #1 \right\rvert}
-% \newcommand{\lmax}[1]{\lambda_{\max} \! \left( #1 \right)}
-\newcommand{\lmax}{\lambda_{\max}}
+\newcommand{\qfrlmax}{\lambda_{\max}}
 \]</span></p>
 <p>This document is to provide an overview of the <code>R</code> package
-<code>qfratio</code> (<a href="https://github.com/watanabe-j/qfratio">GitHub</a>).</p>
+<code>qfratio</code> (<a href="https://CRAN.R-project.org/package=qfratio" target="_blank">CRAN</a>; <a href="https://github.com/watanabe-j/qfratio" target="_blank">GitHub</a>).</p>
 <div id="symbols-used" class="section level2">
 <h2>Symbols used</h2>
 <ul>
@@ -408,17 +404,19 @@ functions defined in text</li>
 <li><span class="math inline">\(C\)</span>: (top-order) zonal and
 invariant polynomials of matrix arguments <span class="citation">(<a href="#ref-Chikuse1980msa">Chikuse, 1980</a>, <a href="#ref-Chikuse1987">1987</a>; <a href="#ref-Davis1980proc">Davis,
 1980</a>; <a href="#ref-Muirhead1982">Muirhead, 1982</a>)</span></li>
-<li><span class="math inline">\(\m{x}\)</span>: <span class="math inline">\(n\)</span>-variate random vector (in most cases
+<li><span class="math inline">\(\mathbf{x}\)</span>: <span class="math inline">\(n\)</span>-variate random vector (in most cases
 normal)</li>
-<li><span class="math inline">\(N_n \left( \bm{\mu} ,
-\bm{\Sigma}\right)\)</span>: <span class="math inline">\(n\)</span>-variate normal distribution with mean
-vector <span class="math inline">\(\bm{\mu}\)</span> and covariance
-matrix <span class="math inline">\(\bm{\Sigma}\)</span></li>
-<li><span class="math inline">\(\m{A}, \m{B}, \m{D}\)</span>: <span class="math inline">\(n \times n\)</span> argument matrices</li>
-<li><span class="math inline">\(\m{I}_n\)</span>: <span class="math inline">\(n\)</span>-dimensional identity matrix</li>
-<li><span class="math inline">\(\m{0}_n\)</span>: <span class="math inline">\(n\)</span>-variate vector of <span class="math inline">\(0\)</span>’s</li>
-<li><span class="math inline">\(\m{0}_{n \times n}\)</span>: <span class="math inline">\(n \times n\)</span> matrix of <span class="math inline">\(0\)</span>’s</li>
-<li><span class="math inline">\(\E \left( \cdot \right)\)</span>:
+<li><span class="math inline">\(N_n \left( \boldsymbol{\mu} ,
+\boldsymbol{\Sigma}\right)\)</span>: <span class="math inline">\(n\)</span>-variate normal distribution with mean
+vector <span class="math inline">\(\boldsymbol{\mu}\)</span> and
+covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span></li>
+<li><span class="math inline">\(\mathbf{A}, \mathbf{B},
+\mathbf{D}\)</span>: <span class="math inline">\(n \times n\)</span>
+argument matrices</li>
+<li><span class="math inline">\(\mathbf{I}_n\)</span>: <span class="math inline">\(n\)</span>-dimensional identity matrix</li>
+<li><span class="math inline">\(\mathbf{0}_n\)</span>: <span class="math inline">\(n\)</span>-variate vector of <span class="math inline">\(0\)</span>’s</li>
+<li><span class="math inline">\(\mathbf{0}_{n \times n}\)</span>: <span class="math inline">\(n \times n\)</span> matrix of <span class="math inline">\(0\)</span>’s</li>
+<li><span class="math inline">\(\qfrE \left( \cdot \right)\)</span>:
 expectation/mean</li>
 <li><span class="math inline">\(\Gamma \left( \cdot \right)\)</span>:
 gamma function</li>
@@ -426,62 +424,66 @@ gamma function</li>
 is, <span class="math inline">\((x)_a = x (x + 1) \dots (x + a -
 1)\)</span> (with the convention <span class="math inline">\((x)_0 =
 1\)</span>)</li>
-<li><span class="math inline">\(\m{A}^T\)</span>: matrix
+<li><span class="math inline">\(\mathbf{A}^T\)</span>: matrix
 transposition</li>
-<li><span class="math inline">\(\m{A}^{-1}\)</span>: matrix inverse</li>
-<li><span class="math inline">\(\m{A}^{-\frac{1}{2}}\)</span>:
-(symmetric) matrix satisfying <span class="math inline">\(\m{A}^{-\frac{1}{2}} \m{A} \m{A}^{-\frac{1}{2}} =
-\m{I}_n\)</span>, assuming positive definite <span class="math inline">\(\m{A}\)</span></li>
-<li><span class="math inline">\(\det{\m{A}}\)</span>: matrix
+<li><span class="math inline">\(\mathbf{A}^{-1}\)</span>: matrix
+inverse</li>
+<li><span class="math inline">\(\mathbf{A}^{-\frac{1}{2}}\)</span>:
+(symmetric) matrix satisfying <span class="math inline">\(\mathbf{A}^{-\frac{1}{2}} \mathbf{A}
+\mathbf{A}^{-\frac{1}{2}} = \mathbf{I}_n\)</span>, assuming positive
+definite <span class="math inline">\(\mathbf{A}\)</span></li>
+<li><span class="math inline">\(\det{\mathbf{A}}\)</span>: matrix
 determinant</li>
-<li><span class="math inline">\(\tr{\m{A}}\)</span>: matrix trace</li>
+<li><span class="math inline">\(\qfrtr{\mathbf{A}}\)</span>: matrix
+trace</li>
 <li><span class="math inline">\(\lambda_i\)</span>: <span class="math inline">\(i\)</span>th eigenvalue of the matrix
 concerned</li>
-<li><span class="math inline">\(\lmax\)</span>: largest eigenvalue of
+<li><span class="math inline">\(\qfrlmax\)</span>: largest eigenvalue of
 the matrix concerned</li>
-<li><span class="math inline">\(\m{h}_i\)</span>: eigenvector
+<li><span class="math inline">\(\mathbf{h}_i\)</span>: eigenvector
 corresponding to <span class="math inline">\(\lambda_i\)</span></li>
-<li><span class="math inline">\(\beta_{\m{A}}\)</span>: scaling constant
-that satisfies <span class="math inline">\(0 &lt; \beta &lt; 2 /
-\lmax\)</span> for <span class="math inline">\(\m{A}\)</span></li>
-<li><span class="math inline">\(\m{A}^+\)</span>: matrix with
-“positivized” eigenvalues, i.e., <span class="math inline">\(\m{A}^+ =
-\sum_{i=1}^n \lvert \lambda_i \rvert \m{h}_i \m{h}_i^T\)</span></li>
+<li><span class="math inline">\(\beta_{\mathbf{A}}\)</span>: scaling
+constant that satisfies <span class="math inline">\(0 &lt; \beta &lt; 2
+/ \qfrlmax\)</span> for <span class="math inline">\(\mathbf{A}\)</span></li>
+<li><span class="math inline">\(\mathbf{A}^+\)</span>: matrix with
+“positivized” eigenvalues, i.e., <span class="math inline">\(\mathbf{A}^+ = \sum_{i=1}^n \lvert \lambda_i
+\rvert \mathbf{h}_i \mathbf{h}_i^T\)</span></li>
 </ul>
 <p>The use of <span class="math inline">\(n\)</span> for the number of
 variables and <span class="math inline">\(p, q, \dots\)</span> for
-exponents is to conform with <span class="citation">Bao &amp; Kan (<a href="#ref-BaoKan2013">2013</a>)</span>.</p>
+exponents is to conform with <span class="citation">Bao and Kan (<a href="#ref-BaoKan2013">2013</a>)</span>.</p>
 </div>
 <div id="what-the-package-is-for" class="section level1">
 <h1>What the package is for</h1>
 <p>The package primarily concerns moments of ratios of quadratic forms
 of the following forms: <span class="math display">\[\begin{equation}
-  \frac{\left( \m{x}^T \m{A} \m{x} \right)^p}
-  {\left( \m{x}^T \m{B} \m{x} \right)^q}, \quad
-  \frac{\left( \m{x}^T \m{A} \m{x} \right)^p}
-  {\left( \m{x}^T \m{B} \m{x} \right)^q \left( \m{x}^T \m{D} \m{x}
-\right)^r}.
+  \frac{\left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p}
+  {\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q}, \quad
+  \frac{\left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p}
+  {\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q \left(
+\mathbf{x}^T \mathbf{D} \mathbf{x} \right)^r}.
 \end{equation}\]</span> In this package, these are called a simple and
 multiple ratio, respectively, following <span class="citation">Smith (<a href="#ref-Smith1989">1989</a>)</span> (to be precise, the latter is a
 very specific case of the multiple ratios treated therein).</p>
 <p>Quantities of the above forms frequently occur in the statistical and
-econometric literature <span class="citation">(<a href="#ref-MathaiProvost1992">Mathai &amp; Provost, 1992</a>; <a href="#ref-HillierEtAl2009">Hillier et al., 2009</a>, <a href="#ref-HillierEtAl2014">2014</a>)</span>. In evolutionary biology,
+econometric literature <span class="citation">(<a href="#ref-MathaiProvost1992">Mathai and Provost, 1992</a>; <a href="#ref-HillierEtAl2009">Hillier et al., 2009</a>, <a href="#ref-HillierEtAl2014">2014</a>)</span>. In evolutionary biology,
 the quantities known as evolvability measures have the same general
 form, and evaluation of their expectation (average or mean evolvability
-measures) can be of practical interest <span class="citation">(<a href="#ref-HansenHoule2008">Hansen &amp; Houle, 2008</a>; <a href="#ref-MeloEtAl2016">Melo et al., 2016</a>; <a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>)</span>.</p>
+measures) can be of practical interest <span class="citation">(<a href="#ref-HansenHoule2008">Hansen and Houle, 2008</a>; <a href="#ref-MeloEtAl2016">Melo et al., 2016</a>; <a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>)</span>.</p>
 <p>The package is for evaluating the moments of the above quantity
-assuming the multivariate normality of <span class="math inline">\(\m{x}\)</span>, that is, <span class="math display">\[\begin{equation}
-  \E \left(
-  \frac{\left( \m{x}^T \m{A} \m{x} \right)^p}
-  {\left( \m{x}^T \m{B} \m{x} \right)^q}
+assuming the multivariate normality of <span class="math inline">\(\mathbf{x}\)</span>, that is, <span class="math display">\[\begin{equation}
+  \qfrE \left(
+  \frac{\left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p}
+  {\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q}
   \right), \quad
-  \E \left(
-  \frac{\left( \m{x}^T \m{A} \m{x} \right)^p}
-  {\left( \m{x}^T \m{B} \m{x} \right)^q \left( \m{x}^T \m{D} \m{x}
-\right)^r}
+  \qfrE \left(
+  \frac{\left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p}
+  {\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q \left(
+\mathbf{x}^T \mathbf{D} \mathbf{x} \right)^r}
   \right),
-\end{equation}\]</span> where <span class="math inline">\(\m{x} \sim N_n
-\left( \bm{\mu}, \bm{\Sigma} \right)\)</span>.</p>
+\end{equation}\]</span> where <span class="math inline">\(\mathbf{x}
+\sim N_n \left( \boldsymbol{\mu}, \boldsymbol{\Sigma}
+\right)\)</span>.</p>
 <div id="first-examples" class="section level2">
 <h2>First examples</h2>
 <p>Here are simple example use cases:</p>
@@ -554,45 +556,45 @@ involved.</p>
 <p>For the above quantities to be well-defined and have finite
 moments:</p>
 <ul>
-<li><span class="math inline">\(\m{B}\)</span> (and <span class="math inline">\(\m{D}\)</span>) should be nonnegative definite
-(i.e., has no negative eigenvalues)</li>
+<li><span class="math inline">\(\mathbf{B}\)</span> (and <span class="math inline">\(\mathbf{D}\)</span>) should be nonnegative
+definite (i.e., has no negative eigenvalues)</li>
 <li>when <span class="math inline">\(p\)</span> is non-positive-integer,
-<span class="math inline">\(\m{A}\)</span> should be nonnegative
+<span class="math inline">\(\mathbf{A}\)</span> should be nonnegative
 definite as well</li>
 </ul>
 <p>For the simple ratio, the necessary and sufficient conditions for the
-moment to exist is stated in <span class="citation">Bao &amp; Kan (<a href="#ref-BaoKan2013">2013</a>, proposition 1)</span>:</p>
+moment to exist is stated in <span class="citation">Bao and Kan (<a href="#ref-BaoKan2013">2013</a>, proposition 1)</span>:</p>
 <ol style="list-style-type: decimal">
-<li>When <span class="math inline">\(\m{B}\)</span> is positive
+<li>When <span class="math inline">\(\mathbf{B}\)</span> is positive
 definite, the moment exists if and only if <span class="math inline">\(\frac{n}{2} + p &gt; q\)</span>.</li>
-<li>When <span class="math inline">\(\m{B}\)</span> is positive
+<li>When <span class="math inline">\(\mathbf{B}\)</span> is positive
 semidefinite with rank <span class="math inline">\(l\)</span>, consider
-a matrix of its eigenvectors <span class="math inline">\(\m{P} =
-(\m{P}_1, \m{P}_2)\)</span>, with <span class="math inline">\(\m{P}_1\)</span> and <span class="math inline">\(\m{P}_2\)</span> being <span class="math inline">\(n \times l\)</span> and <span class="math inline">\(n \times (n - l)\)</span> submatrices
+a matrix of its eigenvectors <span class="math inline">\(\mathbf{P} =
+(\mathbf{P}_1, \mathbf{P}_2)\)</span>, with <span class="math inline">\(\mathbf{P}_1\)</span> and <span class="math inline">\(\mathbf{P}_2\)</span> being <span class="math inline">\(n \times l\)</span> and <span class="math inline">\(n \times (n - l)\)</span> submatrices
 corresponding to the nonzero and zero eigenvalues, respectively, and let
-<span class="math inline">\(\tilde{\m{A}}_{12} = \m{P}_1^T \m{A}
-\m{P}_2\)</span> and <span class="math inline">\(\tilde{\m{A}}_{22} =
-\m{P}_2^T \m{A} \m{P}_2\)</span>. Then,
+<span class="math inline">\(\tilde{\mathbf{A}}_{12} = \mathbf{P}_1^T
+\mathbf{A} \mathbf{P}_2\)</span> and <span class="math inline">\(\tilde{\mathbf{A}}_{22} = \mathbf{P}_2^T
+\mathbf{A} \mathbf{P}_2\)</span>. Then,
 <ul>
-<li>when <span class="math inline">\(\tilde{\m{A}}_{12} = \m{0}_{l
-\times (n - l)}\)</span> and <span class="math inline">\(\tilde{\m{A}}_{22} = \m{0}_{(n - l) \times (n -
-l)}\)</span>, the moment exists if and only if <span class="math inline">\(\frac{l}{2} + p &gt; q\)</span>;</li>
-<li>when <span class="math inline">\(\tilde{\m{A}}_{12} \neq \m{0}_{l
-\times (n - l)}\)</span> and <span class="math inline">\(\tilde{\m{A}}_{22} = \m{0}_{(n - l) \times (n -
-l)}\)</span>, the moment exists if and only if <span class="math inline">\(\frac{l + p}{2} &gt; q\)</span>; and</li>
-<li>when <span class="math inline">\(\tilde{\m{A}}_{22} \neq \m{0}_{(n -
-l) \times (n - l)}\)</span>, the moment exists if and only if <span class="math inline">\(\frac{l}{2} &gt; q\)</span>.</li>
+<li>when <span class="math inline">\(\tilde{\mathbf{A}}_{12} =
+\mathbf{0}_{l \times (n - l)}\)</span> and <span class="math inline">\(\tilde{\mathbf{A}}_{22} = \mathbf{0}_{(n - l)
+\times (n - l)}\)</span>, the moment exists if and only if <span class="math inline">\(\frac{l}{2} + p &gt; q\)</span>;</li>
+<li>when <span class="math inline">\(\tilde{\mathbf{A}}_{12} \neq
+\mathbf{0}_{l \times (n - l)}\)</span> and <span class="math inline">\(\tilde{\mathbf{A}}_{22} = \mathbf{0}_{(n - l)
+\times (n - l)}\)</span>, the moment exists if and only if <span class="math inline">\(\frac{l + p}{2} &gt; q\)</span>; and</li>
+<li>when <span class="math inline">\(\tilde{\mathbf{A}}_{22} \neq
+\mathbf{0}_{(n - l) \times (n - l)}\)</span>, the moment exists if and
+only if <span class="math inline">\(\frac{l}{2} &gt; q\)</span>.</li>
 </ul></li>
 </ol>
 <p>For the multiple ratio, the existence conditions are more difficult
-to define. When the null space of <span class="math inline">\(\m{B}\)</span> is a subspace of that of <span class="math inline">\(\m{D}\)</span> (or vice versa), the existence
+to define. When the null space of <span class="math inline">\(\mathbf{B}\)</span> is a subspace of that of <span class="math inline">\(\mathbf{D}\)</span> (or vice versa), the existence
 problem reduces to that of the simple ratio, and the above conditions
-apply by inserting the rank of <span class="math inline">\(\m{B}\)</span> and <span class="math inline">\(q +
-r\)</span> into <span class="math inline">\(l\)</span> and <span class="math inline">\(q\)</span> above <span class="citation">(<a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>)</span>. However, when
-both <span class="math inline">\(\m{B}\)</span> and <span class="math inline">\(\m{D}\)</span> are singular and neither of their
-ranges is a subspace of each other, no general existence conditions seem
-to be known in the literature. See the documentations for
-<code>qfrm</code> and <code>qfmrm</code> for the behaviors when the
+apply by inserting the rank of <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(q + r\)</span> into <span class="math inline">\(l\)</span> and <span class="math inline">\(q\)</span> above <span class="citation">(<a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>)</span>. However, when
+both <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are singular and neither of
+their ranges is a subspace of each other, no general existence
+conditions seem to be known in the literature. See the documentations
+for <code>qfrm</code> and <code>qfmrm</code> for the behaviors when the
 existence conditions are not satisfied.</p>
 </div>
 <div id="expressions-for-moments" class="section level2">
@@ -602,169 +604,178 @@ quadratic forms in normal variables, only some of which are amenable to
 straightforward numerical evaluation. The package uses one class of such
 expressions, based on a series expansion and term-by-term integration of
 a ratio <span class="citation">(<a href="#ref-Smith1989">Smith,
-1989</a>, <a href="#ref-Smith1993">1993</a>; <a href="#ref-Hillier2001">Hillier, 2001</a>; <a href="#ref-HillierEtAl2009">Hillier et al., 2009</a>, <a href="#ref-HillierEtAl2014">2014</a>; <a href="#ref-BaoKan2013">Bao
-&amp; Kan, 2013</a>)</span>.</p>
-<p>The following expressions assume <span class="math inline">\(\m{x}
-\sim N_n \left( \bm{\mu}, \m{I}_n \right)\)</span>. For arbitrary but
-nonsingular <span class="math inline">\(\bm{\Sigma}\)</span>, it is
-always possible to transform the variables and argument matrices by
-using <span class="math inline">\(\m{x}_{\mathrm{new}} = \m{K}^{-1}
-\m{x}\)</span>, <span class="math inline">\(\m{A}_{\mathrm{new}} =
-\m{K}^T \m{A} \m{K}\)</span>, etc., where <span class="math inline">\(\m{K}\)</span> is an <span class="math inline">\(n
-\times n\)</span> matrix that satisfies <span class="math inline">\(\m{K} \m{K}^T = \bm{\Sigma}\)</span> <span class="citation">(<a href="#ref-MathaiProvost1992">Mathai &amp; Provost,
-1992, chap. 3</a>)</span>. When <span class="math inline">\(\bm{\Sigma}\)</span> is singular, certain
-conditions need to be met by the argument matrices, <span class="math inline">\(\bm{\Sigma}\)</span>, and <span class="math inline">\(\bm{\mu}\)</span> for this transformation, and
-hence the following expressions, to be valid <span class="citation">(<a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>, appendix C)</span>.</p>
+1989</a>, <a href="#ref-Smith1993">1993</a>; <a href="#ref-Hillier2001">Hillier, 2001</a>; <a href="#ref-HillierEtAl2009">Hillier et al., 2009</a>, <a href="#ref-HillierEtAl2014">2014</a>; <a href="#ref-BaoKan2013">Bao and
+Kan, 2013</a>)</span>.</p>
+<p>The following expressions assume <span class="math inline">\(\mathbf{x} \sim N_n \left( \boldsymbol{\mu},
+\mathbf{I}_n \right)\)</span>. For arbitrary but nonsingular <span class="math inline">\(\boldsymbol{\Sigma}\)</span>, it is always
+possible to transform the variables and argument matrices by using <span class="math inline">\(\mathbf{x}_{\mathrm{new}} = \mathbf{K}^{-1}
+\mathbf{x}\)</span>, <span class="math inline">\(\mathbf{A}_{\mathrm{new}} = \mathbf{K}^T
+\mathbf{A} \mathbf{K}\)</span>, etc., where <span class="math inline">\(\mathbf{K}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix that satisfies <span class="math inline">\(\mathbf{K} \mathbf{K}^T =
+\boldsymbol{\Sigma}\)</span> <span class="citation">(<a href="#ref-MathaiProvost1992">Mathai and Provost, 1992, chap.
+3</a>)</span>. When <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is singular, certain
+conditions need to be met by the argument matrices, <span class="math inline">\(\boldsymbol{\Sigma}\)</span>, and <span class="math inline">\(\boldsymbol{\mu}\)</span> for this transformation,
+and hence the following expressions, to be valid <span class="citation">(<a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>,
+appendix C)</span>.</p>
 <p>For the simple ratio with an arbitrary (positive real) <span class="math inline">\(p\)</span>, when the moment exists, the expression
-is <span class="citation">(<a href="#ref-BaoKan2013">Bao &amp; Kan,
+is <span class="citation">(<a href="#ref-BaoKan2013">Bao and Kan,
 2013</a>, eq. (12))</span> <span class="math display">\[\begin{equation}
 \begin{aligned}
-  \E \left( \frac{(\m{x}^T \m{A} \m{x})^p}{(\m{x}^T \m{B} \m{x})^q}
-\right)
+  \qfrE \left( \frac{(\mathbf{x}^T \mathbf{A}
+\mathbf{x})^p}{(\mathbf{x}^T \mathbf{B} \mathbf{x})^q} \right)
   = &amp;
-  2^{p - q} \beta_{\m{A}}^{-p} \beta_{\m{B}}^{q} \Gamma \left(
+  2^{p - q} \beta_{\mathbf{A}}^{-p} \beta_{\mathbf{B}}^{q} \Gamma \left(
 \frac{n}{2} + p - q \right) \\
   &amp; \quad \cdot
   \sum_{i=0}^{\infty} \sum_{j=0}^{\infty}
-  \frac{ \rf[i]{-p} \rf[j]{q} }{ \Gamma \left(\frac{n}{2} + i + j
+  \frac{ \qfrrf[i]{-p} \qfrrf[j]{q} }{ \Gamma \left(\frac{n}{2} + i + j
 \right) } % \\
   % &amp; \qquad
   % \cdot
-  \hij[i,j]{ \m{I}_n - \beta_{\m{A}} \m{A} }{ \m{I}_n - \beta_{\m{B}}
-\m{B} }
+  \qfrhij[i,j]{ \mathbf{I}_n - \beta_{\mathbf{A}} \mathbf{A} }{
+\mathbf{I}_n - \beta_{\mathbf{B}} \mathbf{B} }
   ,
 \end{aligned}
 \tag{1}
-\end{equation}\]</span> and for a positive-integral <span class="math inline">\(p\)</span>, this can be simplified into <span class="citation">(<a href="#ref-BaoKan2013">Bao &amp; Kan, 2013</a>, eq.
+\end{equation}\]</span> and for a positive-integral <span class="math inline">\(p\)</span>, this can be simplified into <span class="citation">(<a href="#ref-BaoKan2013">Bao and Kan, 2013</a>, eq.
 (13), correcting a typo)</span>: <span class="math display">\[\begin{equation}
 \begin{aligned}
-  \E \left( \frac{(\m{x}^T \m{A} \m{x})^p}{(\m{x}^T \m{B} \m{x})^q}
-\right)
+  \qfrE \left( \frac{(\mathbf{x}^T \mathbf{A}
+\mathbf{x})^p}{(\mathbf{x}^T \mathbf{B} \mathbf{x})^q} \right)
   = &amp;
-  2^{p - q} \beta_{\m{B}}^{q} p! \Gamma \left( \frac{n}{2} + p - q
+  2^{p - q} \beta_{\mathbf{B}}^{q} p! \Gamma \left( \frac{n}{2} + p - q
 \right)
   \sum_{j=0}^{\infty}
-  \frac{ \rf[j]{q} }{ \Gamma \left( \frac{n}{2} + p + j \right) } % \\
-  % &amp; \qquad
-  % \cdot
-  \htij[p;j]{ \m{A} }{ \m{I}_n - \beta_{\m{B}} \m{B} }
+  \frac{ \qfrrf[j]{q} }{ \Gamma \left( \frac{n}{2} + p + j \right) }
+  \qfrhtij[p;j]{ \mathbf{A} }{ \mathbf{I}_n - \beta_{\mathbf{B}}
+\mathbf{B} }
   .
 \end{aligned}
 \tag{2}
 \end{equation}\]</span></p>
 <p>For the multiple ratio, the expression for an arbitrary <span class="math inline">\(p\)</span> is <span class="citation">(after <a href="#ref-Smith1989">Smith, 1989</a>, eq. (5.2))</span> <span class="math display">\[\begin{equation}
 \begin{aligned}
-  \E \! \left( \frac{(\m{x}^T \m{A} \m{x})^p}{(\m{x}^T \m{B} \m{x})^q
-(\m{x}^T \m{D} \m{x})^r} \right)
+  \qfrE \! \left( \frac{(\mathbf{x}^T \mathbf{A}
+\mathbf{x})^p}{(\mathbf{x}^T \mathbf{B} \mathbf{x})^q (\mathbf{x}^T
+\mathbf{D} \mathbf{x})^r} \right)
   = &amp;
-  2^{p - q - r} \beta_{\m{B}}^{q} \beta_{\m{D}}^{r}
+  2^{p - q - r} \beta_{\mathbf{B}}^{q} \beta_{\mathbf{D}}^{r}
   \Gamma \left( \frac{n}{2} + p - q - r \right)
     \\
   &amp; \quad \cdot
   \sum_{i=0}^{\infty} \sum_{j=0}^{\infty} \sum_{k=0}^{\infty}
-  \frac{ \rf[i]{-p} \rf[j]{q} \rf[k]{r} }{ \Gamma \left( \frac{n}{2} + i
-+ j + k \right) }
+  \frac{ \qfrrf[i]{-p} \qfrrf[j]{q} \qfrrf[k]{r} }{ \Gamma \left(
+\frac{n}{2} + i + j + k \right) }
   \\
   &amp; \quad \quad \cdot
-  \hijk[i, j, k]{ \m{I}_n - \beta_{\m{A}} \m{A} }{ \m{I}_n -
-\beta_{\m{B}} \m{B} }{ \m{I}_n - \beta_{\m{D}} \m{D} },
+  \qfrhijk[i, j, k]{ \mathbf{I}_n - \beta_{\mathbf{A}} \mathbf{A} }{
+\mathbf{I}_n - \beta_{\mathbf{B}} \mathbf{B} }{ \mathbf{I}_n -
+\beta_{\mathbf{D}} \mathbf{D} },
 \end{aligned}
 \tag{3}
 \end{equation}\]</span> and for a positive-integral <span class="math inline">\(p\)</span> <span class="citation">(<a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>, eq. (B38))</span>,
 <span class="math display">\[\begin{equation}
 \begin{aligned}
-  \E \! \left( \frac{(\m{x}^T \m{A} \m{x})^p}{(\m{x}^T \m{B} \m{x})^q
-(\m{x}^T \m{D} \m{x})^r} \right)
+  \qfrE \! \left( \frac{(\mathbf{x}^T \mathbf{A}
+\mathbf{x})^p}{(\mathbf{x}^T \mathbf{B} \mathbf{x})^q (\mathbf{x}^T
+\mathbf{D} \mathbf{x})^r} \right)
   = &amp;
-  2^{p - q - r} \beta_{\m{B}}^{q} \beta_{\m{D}}^{r} p!
+  2^{p - q - r} \beta_{\mathbf{B}}^{q} \beta_{\mathbf{D}}^{r} p!
   \Gamma \left( \frac{n}{2} + p - q - r \right) \\
   &amp; \quad \cdot
   \sum_{j=0}^{\infty} \sum_{k=0}^{\infty}
-  \frac{ \rf[j]{q} \rf[k]{r} }{ \Gamma \left( \frac{n}{2} + p + j + k
-\right) }
+  \frac{ \qfrrf[j]{q} \qfrrf[k]{r} }{ \Gamma \left( \frac{n}{2} + p + j
++ k \right) }
   \\
   &amp; \quad \quad \cdot
-  \htijk[p; j,k]{ \m{A} }{ \m{I}_n - \beta_{\m{B}} \m{B} }{ \m{I}_n -
-\beta_{\m{D}} \m{D} },
+  \qfrhtijk[p; j,k]{ \mathbf{A} }{ \mathbf{I}_n - \beta_{\mathbf{B}}
+\mathbf{B} }{ \mathbf{I}_n - \beta_{\mathbf{D}} \mathbf{D} },
 \end{aligned}
 \tag{4}
 \end{equation}\]</span></p>
 <p>In these expressions, <span class="math inline">\(\beta_{\cdot}\)</span> are arbitrary scaling
 constants that satisfy <span class="math inline">\(0 &lt; \beta &lt; 2 /
-\lmax\)</span>, with <span class="math inline">\(\lmax\)</span> being
-the largest eigenvalue of the argument matrix. In addition, <span class="math inline">\(h_{k_1, \dots k_s}\)</span> and <span class="math inline">\(\tilde{h}_{k_1; k_2 \dots k_s}\)</span> are the
+\qfrlmax\)</span>, with <span class="math inline">\(\qfrlmax\)</span>
+being the largest eigenvalue of the argument matrix. In addition, <span class="math inline">\(h_{k_1, \dots k_s}\)</span> and <span class="math inline">\(\tilde{h}_{k_1; k_2 \dots k_s}\)</span> are the
 coefficients of <span class="math inline">\(t_1^{k_1} \dots
 t_s^{k_s}\)</span> in the following power series expansions: <span class="math display">\[\begin{multline}
-  \det{ \m{I}_n - t_1 \m{A}_1 - \dots - t_s \m{A}_s }^{-\frac{1}{2}}
+  \det{ \mathbf{I}_n - t_1 \mathbf{A}_1 - \dots - t_s \mathbf{A}_s
+}^{-\frac{1}{2}}
   \\
   \cdot
   \exp \left( \frac{
-      (1 - t_1 - \dots - t_s) \bm{\mu}^T
-      \left( \m{I}_n - t_1 \m{A}_1 - \dots - t_s \m{A}_s \right)^{-1}
-      \bm{\mu}
-      - \bm{\mu}^T \bm{\mu}
+      (1 - t_1 - \dots - t_s) \boldsymbol{\mu}^T
+      \left( \mathbf{I}_n - t_1 \mathbf{A}_1 - \dots - t_s \mathbf{A}_s
+\right)^{-1}
+      \boldsymbol{\mu}
+      - \boldsymbol{\mu}^T \boldsymbol{\mu}
   }{2} \right)
   \\
   =
-  \sum_{k_1 = 0}^{\infty} \dots \sum_{k_s = 0}^{\infty} \hijk[k_1,
-\dots, k_s]{ \m{A}_1 }{\dots}{ \m{A}_s } t_1^{k_1} \dots t_s^{k_s},
-\label{gfun_hij} \\
+  \sum_{k_1 = 0}^{\infty} \dots \sum_{k_s = 0}^{\infty} \qfrhijk[k_1,
+\dots, k_s]{ \mathbf{A}_1 }{\dots}{ \mathbf{A}_s } t_1^{k_1} \dots
+t_s^{k_s}, \label{gfun_hij} \\
 \end{multline}\]</span> <span class="math display">\[\begin{multline}
-  \det{ \m{I}_n - t_1 \m{A}_1 - \dots - t_s \m{A}_s }^{-\frac{1}{2}}
+  \det{ \mathbf{I}_n - t_1 \mathbf{A}_1 - \dots - t_s \mathbf{A}_s
+}^{-\frac{1}{2}}
   \\ \cdot
   \exp \left( \frac{
-      (1  - t_2 - \dots - t_s) \bm{\mu}^T
-      \left( \m{I}_n - t_1 \m{A}_1 - \dots - t_s \m{A}_s \right)^{-1}
-      \bm{\mu}
-      - \bm{\mu}^T \bm{\mu}
+      (1  - t_2 - \dots - t_s) \boldsymbol{\mu}^T
+      \left( \mathbf{I}_n - t_1 \mathbf{A}_1 - \dots - t_s \mathbf{A}_s
+\right)^{-1}
+      \boldsymbol{\mu}
+      - \boldsymbol{\mu}^T \boldsymbol{\mu}
   }{2} \right)
   \\
   =
-  \sum_{k_1 = 0}^{\infty} \dots \sum_{k_s = 0}^{\infty} \htijk[k_1; k_2,
-\dots, k_s]{ \m{A}_1 }{ \m{A}_2, \dots }{ \m{A}_s } t_1^{k_1} t_2^{k_2}
-\dots t_s^{k_s}.
-\end{multline}\]</span> (These notations follow <span class="citation">Bao &amp; Kan (<a href="#ref-BaoKan2013">2013</a>)</span>; <span class="citation">Hillier
+  \sum_{k_1 = 0}^{\infty} \dots \sum_{k_s = 0}^{\infty} \qfrhtijk[k_1;
+k_2, \dots, k_s]{ \mathbf{A}_1 }{ \mathbf{A}_2, \dots }{ \mathbf{A}_s }
+t_1^{k_1} t_2^{k_2} \dots t_s^{k_s}.
+\end{multline}\]</span> (These notations follow <span class="citation">Bao and Kan (<a href="#ref-BaoKan2013">2013</a>)</span>; <span class="citation">Hillier
 et al. (<a href="#ref-HillierEtAl2014">2014</a>)</span> used the symbol
 <span class="math inline">\(h\)</span> for <span class="math inline">\(\tilde{h}\)</span> here.)</p>
-<p>A common special case is when <span class="math inline">\(\bm{\mu} =
-\m{0}_n\)</span>, in which case the coefficients <span class="math inline">\(d\)</span> in the following expansion is used:
-<span class="math display">\[\begin{equation}
-  \det{ \m{I}_n - t_1 \m{A}_1 - \dots - t_s \m{A}_s }^{-\frac{1}{2}}
+<p>A common special case is when <span class="math inline">\(\boldsymbol{\mu} = \mathbf{0}_n\)</span>, in which
+case the coefficients <span class="math inline">\(d\)</span> in the
+following expansion is used: <span class="math display">\[\begin{equation}
+  \det{ \mathbf{I}_n - t_1 \mathbf{A}_1 - \dots - t_s \mathbf{A}_s
+}^{-\frac{1}{2}}
   =
-  \sum_{k_1 = 0}^{\infty} \dots \sum_{k_s = 0}^{\infty} \dijk[k_1,
-\dots, k_s]{ \m{A}_1 }{\dots}{ \m{A}_s } t_1^{k_1} \dots t_s^{k_s}
+  \sum_{k_1 = 0}^{\infty} \dots \sum_{k_s = 0}^{\infty} \qfrdijk[k_1,
+\dots, k_s]{ \mathbf{A}_1 }{\dots}{ \mathbf{A}_s } t_1^{k_1} \dots
+t_s^{k_s}
   .
 \end{equation}\]</span></p>
 <p>Actually, the above expressions (1)–(4) can be written in terms of
 <span class="math inline">\(d\)</span> with an additional argument <span class="citation">(<a href="#ref-HillierEtAl2009">Hillier et al.,
-2009</a>; <a href="#ref-BaoKan2013">Bao &amp; Kan, 2013</a>)</span>, but
+2009</a>; <a href="#ref-BaoKan2013">Bao and Kan, 2013</a>)</span>, but
 those alternative expressions are not utilized in the package.</p>
 <p>A theoretically important result is that this <span class="math inline">\(d\)</span> is related to the top-order zonal and
 invariant polynomials of matrix arguments, <span class="math inline">\(C\)</span> <span class="citation">(<a href="#ref-Chikuse1987">Chikuse, 1987</a>; <a href="#ref-HillierEtAl2009">Hillier et al., 2009</a>)</span>: <span class="math display">\[\begin{align}
-  \dijk[k_1, \dots, k_s]{ \m{A}_1 }{\dots}{ \m{A}_s } =
-  \frac{ \rf[k_1 + \dots + k_s]{\frac{1}{2}} }{ k_1 ! \dots k_s !}
-  \Cit{\brc{k_1}}{\dots}{\brc{k_s}}{\brc{k_1 + \dots + k_s}}{ \m{A}_1
-}{\dots}{ \m{A}_s }
+  \qfrdijk[k_1, \dots, k_s]{ \mathbf{A}_1 }{\dots}{ \mathbf{A}_s } =
+  \frac{ \qfrrf[k_1 + \dots + k_s]{\frac{1}{2}} }{ k_1 ! \dots k_s !}
+  \qfrCit{\qfrbrc{k_1}}{\dots}{\qfrbrc{k_s}}{\qfrbrc{k_1 + \dots +
+k_s}}{ \mathbf{A}_1 }{\dots}{ \mathbf{A}_s }
   ,
-\end{align}\]</span> where <span class="math inline">\(\brc{k_i}\)</span> and the like denote the
+\end{align}\]</span> where <span class="math inline">\(\qfrbrc{k_i}\)</span> and the like denote the
 top-order partitions of <span class="math inline">\(k_i\)</span>, in the
 notation of <span class="citation">Smith (<a href="#ref-Smith1989">1989</a>)</span>.</p>
-<p>Note that the order of the argument matrices is arbitrary in <span class="math inline">\(d\)</span> or <span class="math inline">\(h\)</span>, but not in <span class="math inline">\(\tilde{h}\)</span> where <span class="math inline">\(\m{A}_1\)</span> is not interchangeable with the
-other arguments.</p>
+<p>Note that the order of the argument matrices is arbitrary in <span class="math inline">\(d\)</span> or <span class="math inline">\(h\)</span>, but not in <span class="math inline">\(\tilde{h}\)</span> where <span class="math inline">\(\mathbf{A}_1\)</span> is not interchangeable with
+the other arguments.</p>
 </div>
 <div id="special-cases" class="section level2">
 <h2>Special cases</h2>
-<p>A notable special case for moments of simple ratios is when <span class="math inline">\(p\)</span> is a positive integer and <span class="math inline">\(\m{B} = \m{I}_n\)</span>. In this case, (2)
-simplifies into <span class="citation">(<a href="#ref-HillierEtAl2014">Hillier et al., 2014</a>, theorem 4)</span>
+<p>A notable special case for moments of simple ratios is when <span class="math inline">\(p\)</span> is a positive integer and <span class="math inline">\(\mathbf{B} = \mathbf{I}_n\)</span>. In this case,
+(2) simplifies into <span class="citation">(<a href="#ref-HillierEtAl2014">Hillier et al., 2014</a>, theorem 4)</span>
 <span class="math display">\[\begin{equation}
-  \E \left( \frac{(\m{x}^T \m{A} \m{x})^p}{(\m{x}^T \m{x})^q} \right)
+  \qfrE \left( \frac{(\mathbf{x}^T \mathbf{A}
+\mathbf{x})^p}{(\mathbf{x}^T \mathbf{x})^q} \right)
   =
   2^{p - q} p!
   \sum_{k=0}^{p}
   \frac{ \Gamma \left( \frac{n}{2} + p - q + k \right) }{ 2^k k! \Gamma
 \left( \frac{n}{2} + p + k \right) }
-  {}_1 F_1 \left( q ; \frac{n}{2} + p + k ; - \frac{\bm{\mu}^T
-\bm{\mu}}{2} \right) a_{p, k} \left( \m{A}, \bm{\mu} \right)
+  {}_1 F_1 \left( q ; \frac{n}{2} + p + k ; - \frac{\boldsymbol{\mu}^T
+\boldsymbol{\mu}}{2} \right) a_{p, k} \left( \mathbf{A},
+\boldsymbol{\mu} \right)
   ,
 \tag{5}
 \end{equation}\]</span> where <span class="math inline">\({}_1 F_1
@@ -772,24 +783,26 @@ simplifies into <span class="citation">(<a href="#ref-HillierEtAl2014">Hillier e
 hypergeometric function, and <span class="math inline">\(a_{p,
 k}\)</span> are the coefficients of <span class="math inline">\(t^p\)</span> in <span class="math display">\[\begin{align}
   &amp;
-  \det{ \m{I}_n - t \m{A} }^{-\frac{1}{2}}
+  \det{ \mathbf{I}_n - t \mathbf{A} }^{-\frac{1}{2}}
   \left(
-     \bm{\mu}^T \left( \m{I}_n - t \m{A} \right)^{-1} \bm{\mu}
-     - \bm{\mu}^T \bm{\mu}
+     \boldsymbol{\mu}^T \left( \mathbf{I}_n - t \mathbf{A} \right)^{-1}
+\boldsymbol{\mu}
+     - \boldsymbol{\mu}^T \boldsymbol{\mu}
   \right) ^ k
   =
-  \sum_{i = k}^{\infty} a_{p, i} \left( \m{A}, \bm{\mu} \right) t^{i}.
+  \sum_{i = k}^{\infty} a_{p, i} \left( \mathbf{A}, \boldsymbol{\mu}
+\right) t^{i}.
 \end{align}\]</span> As the lowest-order term in this last expansion is
 that of <span class="math inline">\(t^k\)</span>, <span class="math inline">\(a_{p, k} = 0\)</span> for <span class="math inline">\(k &gt; p\)</span>, so that the series in (5)
 truncates at <span class="math inline">\(k = p\)</span>. This truncation
 enables quasi-exact evaluation of the moment, given accurate evaluation
 of the hypergeometric function.</p>
-<p>When <span class="math inline">\(\bm{\mu} = \m{0}_n\)</span> in
-addition, (5) further simplifies as <span class="math inline">\(a_{p, k}
-= 0\)</span> for <span class="math inline">\(k &gt; 0\)</span>, so that
-the series essentially vanishes leaving only the term for <span class="math inline">\(k = 0\)</span>. Similar simplification happens in
-(1), (3), and (4) as well when any of the argument matrices is <span class="math inline">\(\m{I}_n\)</span> and <span class="math inline">\(\bm{\mu} = \m{0}_n\)</span>, although they will
-still involve a single or double infinite series.</p>
+<p>When <span class="math inline">\(\boldsymbol{\mu} =
+\mathbf{0}_n\)</span> in addition, (5) further simplifies as <span class="math inline">\(a_{p, k} = 0\)</span> for <span class="math inline">\(k &gt; 0\)</span>, so that the series essentially
+vanishes leaving only the term for <span class="math inline">\(k =
+0\)</span>. Similar simplification happens in (1), (3), and (4) as well
+when any of the argument matrices is <span class="math inline">\(\mathbf{I}_n\)</span> and <span class="math inline">\(\boldsymbol{\mu} = \mathbf{0}_n\)</span>, although
+they will still involve a single or double infinite series.</p>
 </div>
 <div id="numerical-evaluation" class="section level2">
 <h2>Numerical evaluation</h2>
@@ -820,156 +833,174 @@ computationally intensive as the problem becomes larger.</p>
 <p>A great advantage in the above expressions is that an error bound is
 available for a partial (truncated) sum for the simple ratio, provided
 that <span class="math inline">\(p\)</span> is a positive integer and
-<span class="math inline">\(\m{B}\)</span> is positive definite. By
+<span class="math inline">\(\mathbf{B}\)</span> is positive definite. By
 denoting the expression (2) as <span class="math inline">\(M \left(
-\m{A}, \m{B}, p, q \right)\)</span> and the partial sum of the same up
-to <span class="math inline">\(j = m\)</span> as <span class="math inline">\(\hat{M}_m \left( \m{A}, \m{B}, p, q
+\mathbf{A}, \mathbf{B}, p, q \right)\)</span> and the partial sum of the
+same up to <span class="math inline">\(j = m\)</span> as <span class="math inline">\(\hat{M}_m \left( \mathbf{A}, \mathbf{B}, p, q
 \right)\)</span>, the error bound is <span class="citation">(<a href="#ref-HillierEtAl2014">Hillier et al., 2014</a>, theorem 7)</span>
 <span class="math display">\[\begin{multline}
-  \lvert M \left( \m{A}, \m{B}, p, q \right) - \hat{M}_m \left( \m{A},
-\m{B}, p, q \right) \rvert \\
+  \lvert M \left( \mathbf{A}, \mathbf{B}, p, q \right) - \hat{M}_m
+\left( \mathbf{A}, \mathbf{B}, p, q \right) \rvert \\
   \leq
-  \frac{ 2^{p - q} \beta_{\m{B}}^{q} p! \Gamma \left( \frac{n}{2} + p -
-q \right) \rf[m+1]{q} }
+  \frac{ 2^{p - q} \beta_{\mathbf{B}}^{q} p! \Gamma \left( \frac{n}{2} +
+p - q \right) \qfrrf[m+1]{q} }
         { \Gamma \left( \frac{n}{2} + p + m + 1 \right) }
   \left[
     \frac{
-      \exp \left( \frac{ \bar{\bm{\mu}}^T \bar{\bm{\mu}} - \bm{\mu}^T
-\bm{\mu} }{2} \right)
-      \dtk[p]{ \bar{A} }{ \bar{\bm{\mu}} }
+      \exp \left( \frac{ \bar{\boldsymbol{\mu}}^T \bar{\boldsymbol{\mu}}
+- \boldsymbol{\mu}^T \boldsymbol{\mu} }{2} \right)
+      \qfrdtk[p]{ \bar{A} }{ \bar{\boldsymbol{\mu}} }
     }{
-      \det{\beta_{\m{B}} \m{B}}^{\frac{1}{2}}
+      \det{\beta_{\mathbf{B}} \mathbf{B}}^{\frac{1}{2}}
     }
     - \sum_{j=0}^{m}
-    \hhij[p;j]{ \m{A}^+ }{ \m{I}_n - \beta_{\m{B}} \m{B} }
+    \qfrhhij[p;j]{ \mathbf{A}^+ }{ \mathbf{I}_n - \beta_{\mathbf{B}}
+\mathbf{B} }
   \right]
   ,
-\end{multline}\]</span> where <span class="math inline">\(\m{A}^+\)</span> is a symmetric matrix constructed
-from the eigenvectors and “positivized” eigenvalues of <span class="math inline">\(\m{A}\)</span> (above), <span class="math inline">\(\bar{\bm{\mu}} = \sqrt{2}\left( \beta_\m{B} \m{B}
-\right)^{-\frac{1}{2}} \bm{\mu}\)</span>, <span class="math inline">\(\bar{\m{A}} = \beta_{\m{B}}^{-1}
-\m{B}^{-\frac{1}{2}} \m{A}^+ \m{B}^{-\frac{1}{2}}\)</span>, and <span class="math inline">\(\tilde{d}\)</span> and <span class="math inline">\(\hat{h}\)</span> are coefficients in the following
+\end{multline}\]</span> where <span class="math inline">\(\mathbf{A}^+\)</span> is a symmetric matrix
+constructed from the eigenvectors and “positivized” eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> (above), <span class="math inline">\(\bar{\boldsymbol{\mu}} = \sqrt{2}\left(
+\beta_\mathbf{B} \mathbf{B} \right)^{-\frac{1}{2}}
+\boldsymbol{\mu}\)</span>, <span class="math inline">\(\bar{\mathbf{A}}
+= \beta_{\mathbf{B}}^{-1} \mathbf{B}^{-\frac{1}{2}} \mathbf{A}^+
+\mathbf{B}^{-\frac{1}{2}}\)</span>, and <span class="math inline">\(\tilde{d}\)</span> and <span class="math inline">\(\hat{h}\)</span> are coefficients in the following
 generating functions: <span class="math display">\[\begin{equation}
-  \det{ \m{I}_n - t \m{A} }^{-\frac{1}{2}}
+  \det{ \mathbf{I}_n - t \mathbf{A} }^{-\frac{1}{2}}
   \exp \left( \frac{
-    \bm{\mu}^T \left( \m{I}_n - t \m{A} \right)^{-1} \bm{\mu}
-    - \bm{\mu}^T \bm{\mu}
+    \boldsymbol{\mu}^T \left( \mathbf{I}_n - t \mathbf{A} \right)^{-1}
+\boldsymbol{\mu}
+    - \boldsymbol{\mu}^T \boldsymbol{\mu}
   }{2} \right)
   =
-  \sum_{k = 0}^{\infty} \dtk[k]{ \m{A} }{ \bm{\mu} } t^{k}
+  \sum_{k = 0}^{\infty} \qfrdtk[k]{ \mathbf{A} }{ \boldsymbol{\mu} }
+t^{k}
   ,
 \end{equation}\]</span> <span class="math display">\[\begin{multline}
-  \det{ \m{I}_n - t_1 \m{A}_1 - \dots - t_s \m{A}_s }^{-\frac{1}{2}}
+  \det{ \mathbf{I}_n - t_1 \mathbf{A}_1 - \dots - t_s \mathbf{A}_s
+}^{-\frac{1}{2}}
   \\
   \quad \cdot
   \exp \left( \frac{
-      (1  + t_2 + \dots + t_s) \bm{\mu}^T
-      \left( \m{I}_n - t_1 \m{A}_1 - \dots - t_s \m{A}_s \right)^{-1}
-      \bm{\mu}
-      - \bm{\mu}^T \bm{\mu}
+      (1  + t_2 + \dots + t_s) \boldsymbol{\mu}^T
+      \left( \mathbf{I}_n - t_1 \mathbf{A}_1 - \dots - t_s \mathbf{A}_s
+\right)^{-1}
+      \boldsymbol{\mu}
+      - \boldsymbol{\mu}^T \boldsymbol{\mu}
   }{2} \right) \\
   =
-  \sum_{k_1 = 0}^{\infty} \dots \sum_{k_s = 0}^{\infty} \hhijk[k_1; k_2,
-\dots, k_s]{ \m{A}_1 }{ \m{A}_2, \dots }{ \m{A}_s } t_1^{k_1} t_2^{k_2}
-\dots t_s^{k_s}
+  \sum_{k_1 = 0}^{\infty} \dots \sum_{k_s = 0}^{\infty} \qfrhhijk[k_1;
+k_2, \dots, k_s]{ \mathbf{A}_1 }{ \mathbf{A}_2, \dots }{ \mathbf{A}_s }
+t_1^{k_1} t_2^{k_2} \dots t_s^{k_s}
   .
 \end{multline}\]</span></p>
-<p>For the multiple ratio, a similar error bound is available when <span class="math inline">\(\m{D} = \m{I}_n\)</span>, in addition to <span class="math inline">\(p\)</span> being a positive integer. By denoting
-the expression (4) as <span class="math inline">\(M \left( \m{A}, \m{B},
-\m{D}, p, q, r \right)\)</span>, and the partial sum of (4) up to <span class="math inline">\(j + k = m\)</span> as <span class="math inline">\(\hat{M}_m \left( \m{A}, \m{B}, \m{D}, p, q, r
-\right)\)</span>, the error bound is <span class="math display">\[\begin{equation}
+<p>For the multiple ratio, a similar error bound is available when <span class="math inline">\(\mathbf{D} = \mathbf{I}_n\)</span>, in addition to
+<span class="math inline">\(p\)</span> being a positive integer. By
+denoting the expression (4) as <span class="math inline">\(M \left(
+\mathbf{A}, \mathbf{B}, \mathbf{D}, p, q, r \right)\)</span>, and the
+partial sum of (4) up to <span class="math inline">\(j + k = m\)</span>
+as <span class="math inline">\(\hat{M}_m \left( \mathbf{A}, \mathbf{B},
+\mathbf{D}, p, q, r \right)\)</span>, the error bound is <span class="math display">\[\begin{equation}
 \begin{aligned}
   &amp;
-  \lvert M \left( \m{A}, \m{B}, \m{I}_n, p, q, r \right) - \hat{M}_m
-\left( \m{A}, \m{B}, \m{I}_n, p, q, r \right) \rvert
+  \lvert M \left( \mathbf{A}, \mathbf{B}, \mathbf{I}_n, p, q, r \right)
+- \hat{M}_m \left( \mathbf{A}, \mathbf{B}, \mathbf{I}_n, p, q, r \right)
+\rvert
   \\ &amp; \quad
   \leq
-  \frac{ 2^{p - q - r} \beta_{\m{B}}^{q} p! \Gamma \left( \frac{n}{2} +
-p - q - r \right) \rf[m+1]{\max \left( q, r \right)} }
+  \frac{ 2^{p - q - r} \beta_{\mathbf{B}}^{q} p! \Gamma \left(
+\frac{n}{2} + p - q - r \right) \qfrrf[m+1]{\max \left( q, r \right)} }
         { \Gamma \left( \frac{n}{2} + p + m + 1 \right) }
   \\ &amp; \quad \quad \cdot
   \left[
     \frac{
-      \exp \left( \frac{ \tilde{\bm{\mu}}^T \tilde{\bm{\mu}} -
-\bm{\mu}^T \bm{\mu} }{2} \right)
-      \dtk[p]{ \bar{A} }{ \tilde{\bm{\mu}} }
+      \exp \left( \frac{ \tilde{\boldsymbol{\mu}}^T
+\tilde{\boldsymbol{\mu}} - \boldsymbol{\mu}^T \boldsymbol{\mu} }{2}
+\right)
+      \qfrdtk[p]{ \bar{A} }{ \tilde{\boldsymbol{\mu}} }
     }{
-      \det{\beta_{\m{B}} \m{B}}^{\frac{1}{2}}
+      \det{\beta_{\mathbf{B}} \mathbf{B}}^{\frac{1}{2}}
     }
     - \sum_{k=0}^{m} \sum_{j=0}^{k}
-    \hhijk[p;k-j,k]{ \m{A}^+ }{ \m{I}_n - \beta_{\m{B}} \m{B} }{
-\m{0}_{n \times n} }
+    \qfrhhijk[p;k-j,k]{ \mathbf{A}^+ }{ \mathbf{I}_n -
+\beta_{\mathbf{B}} \mathbf{B} }{ \mathbf{0}_{n \times n} }
   \right]
   ,
 \end{aligned}
-\end{equation}\]</span> where <span class="math inline">\(\tilde{\bm{\mu}} = \sqrt{3}\left( \beta_\m{B}
-\m{B} \right)^{-\frac{1}{2}} \bm{\mu}\)</span> and other notations are
-as above.</p>
+\end{equation}\]</span> where <span class="math inline">\(\tilde{\boldsymbol{\mu}} = \sqrt{3}\left(
+\beta_\mathbf{B} \mathbf{B} \right)^{-\frac{1}{2}}
+\boldsymbol{\mu}\)</span> and other notations are as above.</p>
 </div>
 <div id="recursions" class="section level2">
 <h2>Recursions</h2>
 <p>The coefficients <span class="math inline">\(h\)</span>, <span class="math inline">\(\tilde{h}\)</span>, and <span class="math inline">\(\hat{h}\)</span> in the above series expressions
 are evaluated by the “super-short” recursive algorithm developed by
-Hillier and colleagues <span class="citation">(<a href="#ref-BaoKan2013">Bao &amp; Kan, 2013</a>; <a href="#ref-HillierEtAl2014">Hillier et al., 2014</a>)</span>. That is,
+Hillier and colleagues <span class="citation">(<a href="#ref-BaoKan2013">Bao and Kan, 2013</a>; <a href="#ref-HillierEtAl2014">Hillier et al., 2014</a>)</span>. That is,
 <span class="math display">\[\begin{align}
-  h_{i,j,k} = &amp; \frac{\tr{\m{G}_{i,j,k}} + \bm{\mu}^T
-\m{g}_{i,j,k}}{2(i + j + k)}, \\
-  \tilde{h}_{i,j,k} = &amp; \frac{\tr{\tilde{\m{G}}_{i,j,k}} +
-\bm{\mu}^T \tilde{\m{g}}_{i,j,k}}{2(i + j + k)}, \\
-  \hat{h}_{i,j,k} = &amp; \frac{\tr{\hat{\m{G}}_{i,j,k}} + \bm{\mu}^T
-\hat{\m{g}}_{i,j,k}}{2(i + j + k)},
+  h_{i,j,k} = &amp; \frac{\qfrtr{\mathbf{G}_{i,j,k}} +
+\boldsymbol{\mu}^T \mathbf{g}_{i,j,k}}{2(i + j + k)}, \\
+  \tilde{h}_{i,j,k} = &amp; \frac{\qfrtr{\tilde{\mathbf{G}}_{i,j,k}} +
+\boldsymbol{\mu}^T \tilde{\mathbf{g}}_{i,j,k}}{2(i + j + k)}, \\
+  \hat{h}_{i,j,k} = &amp; \frac{\qfrtr{\hat{\mathbf{G}}_{i,j,k}} +
+\boldsymbol{\mu}^T \hat{\mathbf{g}}_{i,j,k}}{2(i + j + k)},
 \end{align}\]</span> where <span class="math display">\[\begin{align}
-  \m{G}_{i,j,k} = &amp; \m{A}_1 \left( h_{i-1,j,k} \m{I}_n +
-\m{G}_{i-1,j,k} \right) \\
-                &amp; + \m{A}_2 \left( h_{i,j-1,k} \m{I}_n +
-\m{G}_{i,j-1,k} \right) \\
-                &amp; + \m{A}_3 \left( h_{i,j,k-1} \m{I}_n +
-\m{G}_{i,j,k-1} \right) , \\
-  \m{g}_{i,j,k} = &amp; \left( \m{G}_{i,j,k} - \m{G}_{i-1,j,k} -
-\m{G}_{i,j-1,k} - \m{G}_{i,j,k-1} \right) \bm{\mu} \\
+  \mathbf{G}_{i,j,k} = &amp; \mathbf{A}_1 \left( h_{i-1,j,k}
+\mathbf{I}_n + \mathbf{G}_{i-1,j,k} \right) \\
+                &amp; + \mathbf{A}_2 \left( h_{i,j-1,k} \mathbf{I}_n +
+\mathbf{G}_{i,j-1,k} \right) \\
+                &amp; + \mathbf{A}_3 \left( h_{i,j,k-1} \mathbf{I}_n +
+\mathbf{G}_{i,j,k-1} \right) , \\
+  \mathbf{g}_{i,j,k} = &amp; \left( \mathbf{G}_{i,j,k} -
+\mathbf{G}_{i-1,j,k} - \mathbf{G}_{i,j-1,k} - \mathbf{G}_{i,j,k-1}
+\right) \boldsymbol{\mu} \\
                 &amp; - \left( h_{i-1,j,k} + h_{i,j-1,k} + h_{i,j,k-1}
-\right) \bm{\mu} \\
-                &amp; + \m{A}_1 \m{g}_{i-1,j,k} + \m{A}_2
-\m{g}_{i,j-1,k} + \m{A}_3 \m{g}_{i,j,k-1} , \\
-  \tilde{\m{G}}_{i,j,k}
-                = &amp; \m{A}_1 \left( \tilde{h}_{i-1,j,k} \m{I}_n +
-\tilde{\m{G}}_{i-1,j,k} \right) \\
-                &amp; + \m{A}_2 \left( \tilde{h}_{i,j-1,k} \m{I}_n +
-\tilde{\m{G}}_{i,j-1,k} \right) \\
-                &amp; + \m{A}_3 \left( \tilde{h}_{i,j,k-1} \m{I}_n +
-\tilde{\m{G}}_{i,j,k-1} \right) , \\
-  \tilde{\m{g}}_{i,j,k}
-                = &amp; \left( \tilde{\m{G}}_{i,j,k} -
-\tilde{\m{G}}_{i,j-1,k} - \tilde{\m{G}}_{i,j,k-1} \right) \bm{\mu} \\
+\right) \boldsymbol{\mu} \\
+                &amp; + \mathbf{A}_1 \mathbf{g}_{i-1,j,k} + \mathbf{A}_2
+\mathbf{g}_{i,j-1,k} + \mathbf{A}_3 \mathbf{g}_{i,j,k-1} , \\
+  \tilde{\mathbf{G}}_{i,j,k}
+                = &amp; \mathbf{A}_1 \left( \tilde{h}_{i-1,j,k}
+\mathbf{I}_n + \tilde{\mathbf{G}}_{i-1,j,k} \right) \\
+                &amp; + \mathbf{A}_2 \left( \tilde{h}_{i,j-1,k}
+\mathbf{I}_n + \tilde{\mathbf{G}}_{i,j-1,k} \right) \\
+                &amp; + \mathbf{A}_3 \left( \tilde{h}_{i,j,k-1}
+\mathbf{I}_n + \tilde{\mathbf{G}}_{i,j,k-1} \right) , \\
+  \tilde{\mathbf{g}}_{i,j,k}
+                = &amp; \left( \tilde{\mathbf{G}}_{i,j,k} -
+\tilde{\mathbf{G}}_{i,j-1,k} - \tilde{\mathbf{G}}_{i,j,k-1} \right)
+\boldsymbol{\mu} \\
                 &amp; - \left( \tilde{h}_{i,j-1,k} + \tilde{h}_{i,j,k-1}
-\right) \bm{\mu} \\
-                &amp; + \m{A}_1 \tilde{\m{g}}_{i-1,j,k} + \m{A}_2
-\tilde{\m{g}}_{i,j-1,k} + \m{A}_3 \tilde{\m{g}}_{i,j,k-1} , \\
-  \hat{\m{G}}_{i,j,k}
-                = &amp; \m{A}_1 \left( \hat{h}_{i-1,j,k} \m{I}_n +
-\hat{\m{G}}_{i-1,j,k} \right) \\
-                &amp; + \m{A}_2 \left( \hat{h}_{i,j-1,k} \m{I}_n +
-\hat{\m{G}}_{i,j-1,k} \right) \\
-                &amp; + \m{A}_3 \left( \hat{h}_{i,j,k-1} \m{I}_n +
-\hat{\m{G}}_{i,j,k-1} \right) , \\
-  \hat{\m{g}}_{i,j,k}
-                = &amp; \left( \hat{\m{G}}_{i,j,k} +
-\hat{\m{G}}_{i,j-1,k} + \hat{\m{G}}_{i,j,k-1} \right) \bm{\mu} \\
+\right) \boldsymbol{\mu} \\
+                &amp; + \mathbf{A}_1 \tilde{\mathbf{g}}_{i-1,j,k} +
+\mathbf{A}_2 \tilde{\mathbf{g}}_{i,j-1,k} + \mathbf{A}_3
+\tilde{\mathbf{g}}_{i,j,k-1} , \\
+  \hat{\mathbf{G}}_{i,j,k}
+                = &amp; \mathbf{A}_1 \left( \hat{h}_{i-1,j,k}
+\mathbf{I}_n + \hat{\mathbf{G}}_{i-1,j,k} \right) \\
+                &amp; + \mathbf{A}_2 \left( \hat{h}_{i,j-1,k}
+\mathbf{I}_n + \hat{\mathbf{G}}_{i,j-1,k} \right) \\
+                &amp; + \mathbf{A}_3 \left( \hat{h}_{i,j,k-1}
+\mathbf{I}_n + \hat{\mathbf{G}}_{i,j,k-1} \right) , \\
+  \hat{\mathbf{g}}_{i,j,k}
+                = &amp; \left( \hat{\mathbf{G}}_{i,j,k} +
+\hat{\mathbf{G}}_{i,j-1,k} + \hat{\mathbf{G}}_{i,j,k-1} \right)
+\boldsymbol{\mu} \\
                 &amp; + \left( \hat{h}_{i,j-1,k} + \hat{h}_{i,j,k-1}
-\right) \bm{\mu} \\
-                &amp; + \m{A}_1 \hat{\m{g}}_{i-1,j,k} + \m{A}_2
-\hat{\m{g}}_{i,j-1,k} + \m{A}_3 \hat{\m{g}}_{i,j,k-1} , \\
+\right) \boldsymbol{\mu} \\
+                &amp; + \mathbf{A}_1 \hat{\mathbf{g}}_{i-1,j,k} +
+\mathbf{A}_2 \hat{\mathbf{g}}_{i,j-1,k} + \mathbf{A}_3
+\hat{\mathbf{g}}_{i,j,k-1} , \\
 \end{align}\]</span> with the initial conditions <span class="math inline">\(h_{0,0,0} = \tilde{h}_{0,0,0} = \hat{h}_{0,0,0} =
-1\)</span> (as per <span class="citation">Hillier et al. (<a href="#ref-HillierEtAl2014">2014</a>)</span>, but not <span class="math inline">\(0\)</span>, as incorrectly printed in <span class="citation">Bao &amp; Kan (<a href="#ref-BaoKan2013">2013</a>)</span>), <span class="math inline">\(\m{G}_{0,0,0} = \tilde{\m{G}}_{0,0,0} =
-\hat{\m{G}}_{0,0,0} = \m{0}_{n \times n}\)</span>, and <span class="math inline">\(\m{g}_{0,0,0} = \tilde{\m{g}}_{0,0,0} =
-\hat{\m{g}}_{0,0,0} = \m{0}_n\)</span>. If any of the indices is
-negative, the term is treated as <span class="math inline">\(0\)</span>.</p>
+1\)</span> (as per <span class="citation">Hillier et al. (<a href="#ref-HillierEtAl2014">2014</a>)</span>, but not <span class="math inline">\(0\)</span>, as incorrectly printed in <span class="citation">Bao and Kan (<a href="#ref-BaoKan2013">2013</a>)</span>), <span class="math inline">\(\mathbf{G}_{0,0,0} = \tilde{\mathbf{G}}_{0,0,0} =
+\hat{\mathbf{G}}_{0,0,0} = \mathbf{0}_{n \times n}\)</span>, and <span class="math inline">\(\mathbf{g}_{0,0,0} = \tilde{\mathbf{g}}_{0,0,0} =
+\hat{\mathbf{g}}_{0,0,0} = \mathbf{0}_n\)</span>. If any of the indices
+is negative, the term is treated as <span class="math inline">\(0\)</span>.</p>
 <p>The recursion for <span class="math inline">\(d\)</span> can be
-obtained by just inserting <span class="math inline">\(\bm{\mu} =
-\m{0}_n\)</span> (and hence omitting <span class="math inline">\(\m{g}\)</span> altogether) in that for <span class="math inline">\(h\)</span>, and those for the two-argument
-versions are by omitting any terms with <span class="math inline">\(\m{A}_3\)</span> or <span class="math inline">\(k
-- 1\)</span> as an index in the corresponding three-argument
-versions.</p>
-<p>The recursion for <span class="math inline">\(\dtk{\m{A}}{\bm{\mu}}\)</span> is <span class="citation">(<a href="#ref-BaoKan2013">Bao &amp; Kan, 2013</a>; <a href="#ref-HillierEtAl2014">Hillier et al., 2014</a>)</span>: <span class="math display">\[\begin{equation}
+obtained by just inserting <span class="math inline">\(\boldsymbol{\mu}
+= \mathbf{0}_n\)</span> (and hence omitting <span class="math inline">\(\mathbf{g}\)</span> altogether) in that for <span class="math inline">\(h\)</span>, and those for the two-argument
+versions are by omitting any terms with <span class="math inline">\(\mathbf{A}_3\)</span> or <span class="math inline">\(k - 1\)</span> as an index in the corresponding
+three-argument versions.</p>
+<p>The recursion for <span class="math inline">\(\qfrdtk{\mathbf{A}}{\boldsymbol{\mu}}\)</span> is
+<span class="citation">(<a href="#ref-BaoKan2013">Bao and Kan, 2013</a>;
+<a href="#ref-HillierEtAl2014">Hillier et al., 2014</a>)</span>: <span class="math display">\[\begin{equation}
   \tilde{d}_{k} = \frac{1}{2k} \sum_{i=1}^n \left(u_{k,i} + v_{k,i}
 \right),
 \end{equation}\]</span> where <span class="math display">\[\begin{align}
@@ -977,25 +1008,25 @@ versions.</p>
 \\
   v_{k,i} = &amp; \delta_i u_{k,i} + \lambda_i v_{k-1,i},
 \end{align}\]</span> with <span class="math inline">\(\lambda_i\)</span>
-being the <span class="math inline">\(i\)</span>th eigenvalue of <span class="math inline">\(\m{A}\)</span>, <span class="math inline">\(\delta_i = \left( \m{h}_i^T \bm{\mu}
-\right)^2\)</span>, <span class="math inline">\(\m{h}_i\)</span> being
-the eigenvector of <span class="math inline">\(\m{A}\)</span>
+being the <span class="math inline">\(i\)</span>th eigenvalue of <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\delta_i = \left( \mathbf{h}_i^T \boldsymbol{\mu}
+\right)^2\)</span>, <span class="math inline">\(\mathbf{h}_i\)</span>
+being the eigenvector of <span class="math inline">\(\mathbf{A}\)</span>
 corresponding to <span class="math inline">\(\lambda_i\)</span>, and the
 initial conditions are <span class="math inline">\(\tilde{d}_0 =
 1\)</span> and <span class="math inline">\(u_{0,i} = v_{0,i} =
 0\)</span> for all <span class="math inline">\(i\)</span>.</p>
-<p>The recursion for <span class="math inline">\(a_{p,k} \left( \m{A},
-\bm{\mu} \right)\)</span> is <span class="citation">(<a href="#ref-HillierEtAl2014">Hillier et al., 2014</a>, eqs. (31), (32),
-noting that <span class="math inline">\(w\)</span> should be indexed by
-<span class="math inline">\(k\)</span> as well)</span>: <span class="math display">\[\begin{equation}
+<p>The recursion for <span class="math inline">\(a_{p,k} \left(
+\mathbf{A}, \boldsymbol{\mu} \right)\)</span> is <span class="citation">(<a href="#ref-HillierEtAl2014">Hillier et al.,
+2014</a>, eqs. (31), (32), noting that <span class="math inline">\(w\)</span> should be indexed by <span class="math inline">\(k\)</span> as well)</span>: <span class="math display">\[\begin{equation}
   a_{p,k} = \sum_{i=1}^n \delta_i w_{p,k,i},
 \end{equation}\]</span> where <span class="math display">\[\begin{equation}
   w_{p,k,i} = \lambda_i \left( a_{p-1,k-1} + w_{p-1,k,i} \right),
 \end{equation}\]</span> with <span class="math inline">\(a_{p,0} =
-\dk[p]{\m{A}}\)</span> and <span class="math inline">\(w_{0,k,i} =
-0\)</span> for any <span class="math inline">\(k, i\)</span>.</p>
-<p>The recursion for <span class="math inline">\(\dk{\m{A}}\)</span> can
-be obtained either as that for <span class="math inline">\(\dtk{\m{A}}{\m{0}_n}\)</span> (where all <span class="math inline">\(v\)</span>’s are <span class="math inline">\(0\)</span>) or by dropping any terms with <span class="math inline">\(\m{A}_2\)</span> or <span class="math inline">\(j-1\)</span> as an index from that for the
+\qfrdk[p]{\mathbf{A}}\)</span> and <span class="math inline">\(w_{0,k,i}
+= 0\)</span> for any <span class="math inline">\(k, i\)</span>.</p>
+<p>The recursion for <span class="math inline">\(\qfrdk{\mathbf{A}}\)</span> can be obtained either
+as that for <span class="math inline">\(\qfrdtk{\mathbf{A}}{\mathbf{0}_n}\)</span> (where
+all <span class="math inline">\(v\)</span>’s are <span class="math inline">\(0\)</span>) or by dropping any terms with <span class="math inline">\(\mathbf{A}_2\)</span> or <span class="math inline">\(j-1\)</span> as an index from that for the
 two-argument version of <span class="math inline">\(d\)</span>
 above.</p>
 </div>
@@ -1013,10 +1044,10 @@ terms in the truncated series and error bound when available. Simple
 <h2><code>qfrm()</code>: <em>q</em>uadratic <em>f</em>orm <em>r</em>atio
 <em>m</em>oment</h2>
 <p>This function is for evaluating moments of the simple ratios of
-quadratic forms, <span class="math inline">\(\E \left( \frac{\left(
-\m{x}^T \m{A} \m{x} \right)^p} {\left( \m{x}^T \m{B} \m{x} \right)^q}
-\right)\)</span>, where <span class="math inline">\(\m{x} \sim N_n
-\left( \bm{\mu}, \bm{\Sigma} \right)\)</span>.</p>
+quadratic forms, <span class="math inline">\(\qfrE \left( \frac{\left(
+\mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p} {\left( \mathbf{x}^T
+\mathbf{B} \mathbf{x} \right)^q} \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim N_n \left( \boldsymbol{\mu},
+\boldsymbol{\Sigma} \right)\)</span>.</p>
 <div id="usage" class="section level4">
 <h4>Usage</h4>
 <pre><code>qfrm(A, B, p = 1, q = p, m = 100L,
@@ -1024,14 +1055,14 @@ quadratic forms, <span class="math inline">\(\E \left( \frac{\left(
      tol_zero = .Machine$double.eps * 100,
      tol_sing = .Machine$double.eps * 100, ...)</code></pre>
 <p><code>A</code> and <code>B</code> are the argument matrices; when one
-is missing, <span class="math inline">\(\m{I}_n\)</span> is
+is missing, <span class="math inline">\(\mathbf{I}_n\)</span> is
 inserted.</p>
 <p><code>m</code> determines the order of evaluation, so will be one of
 the most important arguments specified by the user.</p>
 <p><code>mu</code> and <code>Sigma</code> specify the mean and
-covariance of <span class="math inline">\(\m{x}\)</span>, so by default
-<span class="math inline">\(\m{x} \sim N_n \left( \m{0}_n, \m{I}_n
-\right)\)</span>.</p>
+covariance of <span class="math inline">\(\mathbf{x}\)</span>, so by
+default <span class="math inline">\(\mathbf{x} \sim N_n \left(
+\mathbf{0}_n, \mathbf{I}_n \right)\)</span>.</p>
 <p><code>tol_zero</code> and <code>tol_sing</code> just determine the
 numerical tolerance for assessing identity and singularity,
 respectively, so usually need not be changed except when handling edgy
@@ -1039,14 +1070,14 @@ cases.</p>
 </div>
 <div id="inside-the-function" class="section level4">
 <h4>Inside the function</h4>
-<p>When <code>Sigma</code> is provided and not <span class="math inline">\(\m{I}_n\)</span>, this function calls itself
+<p>When <code>Sigma</code> is provided and not <span class="math inline">\(\mathbf{I}_n\)</span>, this function calls itself
 recursively with <code>A</code>, <code>B</code>, and <code>mu</code>
 transformed as described above (and dropping <code>Sigma</code>).</p>
 <p>As the evaluation is based on different series expressions depending
-on whether <span class="math inline">\(\m{B} = \m{I}_n\)</span> or not
-and whether <span class="math inline">\(p\)</span> is an integer or not,
-the actual calculation is done by one of the following four “internal”
-functions, for which <code>qfrm()</code> acts as a switcher:</p>
+on whether <span class="math inline">\(\mathbf{B} =
+\mathbf{I}_n\)</span> or not and whether <span class="math inline">\(p\)</span> is an integer or not, the actual
+calculation is done by one of the following four “internal” functions,
+for which <code>qfrm()</code> acts as a switcher:</p>
 <table style="width:100%;">
 <colgroup>
 <col width="16%" />
@@ -1069,7 +1100,7 @@ functions, for which <code>qfrm()</code> acts as a switcher:</p>
 <tbody>
 <tr class="odd">
 <td><code>qfrm_ApIq_int()</code></td>
-<td><span class="math inline">\(\m{B} = \m{I}_n\)</span></td>
+<td><span class="math inline">\(\mathbf{B} = \mathbf{I}_n\)</span></td>
 <td><em>int</em>eger</td>
 <td>(5)</td>
 <td>Exact*</td>
@@ -1077,17 +1108,17 @@ functions, for which <code>qfrm()</code> acts as a switcher:</p>
 </tr>
 <tr class="even">
 <td><code>qfrm_ApIq_npi()</code></td>
-<td><span class="math inline">\(\m{B} = \m{I}_n\)</span></td>
+<td><span class="math inline">\(\mathbf{B} = \mathbf{I}_n\)</span></td>
 <td><em>n</em>on-<em>p</em>ositive-<em>i</em>nteger</td>
-<td>(1) (simplified when <span class="math inline">\(\bm{\mu} =
-\m{0}_n\)</span>)</td>
-<td>Available only when <span class="math inline">\(\bm{\mu} =
-\m{0}_n\)</span></td>
-<td><span class="math inline">\(\sim m\)</span> when <span class="math inline">\(\bm{\mu} = \m{0}_n\)</span>; <span class="math inline">\(\sim m^2 / 2\)</span> otherwise</td>
+<td>(1) (simplified when <span class="math inline">\(\boldsymbol{\mu} =
+\mathbf{0}_n\)</span>)</td>
+<td>Available only when <span class="math inline">\(\boldsymbol{\mu} =
+\mathbf{0}_n\)</span></td>
+<td><span class="math inline">\(\sim m\)</span> when <span class="math inline">\(\boldsymbol{\mu} = \mathbf{0}_n\)</span>; <span class="math inline">\(\sim m^2 / 2\)</span> otherwise</td>
 </tr>
 <tr class="odd">
 <td><code>qfrm_ApBq_int()</code></td>
-<td><span class="math inline">\(\m{B}\)</span> arbitrary</td>
+<td><span class="math inline">\(\mathbf{B}\)</span> arbitrary</td>
 <td><em>int</em>eger</td>
 <td>(2)</td>
 <td>Available</td>
@@ -1095,7 +1126,7 @@ functions, for which <code>qfrm()</code> acts as a switcher:</p>
 </tr>
 <tr class="even">
 <td><code>qfrm_ApBq_npi()</code></td>
-<td><span class="math inline">\(\m{B}\)</span> arbitrary</td>
+<td><span class="math inline">\(\mathbf{B}\)</span> arbitrary</td>
 <td><em>n</em>on-<em>p</em>ositive-<em>i</em>nteger</td>
 <td>(1)</td>
 <td>Unavailable</td>
@@ -1103,7 +1134,7 @@ functions, for which <code>qfrm()</code> acts as a switcher:</p>
 </tr>
 </tbody>
 </table>
-<p>*: requires the ‘<code>gsl</code>’ package when <span class="math inline">\(\bm{\mu} \neq \m{0}_n\)</span></p>
+<p>*: requires the <code>gsl</code> package when <span class="math inline">\(\boldsymbol{\mu} \neq \mathbf{0}_n\)</span></p>
 <p>These functions are exported into the package namespace so can be
 directly used if necessary.</p>
 <p>They do the following operations:</p>
@@ -1140,11 +1171,11 @@ functions. The steps 7 and 8 can be suppressed if desired (by using
 <h2><code>qfmrm()</code>: <em>q</em>uadratic <em>f</em>orm
 <em>m</em>ultiple <em>r</em>atio <em>m</em>oment</h2>
 <p>This function is for evaluating moments of the multiple ratios of
-quadratic forms, <span class="math inline">\(\E \left( \frac{\left(
-\m{x}^T \m{A} \m{x} \right)^p} {\left( \m{x}^T \m{B} \m{x}
-\right)^q\left( \m{x}^T \m{D} \m{x} \right)^r} \right)\)</span>, where
-<span class="math inline">\(\m{x} \sim N_n \left( \bm{\mu}, \bm{\Sigma}
-\right)\)</span>.</p>
+quadratic forms, <span class="math inline">\(\qfrE \left( \frac{\left(
+\mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p} {\left( \mathbf{x}^T
+\mathbf{B} \mathbf{x} \right)^q\left( \mathbf{x}^T \mathbf{D} \mathbf{x}
+\right)^r} \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim N_n \left( \boldsymbol{\mu},
+\boldsymbol{\Sigma} \right)\)</span>.</p>
 <p>It works in a way very similar to <code>qfrm()</code>, just with the
 additional arguments <code>D</code> and <code>r</code>. The
 corresponding “internal” functions are:</p>
@@ -1170,30 +1201,30 @@ corresponding “internal” functions are:</p>
 <tbody>
 <tr class="odd">
 <td><code>qfmrm_ApBIqr_int()</code></td>
-<td><span class="math inline">\(\m{D} = \m{I}_n\)</span></td>
+<td><span class="math inline">\(\mathbf{D} = \mathbf{I}_n\)</span></td>
 <td><em>int</em>eger</td>
-<td>(4) (simplified when <span class="math inline">\(\bm{\mu} =
-\m{0}_n\)</span>)</td>
+<td>(4) (simplified when <span class="math inline">\(\boldsymbol{\mu} =
+\mathbf{0}_n\)</span>)</td>
 <td>Available</td>
-<td><span class="math inline">\(\sim (p + 1) m\)</span> when <span class="math inline">\(\bm{\mu} = \m{0}_n\)</span>; <span class="math inline">\(\sim (p + 1) m^2 / 2\)</span> otherwise</td>
+<td><span class="math inline">\(\sim (p + 1) m\)</span> when <span class="math inline">\(\boldsymbol{\mu} = \mathbf{0}_n\)</span>; <span class="math inline">\(\sim (p + 1) m^2 / 2\)</span> otherwise</td>
 </tr>
 <tr class="even">
 <td><code>qfmrm_ApBIqr_npi()</code></td>
-<td><span class="math inline">\(\m{D} = \m{I}_n\)</span></td>
+<td><span class="math inline">\(\mathbf{D} = \mathbf{I}_n\)</span></td>
 <td><em>n</em>on-<em>p</em>ositive-<em>i</em>nteger</td>
-<td>(3) (simplified when <span class="math inline">\(\bm{\mu} =
-\m{0}_n\)</span>)</td>
+<td>(3) (simplified when <span class="math inline">\(\boldsymbol{\mu} =
+\mathbf{0}_n\)</span>)</td>
 <td>Unavailable</td>
-<td><span class="math inline">\(\sim m^2 / 2\)</span> when <span class="math inline">\(\bm{\mu} = \m{0}_n\)</span>; <span class="math inline">\(\sim m^3 / 6\)</span> otherwise</td>
+<td><span class="math inline">\(\sim m^2 / 2\)</span> when <span class="math inline">\(\boldsymbol{\mu} = \mathbf{0}_n\)</span>; <span class="math inline">\(\sim m^3 / 6\)</span> otherwise</td>
 </tr>
 <tr class="odd">
 <td><code>qfmrm_IpBDqr_gen()</code></td>
-<td><span class="math inline">\(\m{A} = \m{I}_n\)</span></td>
+<td><span class="math inline">\(\mathbf{A} = \mathbf{I}_n\)</span></td>
 <td><em>gen</em>eral</td>
-<td>(4) simplified (when <span class="math inline">\(\bm{\mu} =
-\m{0}_n\)</span>) or (3) (otherwise)</td>
+<td>(4) simplified (when <span class="math inline">\(\boldsymbol{\mu} =
+\mathbf{0}_n\)</span>) or (3) (otherwise)</td>
 <td>Unavailable</td>
-<td><span class="math inline">\(\sim m^2 / 2\)</span> when <span class="math inline">\(\bm{\mu} = \m{0}_n\)</span>; <span class="math inline">\(\sim m^3 / 6\)</span> otherwise</td>
+<td><span class="math inline">\(\sim m^2 / 2\)</span> when <span class="math inline">\(\boldsymbol{\mu} = \mathbf{0}_n\)</span>; <span class="math inline">\(\sim m^3 / 6\)</span> otherwise</td>
 </tr>
 <tr class="even">
 <td><code>qfmrm_ApBDqr_int()</code></td>
@@ -1227,15 +1258,16 @@ corresponding “internal” functions are:</p>
 <code>qfpm_ABDpqr_int()</code>: <em>q</em>uadratic <em>f</em>orm
 (<em>p</em>roduct) <em>m</em>oment</h2>
 <p>These functions are for evaluating moments of (products of) quadratic
-forms, <span class="math inline">\(\E \left( \left( \m{x}^T \m{A} \m{x}
-\right)^p \right)\)</span>, <span class="math inline">\(\E \left( \left(
-\m{x}^T \m{A} \m{x} \right)^p  \left( \m{x}^T \m{B} \m{x} \right)^q
-\right)\)</span>, and <span class="math inline">\(\E \left( \left(
-\m{x}^T \m{A} \m{x} \right)^p  \left( \m{x}^T \m{B} \m{x}
-\right)^q  \left( \m{x}^T \m{D} \m{x} \right)^r \right)\)</span>, where
-<span class="math inline">\(\m{x} \sim N_n \left( \bm{\mu}, \bm{\Sigma}
-\right)\)</span>, using the algorithm described in <span class="citation">Hillier et al. (<a href="#ref-HillierEtAl2014">2014,
-secs. 3–4</a>)</span>. The exponents should be positive integers.</p>
+forms, <span class="math inline">\(\qfrE \left( \left( \mathbf{x}^T
+\mathbf{A} \mathbf{x} \right)^p \right)\)</span>, <span class="math inline">\(\qfrE \left( \left( \mathbf{x}^T \mathbf{A}
+\mathbf{x} \right)^p  \left( \mathbf{x}^T \mathbf{B} \mathbf{x}
+\right)^q \right)\)</span>, and <span class="math inline">\(\qfrE \left(
+\left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p  \left( \mathbf{x}^T
+\mathbf{B} \mathbf{x} \right)^q  \left( \mathbf{x}^T \mathbf{D}
+\mathbf{x} \right)^r \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim N_n \left( \boldsymbol{\mu},
+\boldsymbol{\Sigma} \right)\)</span>, using the algorithm described in
+<span class="citation">Hillier et al. (<a href="#ref-HillierEtAl2014">2014, secs. 3–4</a>)</span>. The exponents
+should be positive integers.</p>
 <p>In principle, the same algorithm can be applied to a product of more
 than three quadratic forms, but this package has not implemented
 functions for them.</p>
@@ -1258,14 +1290,16 @@ functions.</p>
 <div id="rqfr-rqfmr-rqfp-random-number-generation" class="section level2">
 <h2><code>rqfr()</code>, <code>rqfmr()</code>, <code>rqfp()</code>:
 random number generation</h2>
-<p>These functions generate a random sample of the simple ratio <span class="math inline">\(\frac{\left( \m{x}^T \m{A} \m{x} \right)^p}
-{\left( \m{x}^T \m{B} \m{x} \right)^q}\)</span>, multiple ratio <span class="math inline">\(\frac{\left( \m{x}^T \m{A} \m{x} \right)^p}
-{\left( \m{x}^T \m{B} \m{x} \right)^q\left( \m{x}^T \m{D} \m{x}
-\right)^r}\)</span>, and product <span class="math inline">\(\left(
-\m{x}^T \m{A} \m{x} \right)^p \left( \m{x}^T \m{B} \m{x} \right)^q
-\left( \m{x}^T \m{D} \m{x} \right)^r\)</span>, respectively, of
-quadratic forms in normal variables <span class="math inline">\(\m{x}
-\sim N_n \left( \bm{\mu}, \bm{\Sigma} \right)\)</span>.</p>
+<p>These functions generate a random sample of the simple ratio <span class="math inline">\(\frac{\left( \mathbf{x}^T \mathbf{A} \mathbf{x}
+\right)^p} {\left( \mathbf{x}^T \mathbf{B} \mathbf{x}
+\right)^q}\)</span>, multiple ratio <span class="math inline">\(\frac{\left( \mathbf{x}^T \mathbf{A} \mathbf{x}
+\right)^p} {\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q\left(
+\mathbf{x}^T \mathbf{D} \mathbf{x} \right)^r}\)</span>, and product
+<span class="math inline">\(\left( \mathbf{x}^T \mathbf{A} \mathbf{x}
+\right)^p \left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q \left(
+\mathbf{x}^T \mathbf{D} \mathbf{x} \right)^r\)</span>, respectively, of
+quadratic forms in normal variables <span class="math inline">\(\mathbf{x} \sim N_n \left( \boldsymbol{\mu},
+\boldsymbol{\Sigma} \right)\)</span>.</p>
 <p>They can be used for verifying results from the above functions, or
 as a Monte Carlo surrogate when numerical convergence cannot be obtained
 within reasonable computational memory and time.</p>
@@ -1627,78 +1661,78 @@ approach using <code>rqfr()</code>.</p>
 <h1 class="unnumbered">References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-BaoKan2013" class="csl-entry">
-Bao, Y. &amp; Kan, R. (2013). On the moments of ratios of quadratic
-forms in normal random variables. <em>Journal of Multivariate
-Analysis</em>, <strong>117</strong>: 229–245. doi:<a href="https://doi.org/10.1016/j.jmva.2013.03.002">10.1016/j.jmva.2013.03.002</a>.
+Bao, Y. and Kan, R. (2013) On the moments of ratios of quadratic forms
+in normal random variables. <em>Journal of Multivariate Analysis</em>,
+<strong>117</strong>, 229–245. doi:<a href="https://doi.org/10.1016/j.jmva.2013.03.002">10.1016/j.jmva.2013.03.002</a>.
 </div>
 <div id="ref-Chikuse1980msa" class="csl-entry">
-Chikuse, Y. (1980). Invariant polynomials with matrix arguments and
-their applications. <em>In</em>: Gupta, R. P., (ed.), <em>Multivariate
-Statistical Analysis</em>. North-Holland, Amsterdam. pp. 53–68.
+Chikuse, Y. (1980) Invariant polynomials with matrix arguments and their
+applications. <em>In</em>: Gupta, R. P., (ed.), <em>Multivariate
+Statistical Analysis</em>. Amsterdam: North-Holland. pp. 53–68.
 </div>
 <div id="ref-Chikuse1987" class="csl-entry">
-Chikuse, Y. (1987). Methods for constructing top order invariant
-polynomials. <em>Econometric Theory</em>, <strong>3</strong>: 195–207.
+Chikuse, Y. (1987) Methods for constructing top order invariant
+polynomials. <em>Econometric Theory</em>, <strong>3</strong>, 195–207.
 doi:<a href="https://doi.org/10.1017/S026646660001029X">10.1017/S026646660001029X</a>.
 </div>
 <div id="ref-Davis1980proc" class="csl-entry">
-Davis, A. W. (1980). Invariant polynomials with two matrix arguments,
+Davis, A. W. (1980) Invariant polynomials with two matrix arguments,
 extending the zonal polynomials. <em>In</em>: Krishnaiah, P. R., (ed.),
-<em>Multivariate Analysis—<span>V</span></em>. North-Holland, Amsterdam.
+<em>Multivariate Analysis—<span>V</span></em>. Amsterdam: North-Holland.
 pp. 287–299.
 </div>
 <div id="ref-HansenHoule2008" class="csl-entry">
-Hansen, T. F. &amp; Houle, D. (2008). Measuring and comparing
-evolvability and constraint in multivariate characters. <em>Journal of
-Evolutionary Biology</em>, <strong>21</strong>: 1201–1219. doi:<a href="https://doi.org/10.1111/j.1420-9101.2008.01573.x">10.1111/j.1420-9101.2008.01573.x</a>.
+Hansen, T. F. and Houle, D. (2008) Measuring and comparing evolvability
+and constraint in multivariate characters. <em>Journal of Evolutionary
+Biology</em>, <strong>21</strong>, 1201–1219. doi:<a href="https://doi.org/10.1111/j.1420-9101.2008.01573.x">10.1111/j.1420-9101.2008.01573.x</a>.
 </div>
 <div id="ref-Hillier2001" class="csl-entry">
-Hillier, G. (2001). The density of a quadratic form in a vector
-uniformly distributed on the <em>n</em>-sphere. <em>Econometric
-Theory</em>, <strong>17</strong>: 1–28. doi:<a href="https://doi.org/10.1017/S026646660117101X">10.1017/S026646660117101X</a>.
+Hillier, G. (2001) The density of a quadratic form in a vector uniformly
+distributed on the <em>n</em>-sphere. <em>Econometric Theory</em>,
+<strong>17</strong>, 1–28. doi:<a href="https://doi.org/10.1017/S026646660117101X">10.1017/S026646660117101X</a>.
 </div>
 <div id="ref-HillierEtAl2009" class="csl-entry">
-Hillier, G., Kan, R., &amp; Wang, X. (2009). Computationally efficient
+Hillier, G., Kan, R. and Wang, X. (2009) Computationally efficient
 recursions for top-order invariant polynomials with applications.
-<em>Econometric Theory</em>, <strong>25</strong>: 211–242. doi:<a href="https://doi.org/10.1017/S0266466608090075">10.1017/S0266466608090075</a>.
+<em>Econometric Theory</em>, <strong>25</strong>, 211–242. doi:<a href="https://doi.org/10.1017/S0266466608090075">10.1017/S0266466608090075</a>.
 </div>
 <div id="ref-HillierEtAl2014" class="csl-entry">
-Hillier, G., Kan, R., &amp; Wang, X. (2014). Generating functions and
-short recursions, with applications to the moments of quadratic forms in
+Hillier, G., Kan, R. and Wang, X. (2014) Generating functions and short
+recursions, with applications to the moments of quadratic forms in
 noncentral normal vectors. <em>Econometric Theory</em>,
-<strong>30</strong>: 436–473. doi:<a href="https://doi.org/10.1017/S0266466613000364">10.1017/S0266466613000364</a>.
+<strong>30</strong>, 436–473. doi:<a href="https://doi.org/10.1017/S0266466613000364">10.1017/S0266466613000364</a>.
 </div>
 <div id="ref-MathaiProvost1992" class="csl-entry">
-Mathai, A. M. &amp; Provost, S. B. (1992). <em>Quadratic Forms in Random
-Variables: Theory and Applications</em>. Marcel Dekker, New York, New
-York.
+Mathai, A. M. and Provost, S. B. (1992) <em>Quadratic Forms in Random
+Variables: Theory and Applications</em>. New York, New York: Marcel
+Dekker.
 </div>
 <div id="ref-MeloEtAl2016" class="csl-entry">
-Melo, D., Garcia, G., Hubbe, A., Assis, A. P., &amp; Marroig, G. (2016).
+Melo, D., Garcia, G., Hubbe, A., Assis, A. P. and Marroig, G. (2016)
 <span>E</span>vol<span>QG</span>—an <span>R</span> package for
 evolutionary quantitative genetics [version 3; referees: 2 approved, 1
-approved with reservations]. <em>F1000Research</em>, <strong>4</strong>:
+approved with reservations]. <em>F1000Research</em>, <strong>4</strong>,
 925. doi:<a href="https://doi.org/10.12688/f1000research.7082.3">10.12688/f1000research.7082.3</a>.
 </div>
 <div id="ref-Muirhead1982" class="csl-entry">
-Muirhead, R. J. (1982). <em>Aspects of Multivariate Statistical
-Theory</em>. John Wiley &amp; Sons, Hoboken, New Jersey. doi:<a href="https://doi.org/10.1002/9780470316559">10.1002/9780470316559</a>.
+Muirhead, R. J. (1982) <em>Aspects of Multivariate Statistical
+Theory</em>. Hoboken, New Jersey: John Wiley &amp; Sons. doi:<a href="https://doi.org/10.1002/9780470316559">10.1002/9780470316559</a>.
 </div>
 <div id="ref-Smith1989" class="csl-entry">
-Smith, M. D. (1989). On the expectation of a ratio of quadratic forms in
+Smith, M. D. (1989) On the expectation of a ratio of quadratic forms in
 normal variables. <em>Journal of Multivariate Analysis</em>,
-<strong>31</strong>: 244–257. doi:<a href="https://doi.org/10.1016/0047-259X(89)90065-1">10.1016/0047-259X(89)90065-1</a>.
+<strong>31</strong>, 244–257. doi:<a href="https://doi.org/10.1016/0047-259X(89)90065-1">10.1016/0047-259X(89)90065-1</a>.
 </div>
 <div id="ref-Smith1993" class="csl-entry">
-Smith, M. D. (1993). Expectations of ratios of quadratic forms in normal
+Smith, M. D. (1993) Expectations of ratios of quadratic forms in normal
 variables: Evaluating some top-order invariant polynomials.
-<em>Australian Journal of Statistics</em>, <strong>35</strong>: 271–282.
+<em>Australian Journal of Statistics</em>, <strong>35</strong>, 271–282.
 doi:<a href="https://doi.org/10.1111/j.1467-842X.1993.tb01335.x">10.1111/j.1467-842X.1993.tb01335.x</a>.
 </div>
 <div id="ref-Watanabe2022cevo" class="csl-entry">
-Watanabe, J. (2022). Exact expressions and numerical evaluation of
+Watanabe, J. (2022) Exact expressions and numerical evaluation of
 average evolvability measures for characterizing and comparing
-<span><strong>G</strong></span> matrices. <em>bioRxiv</em>:
+<span><strong>G</strong></span> matrices. <em>bioRxiv</em>,
 2022.11.02.514929. doi:<a href="https://doi.org/10.1101/2022.11.02.514929">10.1101/2022.11.02.514929</a>.
 </div>
 </div>
