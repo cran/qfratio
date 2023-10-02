@@ -366,6 +366,7 @@ Forms</h1>
 <p><span class="math display">\[
 \DeclareMathOperator{\qfrE}{E}
 \DeclareMathOperator{\qfrtr}{tr}
+\newcommand{\qfrGmf}[1]{\Gamma \! \left( #1 \right)}
 \newcommand{\qfrbrc}[1]{\left[ {#1} \right]}
 \newcommand{\qfrCit}[7]{ C^{#1, #2, #3}_{#4} \! \left( #5, #6, #7
 \right) }
@@ -384,9 +385,12 @@ Forms</h1>
 }
 \renewcommand{\det}[1]{\left\lvert #1 \right\rvert}
 \newcommand{\qfrlmax}{\lambda_{\max}}
+\newcommand{\qfrmvnorm}[3][n]{N_{#1} \! \left( #2 , #3 \right)}
 \]</span></p>
-<p>This document is to provide an overview of the <code>R</code> package
-<code>qfratio</code> (<a href="https://CRAN.R-project.org/package=qfratio" target="_blank">CRAN</a>; <a href="https://github.com/watanabe-j/qfratio" target="_blank">GitHub</a>).</p>
+<p>This document is to provide an overview of the moment-related
+functionalities of the <code>R</code> package <code>qfratio</code> (<a href="https://CRAN.R-project.org/package=qfratio" target="_blank">CRAN</a>; <a href="https://github.com/watanabe-j/qfratio" target="_blank">GitHub</a>). Distribution-related functionalities are
+documented in a separate vignette:
+<code>vignette(&quot;qfratio_distr&quot;)</code>.</p>
 <div id="symbols-used" class="section level2">
 <h2>Symbols used</h2>
 <ul>
@@ -406,9 +410,9 @@ invariant polynomials of matrix arguments <span class="citation">(<a href="#ref-
 1980</a>; <a href="#ref-Muirhead1982">Muirhead, 1982</a>)</span></li>
 <li><span class="math inline">\(\mathbf{x}\)</span>: <span class="math inline">\(n\)</span>-variate random vector (in most cases
 normal)</li>
-<li><span class="math inline">\(N_n \left( \boldsymbol{\mu} ,
-\boldsymbol{\Sigma}\right)\)</span>: <span class="math inline">\(n\)</span>-variate normal distribution with mean
-vector <span class="math inline">\(\boldsymbol{\mu}\)</span> and
+<li><span class="math inline">\(\qfrmvnorm{\boldsymbol{\mu}}{\boldsymbol{\Sigma}}\)</span>:
+<span class="math inline">\(n\)</span>-variate normal distribution with
+mean vector <span class="math inline">\(\boldsymbol{\mu}\)</span> and
 covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span></li>
 <li><span class="math inline">\(\mathbf{A}, \mathbf{B},
 \mathbf{D}\)</span>: <span class="math inline">\(n \times n\)</span>
@@ -418,8 +422,8 @@ argument matrices</li>
 <li><span class="math inline">\(\mathbf{0}_{n \times n}\)</span>: <span class="math inline">\(n \times n\)</span> matrix of <span class="math inline">\(0\)</span>’s</li>
 <li><span class="math inline">\(\qfrE \left( \cdot \right)\)</span>:
 expectation/mean</li>
-<li><span class="math inline">\(\Gamma \left( \cdot \right)\)</span>:
-gamma function</li>
+<li><span class="math inline">\(\qfrGmf{\cdot}\)</span>: gamma
+function</li>
 <li><span class="math inline">\((x)_a\)</span>: Pochhammer symbol, that
 is, <span class="math inline">\((x)_a = x (x + 1) \dots (x + a -
 1)\)</span> (with the convention <span class="math inline">\((x)_0 =
@@ -453,8 +457,8 @@ constant that satisfies <span class="math inline">\(0 &lt; \beta &lt; 2
 variables and <span class="math inline">\(p, q, \dots\)</span> for
 exponents is to conform with <span class="citation">Bao and Kan (<a href="#ref-BaoKan2013">2013</a>)</span>.</p>
 </div>
-<div id="what-the-package-is-for" class="section level1">
-<h1>What the package is for</h1>
+<div id="target" class="section level1">
+<h1>Target</h1>
 <p>The package primarily concerns moments of ratios of quadratic forms
 of the following forms: <span class="math display">\[\begin{equation}
   \frac{\left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p}
@@ -469,9 +473,9 @@ very specific case of the multiple ratios treated therein).</p>
 econometric literature <span class="citation">(<a href="#ref-MathaiProvost1992">Mathai and Provost, 1992</a>; <a href="#ref-HillierEtAl2009">Hillier et al., 2009</a>, <a href="#ref-HillierEtAl2014">2014</a>)</span>. In evolutionary biology,
 the quantities known as evolvability measures have the same general
 form, and evaluation of their expectation (average or mean evolvability
-measures) can be of practical interest <span class="citation">(<a href="#ref-HansenHoule2008">Hansen and Houle, 2008</a>; <a href="#ref-MeloEtAl2016">Melo et al., 2016</a>; <a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>)</span>.</p>
-<p>The package is for evaluating the moments of the above quantity
-assuming the multivariate normality of <span class="math inline">\(\mathbf{x}\)</span>, that is, <span class="math display">\[\begin{equation}
+measures) can be of practical interest <span class="citation">(<a href="#ref-HansenHoule2008">Hansen and Houle, 2008</a>; <a href="#ref-MeloEtAl2016">Melo et al., 2016</a>; <a href="#ref-Watanabe2023cevo">Watanabe, 2023</a>)</span>.</p>
+<p>The package is mainly for evaluating the moments of the above
+quantity assuming the multivariate normality of <span class="math inline">\(\mathbf{x}\)</span>, that is, <span class="math display">\[\begin{equation}
   \qfrE \left(
   \frac{\left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p}
   {\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q}
@@ -482,8 +486,7 @@ assuming the multivariate normality of <span class="math inline">\(\mathbf{x}\)<
 \mathbf{x}^T \mathbf{D} \mathbf{x} \right)^r}
   \right),
 \end{equation}\]</span> where <span class="math inline">\(\mathbf{x}
-\sim N_n \left( \boldsymbol{\mu}, \boldsymbol{\Sigma}
-\right)\)</span>.</p>
+\sim \qfrmvnorm{\boldsymbol{\mu}}{\boldsymbol{\Sigma}}\)</span>.</p>
 <div id="first-examples" class="section level2">
 <h2>First examples</h2>
 <p>Here are simple example use cases:</p>
@@ -556,10 +559,10 @@ involved.</p>
 <p>For the above quantities to be well-defined and have finite
 moments:</p>
 <ul>
-<li><span class="math inline">\(\mathbf{B}\)</span> (and <span class="math inline">\(\mathbf{D}\)</span>) should be nonnegative
-definite (i.e., has no negative eigenvalues)</li>
+<li><span class="math inline">\(\mathbf{B}\)</span> (and <span class="math inline">\(\mathbf{D}\)</span>) must be nonnegative definite
+(i.e., has no negative eigenvalues)</li>
 <li>when <span class="math inline">\(p\)</span> is non-positive-integer,
-<span class="math inline">\(\mathbf{A}\)</span> should be nonnegative
+<span class="math inline">\(\mathbf{A}\)</span> must be nonnegative
 definite as well</li>
 </ul>
 <p>For the simple ratio, the necessary and sufficient conditions for the
@@ -590,7 +593,7 @@ only if <span class="math inline">\(\frac{l}{2} &gt; q\)</span>.</li>
 <p>For the multiple ratio, the existence conditions are more difficult
 to define. When the null space of <span class="math inline">\(\mathbf{B}\)</span> is a subspace of that of <span class="math inline">\(\mathbf{D}\)</span> (or vice versa), the existence
 problem reduces to that of the simple ratio, and the above conditions
-apply by inserting the rank of <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(q + r\)</span> into <span class="math inline">\(l\)</span> and <span class="math inline">\(q\)</span> above <span class="citation">(<a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>)</span>. However, when
+apply by inserting the rank of <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(q + r\)</span> into <span class="math inline">\(l\)</span> and <span class="math inline">\(q\)</span> above <span class="citation">(<a href="#ref-Watanabe2023cevo">Watanabe, 2023</a>)</span>. However, when
 both <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{D}\)</span> are singular and neither of
 their ranges is a subspace of each other, no general existence
 conditions seem to be known in the literature. See the documentations
@@ -606,15 +609,17 @@ expressions, based on a series expansion and term-by-term integration of
 a ratio <span class="citation">(<a href="#ref-Smith1989">Smith,
 1989</a>, <a href="#ref-Smith1993">1993</a>; <a href="#ref-Hillier2001">Hillier, 2001</a>; <a href="#ref-HillierEtAl2009">Hillier et al., 2009</a>, <a href="#ref-HillierEtAl2014">2014</a>; <a href="#ref-BaoKan2013">Bao and
 Kan, 2013</a>)</span>.</p>
-<p>The following expressions assume <span class="math inline">\(\mathbf{x} \sim N_n \left( \boldsymbol{\mu},
-\mathbf{I}_n \right)\)</span>. For arbitrary but nonsingular <span class="math inline">\(\boldsymbol{\Sigma}\)</span>, it is always
-possible to transform the variables and argument matrices by using <span class="math inline">\(\mathbf{x}_{\mathrm{new}} = \mathbf{K}^{-1}
-\mathbf{x}\)</span>, <span class="math inline">\(\mathbf{A}_{\mathrm{new}} = \mathbf{K}^T
+<p>The following expressions assume <span class="math inline">\(\mathbf{x} \sim
+\qfrmvnorm{\boldsymbol{\mu}}{\mathbf{I}_n}\)</span>. For arbitrary but
+nonsingular <span class="math inline">\(\boldsymbol{\Sigma}\)</span>, it
+is always possible to transform the variables and argument matrices by
+using <span class="math inline">\(\mathbf{x}_{\mathrm{new}} =
+\mathbf{K}^{-1} \mathbf{x}\)</span>, <span class="math inline">\(\mathbf{A}_{\mathrm{new}} = \mathbf{K}^T
 \mathbf{A} \mathbf{K}\)</span>, etc., where <span class="math inline">\(\mathbf{K}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix that satisfies <span class="math inline">\(\mathbf{K} \mathbf{K}^T =
 \boldsymbol{\Sigma}\)</span> <span class="citation">(<a href="#ref-MathaiProvost1992">Mathai and Provost, 1992, chap.
 3</a>)</span>. When <span class="math inline">\(\boldsymbol{\Sigma}\)</span> is singular, certain
 conditions need to be met by the argument matrices, <span class="math inline">\(\boldsymbol{\Sigma}\)</span>, and <span class="math inline">\(\boldsymbol{\mu}\)</span> for this transformation,
-and hence the following expressions, to be valid <span class="citation">(<a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>,
+and hence the following expressions, to be valid <span class="citation">(<a href="#ref-Watanabe2023cevo">Watanabe, 2023</a>,
 appendix C)</span>.</p>
 <p>For the simple ratio with an arbitrary (positive real) <span class="math inline">\(p\)</span>, when the moment exists, the expression
 is <span class="citation">(<a href="#ref-BaoKan2013">Bao and Kan,
@@ -623,14 +628,14 @@ is <span class="citation">(<a href="#ref-BaoKan2013">Bao and Kan,
   \qfrE \left( \frac{(\mathbf{x}^T \mathbf{A}
 \mathbf{x})^p}{(\mathbf{x}^T \mathbf{B} \mathbf{x})^q} \right)
   = &amp;
-  2^{p - q} \beta_{\mathbf{A}}^{-p} \beta_{\mathbf{B}}^{q} \Gamma \left(
-\frac{n}{2} + p - q \right) \\
+  2^{p - q} \beta_{\mathbf{A}}^{-p} \beta_{\mathbf{B}}^{q} \qfrGmf{
+\frac{n}{2} + p - q } \\
   &amp; \quad \cdot
   \sum_{i=0}^{\infty} \sum_{j=0}^{\infty}
-  \frac{ \qfrrf[i]{-p} \qfrrf[j]{q} }{ \Gamma \left(\frac{n}{2} + i + j
-\right) } % \\
-  % &amp; \qquad
-  % \cdot
+  \frac{ \qfrrf[i]{-p} \qfrrf[j]{q} }{ \qfrGmf{\frac{n}{2} + i + j } }
+\\
+  &amp; \qquad
+  \cdot
   \qfrhij[i,j]{ \mathbf{I}_n - \beta_{\mathbf{A}} \mathbf{A} }{
 \mathbf{I}_n - \beta_{\mathbf{B}} \mathbf{B} }
   ,
@@ -642,10 +647,9 @@ is <span class="citation">(<a href="#ref-BaoKan2013">Bao and Kan,
   \qfrE \left( \frac{(\mathbf{x}^T \mathbf{A}
 \mathbf{x})^p}{(\mathbf{x}^T \mathbf{B} \mathbf{x})^q} \right)
   = &amp;
-  2^{p - q} \beta_{\mathbf{B}}^{q} p! \Gamma \left( \frac{n}{2} + p - q
-\right)
+  2^{p - q} \beta_{\mathbf{B}}^{q} p! \qfrGmf{ \frac{n}{2} + p - q }
   \sum_{j=0}^{\infty}
-  \frac{ \qfrrf[j]{q} }{ \Gamma \left( \frac{n}{2} + p + j \right) }
+  \frac{ \qfrrf[j]{q} }{ \qfrGmf{ \frac{n}{2} + p + j } }
   \qfrhtij[p;j]{ \mathbf{A} }{ \mathbf{I}_n - \beta_{\mathbf{B}}
 \mathbf{B} }
   .
@@ -659,12 +663,12 @@ is <span class="citation">(<a href="#ref-BaoKan2013">Bao and Kan,
 \mathbf{D} \mathbf{x})^r} \right)
   = &amp;
   2^{p - q - r} \beta_{\mathbf{B}}^{q} \beta_{\mathbf{D}}^{r}
-  \Gamma \left( \frac{n}{2} + p - q - r \right)
+  \qfrGmf{ \frac{n}{2} + p - q - r }
     \\
   &amp; \quad \cdot
   \sum_{i=0}^{\infty} \sum_{j=0}^{\infty} \sum_{k=0}^{\infty}
-  \frac{ \qfrrf[i]{-p} \qfrrf[j]{q} \qfrrf[k]{r} }{ \Gamma \left(
-\frac{n}{2} + i + j + k \right) }
+  \frac{ \qfrrf[i]{-p} \qfrrf[j]{q} \qfrrf[k]{r} }{ \qfrGmf{ \frac{n}{2}
++ i + j + k } }
   \\
   &amp; \quad \quad \cdot
   \qfrhijk[i, j, k]{ \mathbf{I}_n - \beta_{\mathbf{A}} \mathbf{A} }{
@@ -672,7 +676,7 @@ is <span class="citation">(<a href="#ref-BaoKan2013">Bao and Kan,
 \beta_{\mathbf{D}} \mathbf{D} },
 \end{aligned}
 \tag{3}
-\end{equation}\]</span> and for a positive-integral <span class="math inline">\(p\)</span> <span class="citation">(<a href="#ref-Watanabe2022cevo">Watanabe, 2022</a>, eq. (B38))</span>,
+\end{equation}\]</span> and for a positive-integral <span class="math inline">\(p\)</span> <span class="citation">(<a href="#ref-Watanabe2023cevo">Watanabe, 2023</a>, eq. (B28))</span>,
 <span class="math display">\[\begin{equation}
 \begin{aligned}
   \qfrE \! \left( \frac{(\mathbf{x}^T \mathbf{A}
@@ -680,11 +684,11 @@ is <span class="citation">(<a href="#ref-BaoKan2013">Bao and Kan,
 \mathbf{D} \mathbf{x})^r} \right)
   = &amp;
   2^{p - q - r} \beta_{\mathbf{B}}^{q} \beta_{\mathbf{D}}^{r} p!
-  \Gamma \left( \frac{n}{2} + p - q - r \right) \\
+  \qfrGmf{ \frac{n}{2} + p - q - r } \\
   &amp; \quad \cdot
   \sum_{j=0}^{\infty} \sum_{k=0}^{\infty}
-  \frac{ \qfrrf[j]{q} \qfrrf[k]{r} }{ \Gamma \left( \frac{n}{2} + p + j
-+ k \right) }
+  \frac{ \qfrrf[j]{q} \qfrrf[k]{r} }{ \qfrGmf{ \frac{n}{2} + p + j + k }
+}
   \\
   &amp; \quad \quad \cdot
   \qfrhtijk[p; j,k]{ \mathbf{A} }{ \mathbf{I}_n - \beta_{\mathbf{B}}
@@ -771,8 +775,8 @@ the other arguments.</p>
   =
   2^{p - q} p!
   \sum_{k=0}^{p}
-  \frac{ \Gamma \left( \frac{n}{2} + p - q + k \right) }{ 2^k k! \Gamma
-\left( \frac{n}{2} + p + k \right) }
+  \frac{ \qfrGmf{ \frac{n}{2} + p - q + k } }{ 2^k k! \qfrGmf{
+\frac{n}{2} + p + k } }
   {}_1 F_1 \left( q ; \frac{n}{2} + p + k ; - \frac{\boldsymbol{\mu}^T
 \boldsymbol{\mu}}{2} \right) a_{p, k} \left( \mathbf{A},
 \boldsymbol{\mu} \right)
@@ -842,9 +846,9 @@ same up to <span class="math inline">\(j = m\)</span> as <span class="math inlin
   \lvert M \left( \mathbf{A}, \mathbf{B}, p, q \right) - \hat{M}_m
 \left( \mathbf{A}, \mathbf{B}, p, q \right) \rvert \\
   \leq
-  \frac{ 2^{p - q} \beta_{\mathbf{B}}^{q} p! \Gamma \left( \frac{n}{2} +
-p - q \right) \qfrrf[m+1]{q} }
-        { \Gamma \left( \frac{n}{2} + p + m + 1 \right) }
+  \frac{ 2^{p - q} \beta_{\mathbf{B}}^{q} p! \qfrGmf{ \frac{n}{2} + p -
+q } \qfrrf[m+1]{q} }
+        { \qfrGmf{ \frac{n}{2} + p + m + 1 } }
   \left[
     \frac{
       \exp \left( \frac{ \bar{\boldsymbol{\mu}}^T \bar{\boldsymbol{\mu}}
@@ -907,9 +911,9 @@ as <span class="math inline">\(\hat{M}_m \left( \mathbf{A}, \mathbf{B},
 \rvert
   \\ &amp; \quad
   \leq
-  \frac{ 2^{p - q - r} \beta_{\mathbf{B}}^{q} p! \Gamma \left(
-\frac{n}{2} + p - q - r \right) \qfrrf[m+1]{\max \left( q, r \right)} }
-        { \Gamma \left( \frac{n}{2} + p + m + 1 \right) }
+  \frac{ 2^{p - q - r} \beta_{\mathbf{B}}^{q} p! \qfrGmf{ \frac{n}{2} +
+p - q - r } \qfrrf[m+1]{\max \left( q, r \right)} }
+        { \qfrGmf{ \frac{n}{2} + p + m + 1 } }
   \\ &amp; \quad \quad \cdot
   \left[
     \frac{
@@ -1046,14 +1050,14 @@ terms in the truncated series and error bound when available. Simple
 <p>This function is for evaluating moments of the simple ratios of
 quadratic forms, <span class="math inline">\(\qfrE \left( \frac{\left(
 \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p} {\left( \mathbf{x}^T
-\mathbf{B} \mathbf{x} \right)^q} \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim N_n \left( \boldsymbol{\mu},
-\boldsymbol{\Sigma} \right)\)</span>.</p>
+\mathbf{B} \mathbf{x} \right)^q} \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim
+\qfrmvnorm{\boldsymbol{\mu}}{\boldsymbol{\Sigma}}\)</span>.</p>
 <div id="usage" class="section level4">
 <h4>Usage</h4>
 <pre><code>qfrm(A, B, p = 1, q = p, m = 100L,
      mu = rep.int(0, n), Sigma = diag(n),
      tol_zero = .Machine$double.eps * 100,
-     tol_sing = .Machine$double.eps * 100, ...)</code></pre>
+     tol_sing = tol_zero, ...)</code></pre>
 <p><code>A</code> and <code>B</code> are the argument matrices; when one
 is missing, <span class="math inline">\(\mathbf{I}_n\)</span> is
 inserted.</p>
@@ -1061,8 +1065,8 @@ inserted.</p>
 the most important arguments specified by the user.</p>
 <p><code>mu</code> and <code>Sigma</code> specify the mean and
 covariance of <span class="math inline">\(\mathbf{x}\)</span>, so by
-default <span class="math inline">\(\mathbf{x} \sim N_n \left(
-\mathbf{0}_n, \mathbf{I}_n \right)\)</span>.</p>
+default <span class="math inline">\(\mathbf{x} \sim
+\qfrmvnorm{\mathbf{0}_n}{\mathbf{I}_n}\)</span>.</p>
 <p><code>tol_zero</code> and <code>tol_sing</code> just determine the
 numerical tolerance for assessing identity and singularity,
 respectively, so usually need not be changed except when handling edgy
@@ -1134,7 +1138,9 @@ for which <code>qfrm()</code> acts as a switcher:</p>
 </tr>
 </tbody>
 </table>
-<p>*: requires the <code>gsl</code> package when <span class="math inline">\(\boldsymbol{\mu} \neq \mathbf{0}_n\)</span></p>
+<p>*: assuming accurate evaluation of the confluent hypergeometric
+function when <span class="math inline">\(\boldsymbol{\mu} \neq
+\mathbf{0}_n\)</span></p>
 <p>These functions are exported into the package namespace so can be
 directly used if necessary.</p>
 <p>They do the following operations:</p>
@@ -1174,8 +1180,8 @@ functions. The steps 7 and 8 can be suppressed if desired (by using
 quadratic forms, <span class="math inline">\(\qfrE \left( \frac{\left(
 \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p} {\left( \mathbf{x}^T
 \mathbf{B} \mathbf{x} \right)^q\left( \mathbf{x}^T \mathbf{D} \mathbf{x}
-\right)^r} \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim N_n \left( \boldsymbol{\mu},
-\boldsymbol{\Sigma} \right)\)</span>.</p>
+\right)^r} \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim
+\qfrmvnorm{\boldsymbol{\mu}}{\boldsymbol{\Sigma}}\)</span>.</p>
 <p>It works in a way very similar to <code>qfrm()</code>, just with the
 additional arguments <code>D</code> and <code>r</code>. The
 corresponding “internal” functions are:</p>
@@ -1249,7 +1255,7 @@ corresponding “internal” functions are:</p>
 <pre><code>qfmrm(A, B, D, p = 1, q = p/2, r = q, m = 100L,
       mu = rep.int(0, n), Sigma = diag(n),
       tol_zero = .Machine$double.eps * 100,
-      tol_sing = .Machine$double.eps * 100, ...)</code></pre>
+      tol_sing = tol_zero, ...)</code></pre>
 <p>Essentially the same as <code>qfrm()</code>.</p>
 </div>
 </div>
@@ -1264,10 +1270,10 @@ forms, <span class="math inline">\(\qfrE \left( \left( \mathbf{x}^T
 \right)^q \right)\)</span>, and <span class="math inline">\(\qfrE \left(
 \left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p  \left( \mathbf{x}^T
 \mathbf{B} \mathbf{x} \right)^q  \left( \mathbf{x}^T \mathbf{D}
-\mathbf{x} \right)^r \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim N_n \left( \boldsymbol{\mu},
-\boldsymbol{\Sigma} \right)\)</span>, using the algorithm described in
-<span class="citation">Hillier et al. (<a href="#ref-HillierEtAl2014">2014, secs. 3–4</a>)</span>. The exponents
-should be positive integers.</p>
+\mathbf{x} \right)^r \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim
+\qfrmvnorm{\boldsymbol{\mu}}{\boldsymbol{\Sigma}}\)</span>, using the
+algorithm described in <span class="citation">Hillier et al. (<a href="#ref-HillierEtAl2014">2014, secs. 3–4</a>)</span>. The exponents
+must be positive integers.</p>
 <p>In principle, the same algorithm can be applied to a product of more
 than three quadratic forms, but this package has not implemented
 functions for them.</p>
@@ -1280,7 +1286,7 @@ simple <code>print</code> method is defined.</p>
                 mu = rep.int(0, n), Sigma = diag(n),
                 use_cpp = TRUE, cpp_method = &quot;double&quot;,
                 tol_zero = .Machine$double.eps * 100,
-                tol_sing = .Machine$double.eps * 100)</code></pre>
+                tol_sing = tol_zero)</code></pre>
 <p>The other two functions have the same arguments, just dropping the
 inapplicable argument matrices and exponents.</p>
 <p><code>cpp_method</code> is a dummy argument and ignored in these
@@ -1298,8 +1304,8 @@ random number generation</h2>
 <span class="math inline">\(\left( \mathbf{x}^T \mathbf{A} \mathbf{x}
 \right)^p \left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q \left(
 \mathbf{x}^T \mathbf{D} \mathbf{x} \right)^r\)</span>, respectively, of
-quadratic forms in normal variables <span class="math inline">\(\mathbf{x} \sim N_n \left( \boldsymbol{\mu},
-\boldsymbol{\Sigma} \right)\)</span>.</p>
+quadratic forms in normal variables <span class="math inline">\(\mathbf{x} \sim
+\qfrmvnorm{\boldsymbol{\mu}}{\boldsymbol{\Sigma}}\)</span>.</p>
 <p>They can be used for verifying results from the above functions, or
 as a Monte Carlo surrogate when numerical convergence cannot be obtained
 within reasonable computational memory and time.</p>
@@ -1404,8 +1410,8 @@ appropriately scale the results back to the original one (see
 below).</p>
 </div>
 </div>
-<div id="using-the-package" class="section level1">
-<h1>Using the package</h1>
+<div id="using-the-functionality" class="section level1">
+<h1>Using the functionality</h1>
 <div id="recommended-workflow" class="section level2">
 <h2>Recommended workflow</h2>
 <p>This package implements the recursive algorithms with
@@ -1533,8 +1539,8 @@ convergence has been reached</li>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">diag</span>((nv<span class="sc">:</span><span class="dv">1</span>) <span class="sc">^</span> <span class="dv">3</span>)</span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a></span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">qfrm</span>(A, B, <span class="dv">2</span>, <span class="dv">2</span>) <span class="co"># Note the warning</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; Warning in qfrm_ApBq_int(A = A, B = B, p = p, q = q, m = m, mu = mu, tol_zero = tol_zero, : Last term of series is more than 1.2e-04 times as large as the sum,</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt;   suggesting non-convergence. Consider using larger m.</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; Warning in qfrm_ApBq_int(A = A, B = B, p = p, q = q, m = m, mu = mu, tol_zero = tol_zero, : Last term is &gt;1.2e-04 times as large as the series,</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt;   suggesting non-convergence. Consider using larger m</span></span>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>res</span>
 <span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt;  Moment of ratio of quadratic forms</span></span>
@@ -1567,8 +1573,8 @@ convergence has been reached</li>
 <span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="do">## It is recommended to use a tol_conv stricter than</span></span>
 <span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="do">## the default value, which is .Machine$double.eps ^ (1/4)</span></span>
 <span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">qfrm</span>(A, B, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="at">tol_conv =</span> <span class="fu">sqrt</span>(.Machine<span class="sc">$</span>double.eps))</span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; Warning in qfrm_ApBq_npi(A = A, B = B, p = p, q = q, m = m, mu = mu, tol_zero = tol_zero, : Last term of series is more than 1.5e-08 times as large as the sum,</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt;   suggesting non-convergence. Consider using larger m.</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; Warning in qfrm_ApBq_npi(A = A, B = B, p = p, q = q, m = m, mu = mu, tol_zero = tol_zero, : Last term is &gt;1.5e-08 times as large as the series,</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt;   suggesting non-convergence. Consider using larger m</span></span>
 <span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>res</span>
 <span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt;  Moment of ratio of quadratic forms</span></span>
@@ -1633,8 +1639,8 @@ approach using <code>rqfr()</code>.</p>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>large_D <span class="ot">&lt;-</span> <span class="fu">diag</span>((nv<span class="sc">:</span><span class="dv">1</span>) <span class="sc">^</span> <span class="dv">2</span>)</span>
 <span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a></span>
 <span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">qfmrm</span>(large_A, large_B, large_D, <span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="at">m =</span> <span class="dv">500</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; Warning in qfmrm_ApBDqr_int(A = A, B = B, D = D, p = p, q = q, r = r, m = m, : Last term of series is more than 1.2e-04 times as large as the sum,</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt;   suggesting non-convergence. Consider using larger m.</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; Warning in qfmrm_ApBDqr_int(A = A, B = B, D = D, p = p, q = q, r = r, m = m, : Last term is &gt;1.2e-04 times as large as the series,</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt;   suggesting non-convergence. Consider using larger m</span></span>
 <span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>res</span>
 <span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">#&gt;  Moment of ratio of quadratic forms</span></span>
@@ -1729,11 +1735,11 @@ variables: Evaluating some top-order invariant polynomials.
 <em>Australian Journal of Statistics</em>, <strong>35</strong>, 271–282.
 doi:<a href="https://doi.org/10.1111/j.1467-842X.1993.tb01335.x">10.1111/j.1467-842X.1993.tb01335.x</a>.
 </div>
-<div id="ref-Watanabe2022cevo" class="csl-entry">
-Watanabe, J. (2022) Exact expressions and numerical evaluation of
+<div id="ref-Watanabe2023cevo" class="csl-entry">
+Watanabe, J. (2023) Exact expressions and numerical evaluation of
 average evolvability measures for characterizing and comparing
-<span><strong>G</strong></span> matrices. <em>bioRxiv</em>,
-2022.11.02.514929. doi:<a href="https://doi.org/10.1101/2022.11.02.514929">10.1101/2022.11.02.514929</a>.
+<span><strong>G</strong></span> matrices. <em>Journal of Mathematical
+Biology</em>, <strong>86</strong>, 95. doi:<a href="https://doi.org/10.1007/s00285-023-01930-8">10.1007/s00285-023-01930-8</a>.
 </div>
 </div>
 </div>

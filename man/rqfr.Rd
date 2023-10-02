@@ -18,7 +18,7 @@ length 1.}
 
 \item{A, B, D}{Argument matrices (see \dQuote{Details}).  Assumed to be square matrices of
 the same order.  When missing, set to the identity matrix.  At least
-one of these should be specified.}
+one of these must be specified.}
 
 \item{p, q, r}{Exponents for A, B, D, respectively (see \dQuote{Details}).  Assumed to be
 numeric of length 1 each.  See \dQuote{Details} for default values.}
@@ -110,4 +110,7 @@ stats::t.test(mcres, mu = anres$statistic)
 }
 \seealso{
 \code{\link{qfrm}} and \code{\link{qfpm}} for analytic moments
+
+\code{\link{dqfr}} for analytic distribution-related functions for
+simple ratios
 }

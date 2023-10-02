@@ -20,7 +20,7 @@ qfmrm(
   mu = rep.int(0, n),
   Sigma = diag(n),
   tol_zero = .Machine$double.eps * 100,
-  tol_sing = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
   ...
 )
 
@@ -40,7 +40,7 @@ qfmrm_ApBIqr_int(
   alphaB = 1,
   tol_conv = .Machine$double.eps^(1/4),
   tol_zero = .Machine$double.eps * 100,
-  tol_sing = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
   thr_margin = 100
 )
 
@@ -60,7 +60,7 @@ qfmrm_ApBIqr_npi(
   alphaB = 1,
   tol_conv = .Machine$double.eps^(1/4),
   tol_zero = .Machine$double.eps * 100,
-  tol_sing = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
   thr_margin = 100
 )
 
@@ -80,7 +80,7 @@ qfmrm_IpBDqr_gen(
   alphaD = 1,
   tol_conv = .Machine$double.eps^(1/4),
   tol_zero = .Machine$double.eps * 100,
-  tol_sing = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
   thr_margin = 100
 )
 
@@ -101,7 +101,7 @@ qfmrm_ApBDqr_int(
   alphaD = 1,
   tol_conv = .Machine$double.eps^(1/4),
   tol_zero = .Machine$double.eps * 100,
-  tol_sing = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
   thr_margin = 100
 )
 
@@ -123,7 +123,7 @@ qfmrm_ApBDqr_npi(
   alphaD = 1,
   tol_conv = .Machine$double.eps^(1/4),
   tol_zero = .Machine$double.eps * 100,
-  tol_sing = .Machine$double.eps * 100,
+  tol_sing = tol_zero,
   thr_margin = 100
 )
 }
@@ -253,7 +253,7 @@ singular and neither of their null spaces is a subspace of the other), it
 seems difficult to define general moment existence conditions.  A sufficient
 condition can be obtained by applying the same proposition with a new
 denominator matrix whose null space is union of those of \eqn{\mathbf{B}}{B}
-and \eqn{\mathbf{D}}{D} (Watanabe, 2022).  A warning is thrown if that
+and \eqn{\mathbf{D}}{D} (Watanabe, 2023).  A warning is thrown if that
 condition is not met in this case.
 
 Most of these functions, excepting \code{qfmrm_ApBIqr_int()} with zero
@@ -316,10 +316,10 @@ Smith, M. D. (1989). On the expectation of a ratio of quadratic forms
 in normal variables. \emph{Journal of Multivariate Analysis}, \strong{31}, 244--257.
 \doi{10.1016/0047-259X(89)90065-1}.
 
-Watanabe, J. (2022). Exact expressions and numerical evaluation of average
+Watanabe, J. (2023) Exact expressions and numerical evaluation of average
 evolvability measures for characterizing and comparing \strong{G} matrices.
-\emph{bioRxiv} preprint, 2022.11.02.514929.
-\doi{10.1101/2022.11.02.514929}.
+\emph{Journal of Mathematical Biology}, \strong{86}, 95.
+\doi{10.1007/s00285-023-01930-8}.
 }
 \seealso{
 \code{\link{qfrm}} for simple ratio

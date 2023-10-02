@@ -33,6 +33,27 @@ void set_cumsum(const Eigen::DenseBase<Derived>& Data, Eigen::DenseBase<Derived>
 template void set_cumsum<ArrayXd>(const Eigen::DenseBase<ArrayXd>& Data, Eigen::DenseBase<ArrayXd>& Out);
 template void set_cumsum<ArrayXl>(const Eigen::DenseBase<ArrayXl>& Data, Eigen::DenseBase<ArrayXl>& Out);
 
+template <typename Derived>
+bool is_zero_E(const Eigen::ArrayBase<Derived>& X, const typename Derived::Scalar tol) {
+    return (X.abs() <= tol).all();
+}
+template bool is_zero_E<ArrayXd>(const Eigen::ArrayBase<ArrayXd>& X, const double tol);
+template bool is_zero_E<ArrayXl>(const Eigen::ArrayBase<ArrayXl>& X, const long double tol);
+
+template <typename Derived>
+bool is_diag_E(const Eigen::MatrixBase<Derived>& X, const typename Derived::Scalar tol) {
+    Matrix<typename Derived::Scalar, Dynamic, Dynamic> Xa = X;
+    Xa.diagonal().setZero();
+    return is_zero_E(Xa.array(), tol);
+}
+template bool is_diag_E(const Eigen::MatrixBase<MatrixXd>& X, const double tol);
+template bool is_diag_E(const Eigen::MatrixBase<MatrixXl>& X, const long double tol);
+
+template<typename T> inline bool is_int_like(T a) {
+    return T(int(a)) == a;
+}
+template bool is_int_like(double a);
+
 // // Eigen function to calculate a series of log (of absolute value of)
 // // rising factorial (a)_k from parameter a and length n (k = 0, 1, ... n - 1).
 // // When a is a negative integer, the result will be NaN from the (a+1)-th term
@@ -60,11 +81,12 @@ template void set_cumsum<ArrayXl>(const Eigen::DenseBase<ArrayXl>& Data, Eigen::
 // lgamma for a long double Array.
 Eigen::ArrayXd get_lrf(const double a, const Eigen::Index n) {
     ArrayXd ans(n);
-    if((a < 0) && (double(int(a)) == a)) { // If a is negative integer
-        ArrayXd data = ArrayXd::LinSpaced(n, -a + 1, -a - n + 2);
-        data(0) = 1;
-        data = data.log();
-        set_cumsum(data, ans);
+    if((a <= 0) && is_int_like(a)) { // If a is negative integer
+        ArrayXd Data = ArrayXd::LinSpaced(n, -a + 1, -a - n + 2);
+        Data = Data.max(0);
+        Data(0) = 1;
+        Data = Data.log();
+        set_cumsum(Data, ans);
     } else {
         ans = ArrayXd::LinSpaced(n, a, a + n - 1).lgamma();
         ans -= lgamma(a);
@@ -74,11 +96,12 @@ Eigen::ArrayXd get_lrf(const double a, const Eigen::Index n) {
 
 Eigen::Array<long double, Eigen::Dynamic, 1> get_lrf(const long double a, const Eigen::Index n) {
     ArrayXl ans(n);
-    if((a < 0) && ((long double)(int(a)) == a)) { // If a is negative integer
-        ArrayXl data = ArrayXl::LinSpaced(n, -a + 1, -a - n + 2);
-        data(0) = 1;
-        data = data.log();
-        set_cumsum(data, ans);
+    if((a <= 0) && is_int_like(a)) { // If a is negative integer
+        ArrayXl Data = ArrayXl::LinSpaced(n, -a + 1, -a - n + 2);
+        Data = Data.max(0);
+        Data(0) = 1;
+        Data = Data.log();
+        set_cumsum(Data, ans);
     } else {
         for(Index i = 0; i < n; i++) ans[i] = std::lgammal(a + i) - std::lgammal(a);
     }
@@ -98,8 +121,8 @@ Eigen::Array<T, Eigen::Dynamic, 1>  get_sign_rf(const T a, const Eigen::Index n)
     std::partial_sum(Signs.data(), Signs.data() + n, ans.data(), std::multiplies<T>());
     return ans;
 }
-template ArrayXd get_sign_rf(const double a, const Index n);
-template ArrayXl get_sign_rf(const long double a, const Index n);
+// template ArrayXd get_sign_rf(const double a, const Index n);
+// template ArrayXl get_sign_rf(const long double a, const Index n);
 
 // Eigen function template to obtain the signs of a series of rising factorial (a+1)_k
 // And template instantiations for double and long double
@@ -155,18 +178,16 @@ hgs_2dE(const Eigen::ArrayBase<Derived>& dks,
     typedef Array<Scalar, Dynamic, 1> ArrayXx;
     ArrayXx Alnumi = get_lrf(a1, m + 1);
     ArrayXx Alnumj = get_lrf(a2, m + 1);
+    ArrayXx Alden = get_lrf(b, m + 1);
     ArrayXx ansmat = ArrayXx::Zero((m + 1) * (m + 2) / 2);
     ArrayXx Asgnsi = get_sign_rf(a1, m + 1);
     ArrayXx Asgnsj = get_sign_rf(a2, m + 1);
     for(Index k = 0; k <= m; k++) {
-        ansmat.ULTcol(k, m + 1) += Alnumi.head(m + 1 - k) + Alnumj(k);
-        Scalar lden = std::lgamma(b + k) - std::lgamma(b);
-        for(Index i = 0; i <= k; i++) ansmat.ULTat(i, k - i, m + 1) -= lden;
+        ansmat.ULTcol(k, m + 1) +=
+            Alnumi.head(m + 1 - k) - Alden.tail(m + 1 - k) -
+            lscf.tail(m + 1 - k) + Alnumj(k);
     }
     ansmat += log(abs(dks)) + lconst;
-    for(Index k = 0; k <= m; k++) {
-        for(Index i = 0; i <= k; i++) ansmat.ULTat(i, k - i, m + 1) -= lscf(k);
-    }
     ansmat = exp(ansmat);
     for(Index k = 0; k <= m; k++) {
         ansmat.ULTcol(k, m + 1) *= Asgnsi.head(m + 1 - k) * Asgnsj(k);
@@ -199,13 +220,13 @@ hgs_2dEc(const Eigen::ArrayBase<Derived>& dks,
     typedef Array<Scalar, Dynamic, 1> ArrayXx;
     ArrayXx Alnumi = get_lrf(a1, m + 1);
     ArrayXx Alnumj = get_lrf(a2, m + 1);
+    ArrayXx Alden = get_lrf(b, m + 1);
     ArrayXx ansmat = ArrayXx::Zero((m + 1) * (m + 2) / 2);
     ArrayXx Asgnsi = get_sign_rf(a1, m + 1);
     ArrayXx Asgnsj = get_sign_rf(a2, m + 1);
     for(Index k = 0; k <= m; k++) {
-        ansmat.ULTcol(k, m + 1) += Alnumi.head(m + 1 - k) + Alnumj(k);
-        Scalar lden = std::lgamma(b + k) - std::lgamma(b);
-        for(Index i = 0; i <= k; i++) ansmat.ULTat(i, k - i, m + 1) -= lden;
+        ansmat.ULTcol(k, m + 1) +=
+            Alnumi.head(m + 1 - k) - Alden.tail(m + 1 - k) + Alnumj(k);
     }
     ansmat += log(abs(dks)) + lconst;
     ansmat -= lscf;
@@ -238,28 +259,20 @@ hgs_3dE(const Eigen::ArrayBase<Derived>& dks, const typename Derived::Scalar a1,
     ArrayXx Alnumi = get_lrf(a1, m + 1);
     ArrayXx Alnumj = get_lrf(a2, m + 1);
     ArrayXx Alnumk = get_lrf(a3, m + 1);
+    ArrayXx Alden = get_lrf(b, m + 1);
     ArrayXx Asgnsi = get_sign_rf(a1, m + 1);
     ArrayXx Asgnsj = get_sign_rf(a2, m + 1);
     ArrayXx Asgnsk = get_sign_rf(a3, m + 1);
     ArrayXx ansmat = ArrayXx::Zero((m + 1) * (m + 2) * (m + 3) / 6);
     for(Index k = 0; k <= m; k++) {
         ansmat.ULCslice(k, m + 1) += Alnumk(k);
-        Scalar lden = std::lgamma(b + k) - std::lgamma(b);
         for(Index j = 0; j <= k; j++) {
-            ansmat.ULCcol(j, k - j, m + 1) += Alnumi.head(m + 1 - k) + Alnumj(j);
-            for(Index i = 0; i <= k - j; i++) {
-                ansmat.ULCat(i, j, k - i - j, m + 1) -= lden;
-            }
+            ansmat.ULCcol(j, k - j, m + 1) +=
+                Alnumi.head(m + 1 - k) - Alden.tail(m + 1 - k) -
+                lscf.tail(m + 1 - k) + Alnumj(j);
         }
     }
     ansmat += log(abs(dks)) + lconst;
-    for(Index k = 0; k <= m; k++) {
-        for(Index i = 0; i <= k; i++) {
-            for(Index j = 0; j <= k - i; j++) {
-                ansmat.ULCat(i, j, k - i - j, m + 1) -= lscf(k);
-            }
-        }
-    }
     ansmat = exp(ansmat);
     for(Index k = 0; k <= m; k++) {
         ansmat.ULCslice(k, m + 1) *= Asgnsk(k);
@@ -296,18 +309,16 @@ hgs_3dEc(const Eigen::ArrayBase<Derived>& dks,
     ArrayXx Alnumi = get_lrf(a1, m + 1);
     ArrayXx Alnumj = get_lrf(a2, m + 1);
     ArrayXx Alnumk = get_lrf(a3, m + 1);
+    ArrayXx Alden = get_lrf(b, m + 1);
     ArrayXx Asgnsi = get_sign_rf(a1, m + 1);
     ArrayXx Asgnsj = get_sign_rf(a2, m + 1);
     ArrayXx Asgnsk = get_sign_rf(a3, m + 1);
     ArrayXx ansmat = ArrayXx::Zero((m + 1) * (m + 2) * (m + 3) / 6);
     for(Index k = 0; k <= m; k++) {
         ansmat.ULCslice(k, m + 1) += Alnumk(k);
-        Scalar lden = std::lgamma(b + k) - std::lgamma(b);
         for(Index j = 0; j <= k; j++) {
-            ansmat.ULCcol(j, k - j, m + 1) += Alnumi.head(m + 1 - k) + Alnumj(j);
-            for(Index i = 0; i <= k - j; i++) {
-                ansmat.ULCat(i, j, k - i - j, m + 1) -= lden;
-            }
+            ansmat.ULCcol(j, k - j, m + 1) +=
+                Alnumi.head(m + 1 - k) - Alden.tail(m + 1 - k) + Alnumj(j);
         }
     }
     ansmat += log(abs(dks)) + lconst;

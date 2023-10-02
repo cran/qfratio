@@ -3,14 +3,17 @@
 \docType{package}
 \name{qfratio-package}
 \alias{qfratio-package}
-\title{qfratio: Moments of Ratios of Quadratic Forms Using Recursion}
+\title{qfratio: Moments and Distributions of Ratios of Quadratic Forms}
 \description{
 This package is for evaluating moments of ratios (and products) of quadratic
 forms in normal variables, specifically using recursive algorithms developed
 by Bao et al. (2013) and Hillier et al. (2014) (see also Smith, 1989, 1993;
-Hillier et al., 2009).  It was originally developed as a supplement to
-Watanabe (2022) for evaluating average evolvability measures in evolutionary
-quantitative genetics, but can be used for a broader class of moments.
+Hillier et al., 2009).  It also provides some functions to evaluate
+distribution and probability density functions of simple ratios of quadratic
+forms in normal variables using several algorithms.  It was originally
+developed as a supplement to Watanabe (2023) for evaluating
+average evolvability measures in evolutionary quantitative genetics,
+but can be used for a broader class of statistics.
 }
 \details{
 The primary front-end functions of this package are
@@ -29,7 +32,12 @@ power-series expansion of generating functions for these moments
 related to the top-order zonal and invariant
 polynomials of matrix arguments.
 
-See package vignette (\code{vignette("qfratio")}) for more details.
+The package also has some functions to evaluate distribution and
+density functions of simple ratios of quadratic forms: \code{\link{pqfr}()}
+and \code{\link{dqfr}()}.
+
+See package vignettes (\code{vignette("qfratio")} and
+\code{vignette("qfratio_distr")}) for more details.
 
 The DESCRIPTION file:
 \packageDESCRIPTION{qfratio}
@@ -83,6 +91,11 @@ qfpm_ABDpqr_int(A, B, D, 1, 1, 1, mu = mu)
 ## A Monte Carlo mean
 mean(rqfp(1000, A = A, B = B, D = D, p = 1, q = 1, r = 1, mu = mu))
 
+## Distribution function and density of (x^T A x) / (x^T B x)
+quantiles <- 0:nv + 0.5
+pqfr(quantiles, A, B)
+dqfr(quantiles, A, B)
+
 }
 \references{
 Bao, Y. and Kan, R. (2013) On the moments of ratios of quadratic forms in
@@ -109,10 +122,10 @@ variables: evaluating some top-order invariant polynomials.
 \emph{Australian Journal of Statistics}, \strong{35}, 271--282.
 \doi{10.1111/j.1467-842X.1993.tb01335.x}.
 
-Watanabe, J. (2022) Exact expressions and numerical evaluation of average
+Watanabe, J. (2023) Exact expressions and numerical evaluation of average
 evolvability measures for characterizing and comparing \strong{G} matrices.
-\emph{bioRxiv} preprint, 2022.11.02.514929.
-\doi{10.1101/2022.11.02.514929}.
+\emph{Journal of Mathematical Biology}, \strong{86}, 95.
+\doi{10.1007/s00285-023-01930-8}.
 }
 \seealso{
 \code{\link{qfrm}}: Moment of simple ratio of quadratic forms
@@ -122,5 +135,8 @@ evolvability measures for characterizing and comparing \strong{G} matrices.
 \code{\link{qfpm}}: Moment of product of quadratic forms
 
 \code{\link{rqfr}}: Monte Carlo sampling of ratio/product of
+quadratic forms
+
+\code{\link{dqfr}}: Probability distribution of simple ratio of
 quadratic forms
 }
