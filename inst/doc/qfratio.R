@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -9,7 +9,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 library(qfratio)
 set.seed(764561)
 
-## ---- first_example-----------------------------------------------------------
+## ----first_example------------------------------------------------------------
 ## Simple matrices
 nv <- 4
 A <- diag(1:nv)
@@ -34,7 +34,7 @@ mu <- 1:nv / nv
 Sigma <- diag(runif(nv) * 3)
 qfrm(A, B, p = 1, q = 1, mu = mu, Sigma = Sigma, m = 300)
 
-## ---- example, fig.width = 4, fig.height = 4----------------------------------
+## ----example, fig.width = 4, fig.height = 4-----------------------------------
 ## Preparing simple objects
 nv <- 10
 A <- diag(1:nv)
@@ -123,7 +123,7 @@ res
 
 plot(res) # Better
 
-## ---- MC, fig.width = 4, fig.height = 4---------------------------------------
+## ----MC, fig.width = 4, fig.height = 4----------------------------------------
 ## A large problem
 nv <- 200
 large_A <- diag(c(1000, rep.int(1, nv - 1)))

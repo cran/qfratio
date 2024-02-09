@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -23,6 +23,14 @@ set.seed(764561)
 #                   return_abserr_attr = FALSE, m = 100L,
 #                   tol_zero = .Machine$double.eps * 100,
 #                   tol_sing = tol_zero, ...) { ... }
+
+## ----definition_qqfr, eval = FALSE--------------------------------------------
+#  qqfr <- function(probability, A, B, p = 1, mu = rep.int(0, n), Sigma = diag(n),
+#                   lower.tail = TRUE, log.p = FALSE, trim_values = FALSE,
+#                   return_abserr_attr = FALSE, stop_on_error = FALSE, m = 100L,
+#                   tol_zero = .Machine$double.eps * 100,
+#                   tol_sing = tol_zero, epsabs_q = .Machine$double.eps ^ (1/2),
+#                   maxiter_q = 5000, ...) { ... }
 
 ## ----example_methods, error = TRUE--------------------------------------------
 ## Choice from alternative methods
@@ -242,6 +250,14 @@ dqfr(1.1, diag(1:35), return_abserr_attr = TRUE,
 ## because the true value is between 0 and tol_zero
 dqfr(1.1, diag(1:35), return_abserr_attr = TRUE,
      epsabs = 1e-15)
+
+## ----errorbound_q1------------------------------------------------------------
+A <- diag(1:4)
+
+qqfr(0.95, A, return_abserr_attr = TRUE)
+
+## ----errorbound_q-------------------------------------------------------------
+qqfr(0, A, return_abserr_attr = TRUE)
 
 ## ----example_profile_distr, fig.width = 4, figh.height = 4, error = TRUE------
 A <- diag(1:4)

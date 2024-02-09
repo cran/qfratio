@@ -49,7 +49,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -148,6 +148,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 div.csl-bib-body { }
 div.csl-entry {
 clear: both;
+margin-bottom: 0em;
 }
 .hanging div.csl-entry {
 margin-left:2em;
@@ -383,7 +384,7 @@ Package qfratio</h1>
 \newcommand{\qfrnchisq}[2]{\chi^2 \! \left( #1 , #2 \right)}
 \newcommand{\qfrBtd}[2]{\mathrm{beta} \! \left( #1 , #2 \right)}
 \]</span></p>
-<p>As of version 1.1.0, <code>qfratio</code> (<a href="https://CRAN.R-project.org/package=qfratio" target="_blank">CRAN</a>; <a href="https://github.com/watanabe-j/qfratio" target="_blank">GitHub</a>)
+<p>Since version 1.1.0, <code>qfratio</code> (<a href="https://CRAN.R-project.org/package=qfratio" target="_blank">CRAN</a>; <a href="https://github.com/watanabe-j/qfratio" target="_blank">GitHub</a>)
 has a functionality to evaluate probability density and distribution
 functions of a (simple) ratio of quadratic forms in normal variables.
 This document is to describe theoretical backgrounds and some
@@ -503,10 +504,11 @@ indefinite, because otherwise (i.e., when it is positive or negative
 <p>Consider the spectral decomposition <span class="math inline">\(\mathbf{A} - q \mathbf{B} = \mathbf{P}
 \boldsymbol{\Lambda} \mathbf{P}^T\)</span>, with an orthogonal matrix of
 eigenvectors <span class="math inline">\(\mathbf{P}\)</span> and a
-diagonal matrix of eigenvalues <span class="math inline">\(\boldsymbol{\Lambda} = \qfrdiag \left( \lambda_1 ,
-\dots , \lambda_n \right)\)</span>, and let <span class="math inline">\(\mathbf{P}^T \mathbf{x} = \mathbf{y} = \left( y_1
-, \dots , y_n \right)^T \sim
-\qfrmvnorm{\boldsymbol{\nu}}{\mathbf{I}_n}\)</span> with <span class="math inline">\(\boldsymbol{\nu} = \mathbf{P}^T \boldsymbol{\mu} =
+diagonal matrix of eigenvalues <span class="math inline">\(\boldsymbol{\Lambda} =
+\qfrdiag \left( \lambda_1 , \dots , \lambda_n \right)\)</span>, and let
+<span class="math inline">\(\mathbf{P}^T \mathbf{x} = \mathbf{y} =
+\left( y_1 , \dots , y_n \right)^T
+\sim \qfrmvnorm{\boldsymbol{\nu}}{\mathbf{I}_n}\)</span> with <span class="math inline">\(\boldsymbol{\nu} = \mathbf{P}^T \boldsymbol{\mu} =
 \left( \nu_1 , \dots , \nu_n \right)^T\)</span>. Then, <span class="math display">\[\begin{equation}
   \begin{aligned}
   X_q
@@ -798,13 +800,14 @@ distribution in the interval <span class="math inline">\(\left[ \eta_s ,
 \eta_1 \right]\)</span> with the parameters <span class="math inline">\(n_1 / 2\)</span> and <span class="math inline">\(n_s / 2\)</span>. This result is expected from the
 basic relationship between the chi-square and beta distributions, i.e.,
 <span class="math inline">\(\qfrcchisq{n_1} / \left( \qfrcchisq{n_1} +
-\qfrcchisq{n_s} \right) = b \sim \qfrBtd{n_1 / 2}{n_s / 2}\)</span>, a
-standard beta distribution in <span class="math inline">\([0,
-1]\)</span>, with <span class="math inline">\(\qfrcchisq{n_i}\)</span>
-being independent chi-square variables; <span class="math inline">\(Q =
-\left( \eta_1 \qfrcchisq{n_1} + \eta_s \qfrcchisq{n_s} \right) / \left(
-\qfrcchisq{n_1} + \qfrcchisq{n_s} \right) = \eta_1 b + \eta_s \left( 1 -
-b \right) = \left( \eta_1 - \eta_s \right) b + \eta_s\)</span>.</p>
+\qfrcchisq{n_s} \right) =
+b \sim \qfrBtd{n_1 / 2}{n_s / 2}\)</span>, a standard beta distribution
+in <span class="math inline">\([0, 1]\)</span>, with <span class="math inline">\(\qfrcchisq{n_i}\)</span> being independent
+chi-square variables; <span class="math inline">\(Q = \left( \eta_1
+\qfrcchisq{n_1} + \eta_s \qfrcchisq{n_s} \right) /
+\left( \qfrcchisq{n_1} + \qfrcchisq{n_s} \right) =
+\eta_1 b + \eta_s \left( 1 - b \right) =
+\left( \eta_1 - \eta_s \right) b + \eta_s\)</span>.</p>
 <p>As for the above series expression of <span class="math inline">\(F_Q\)</span>, these expressions can be evaluated
 by taking a partial sum of the series and using the recursive algorithm
 for <span class="math inline">\(d\)</span>.
@@ -929,7 +932,7 @@ generating function of <span class="math inline">\(X_q\)</span>, <span class="ma
         \sum_{i=1}^{n} \frac{\nu_i^2 \lambda_i}{1 - 2 s \lambda_i^2}
       \right] .
 \end{equation}\]</span> Also, let <span class="math inline">\(K_{X_q}(s)
-= \log M_{X_q}(s)\)</span> be the corresponding cumulant generating
+=  \log M_{X_q}(s)\)</span> be the corresponding cumulant generating
 function. These are convergent within the interval <span class="math inline">\(1 / 2 \lambda_n &lt; s &lt; 1 / 2
 \lambda_1\)</span>, where <span class="math inline">\(\lambda_1\)</span>
 and <span class="math inline">\(\lambda_n\)</span> are the largest and
@@ -1011,8 +1014,9 @@ also <a href="#ref-Paolella2007">Paolella, 2007, chap. 10</a>)</span>
   \right] ,
   \quad \qfrE \left( X_q \right) \neq 0,
 \end{equation}\]</span> where <span class="math inline">\(\hat{\kappa}_j
-= K_{X_q}^{(j)} \left( \hat{s} \right) / K_{X_q}&#39;&#39; \left(
-\hat{s} \right)^{j/2}\)</span>.</p>
+=
+K_{X_q}^{(j)} \left( \hat{s} \right) /  K_{X_q}&#39;&#39; \left( \hat{s}
+\right)^{j/2}\)</span>.</p>
 <p>Evaluation of saddlepoint approximation is fairly quick, with the
 only potential complexity arising from the numerical root-finding.
 Empirically, the accuracy of this approximation seems to improve for
@@ -1123,13 +1127,13 @@ defined as:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>pqfr <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">p =</span> <span class="dv">1</span>, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n), <span class="at">Sigma =</span> <span class="fu">diag</span>(n),</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                 <span class="at">lower.tail =</span> <span class="cn">TRUE</span>, <span class="at">log.p =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>                 <span class="at">method =</span> <span class="fu">c</span>(<span class="st">&quot;imhof&quot;</span>, <span class="st">&quot;davies&quot;</span>, <span class="st">&quot;forchini&quot;</span>, <span class="st">&quot;butler&quot;</span>),</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                 <span class="at">trim_values =</span> <span class="cn">TRUE</span>, <span class="at">return_abserr_attr =</span> <span class="cn">FALSE</span>, <span class="at">m =</span> 100L,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                 <span class="at">trim_values =</span> <span class="cn">TRUE</span>, <span class="at">return_abserr_attr =</span> <span class="cn">FALSE</span>, <span class="at">m =</span> <span class="dv">100</span><span class="dt">L</span>,</span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>                 <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>                 <span class="at">tol_sing =</span> tol_zero, ...) { ... }</span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>dqfr <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">p =</span> <span class="dv">1</span>, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n), <span class="at">Sigma =</span> <span class="fu">diag</span>(n),</span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>                 <span class="at">log =</span> <span class="cn">FALSE</span>, <span class="at">method =</span> <span class="fu">c</span>(<span class="st">&quot;broda&quot;</span>, <span class="st">&quot;hillier&quot;</span>, <span class="st">&quot;butler&quot;</span>),</span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>                 <span class="at">trim_values =</span> <span class="cn">TRUE</span>, <span class="at">normalize_spa =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>                 <span class="at">return_abserr_attr =</span> <span class="cn">FALSE</span>, <span class="at">m =</span> 100L,</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>                 <span class="at">return_abserr_attr =</span> <span class="cn">FALSE</span>, <span class="at">m =</span> <span class="dv">100</span><span class="dt">L</span>,</span>
 <span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>                 <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>                 <span class="at">tol_sing =</span> tol_zero, ...) { ... }</span></code></pre></div>
 <p>The basic usage is similar to that of regular probability
@@ -1142,6 +1146,18 @@ densities can be obtained by turning <code>log.p = TRUE</code> or
 <code>log = TRUE</code>, but these are just ad-hoc transformations of
 the results so are not supposed to provide as much numerical accuracy as
 in regular probability distribution functions.</p>
+<p>There is also <code>qqfr()</code> for the corresponding quantile
+function, which is defined as:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>qqfr <span class="ot">&lt;-</span> <span class="cf">function</span>(probability, A, B, <span class="at">p =</span> <span class="dv">1</span>, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n), <span class="at">Sigma =</span> <span class="fu">diag</span>(n),</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>                 <span class="at">lower.tail =</span> <span class="cn">TRUE</span>, <span class="at">log.p =</span> <span class="cn">FALSE</span>, <span class="at">trim_values =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                 <span class="at">return_abserr_attr =</span> <span class="cn">FALSE</span>, <span class="at">stop_on_error =</span> <span class="cn">FALSE</span>, <span class="at">m =</span> <span class="dv">100</span><span class="dt">L</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>                 <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                 <span class="at">tol_sing =</span> tol_zero, <span class="at">epsabs_q =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">^</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>                 <span class="at">maxiter_q =</span> <span class="dv">5000</span>, ...) { ... }</span></code></pre></div>
+<p>This function is not based on any explicit inverse function, but does
+numerical root-finding using <code>stats::uniroot()</code>, internally
+calling <code>pqfr()</code>; i.e., by searching the root <code>q</code>
+of <code>pqfr(q, ...) - probability = 0</code>.</p>
 <p>Internally, these functions first check basic argument structures,
 and, if <code>Sigma</code> is specified, transform the arguments
 <code>A</code>, <code>B</code>, and <code>mu</code> and call themselves
@@ -1156,48 +1172,48 @@ described below. Direct use of the internal functions are <em>not</em>
 recommended. These internal functions only accept a length-one
 <code>quantile</code>. To reduce computational time, they do not check
 argument structures or accommodate <code>Sigma</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="do">## Choice from alternative methods</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;imhof&quot;</span>)    <span class="co"># default</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978686</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;davies&quot;</span>)   <span class="co"># similar</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; [1] 0.1979048</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;forchini&quot;</span>) <span class="co"># series</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978686</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>)   <span class="co"># spa</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; [1] 0.1897189</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;broda&quot;</span>)    <span class="co"># default</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; [1] 0.4506431</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;hillier&quot;</span>)  <span class="co"># series</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; [1] 0.4506431</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>)   <span class="co"># spa</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; [1] 0.4523631</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="do">## Not recommended; for diagnostic use only</span></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>qfratio<span class="sc">:::</span><span class="fu">pqfr_imhof</span>(<span class="fl">1.5</span>, A)</span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt; $p</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978686</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt; $abserr</span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; [1] 2.031334e-09</span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>qfratio<span class="sc">:::</span><span class="fu">pqfr_A1B1</span>(<span class="fl">1.5</span>, A, <span class="at">m =</span> <span class="dv">9</span>, <span class="at">check_convergence =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt; $p</span></span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978641</span></span>
-<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; $terms</span></span>
-<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#&gt;  [1] 1.495393e-01 3.427348e-02 9.516357e-03 2.974620e-03 1.002253e-03</span></span>
-<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#&gt;  [6] 3.544878e-04 1.295434e-04 4.844575e-05 1.842967e-05 7.103869e-06</span></span>
-<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="do">## This is okay</span></span>
-<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="fl">3.5</span>)</span>
-<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a><span class="fu">pqfr</span>(x, A)</span>
-<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978686 0.8021314 1.0000000</span></span>
-<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="do">## This is not</span></span>
-<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a>qfratio<span class="sc">:::</span><span class="fu">pqfr_imhof</span>(x, A)</span>
-<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a><span class="co">#&gt; Error in qfratio:::pqfr_imhof(x, A): In pqfr_imhof, quantile must be length-one</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="do">## Choice from alternative methods</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;imhof&quot;</span>)    <span class="co"># default</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978686</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;davies&quot;</span>)   <span class="co"># similar</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [1] 0.1979048</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;forchini&quot;</span>) <span class="co"># series</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978686</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>)   <span class="co"># spa</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; [1] 0.1897189</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;broda&quot;</span>)    <span class="co"># default</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; [1] 0.4506431</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;hillier&quot;</span>)  <span class="co"># series</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; [1] 0.4506431</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>)   <span class="co"># spa</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; [1] 0.4523631</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="do">## Not recommended; for diagnostic use only</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>qfratio<span class="sc">:::</span><span class="fu">pqfr_imhof</span>(<span class="fl">1.5</span>, A)</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; $p</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978686</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; $abserr</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; [1] 2.031334e-09</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>qfratio<span class="sc">:::</span><span class="fu">pqfr_A1B1</span>(<span class="fl">1.5</span>, A, <span class="at">m =</span> <span class="dv">9</span>, <span class="at">check_convergence =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; $p</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978641</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt; $terms</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt;  [1] 1.495393e-01 3.427348e-02 9.516357e-03 2.974620e-03 1.002253e-03</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt;  [6] 3.544878e-04 1.295434e-04 4.844575e-05 1.842967e-05 7.103869e-06</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="do">## This is okay</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="fl">3.5</span>)</span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="fu">pqfr</span>(x, A)</span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978686 0.8021314 1.0000000</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="do">## This is not</span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a>qfratio<span class="sc">:::</span><span class="fu">pqfr_imhof</span>(x, A)</span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt; Error in qfratio:::pqfr_imhof(x, A): In pqfr_imhof, quantile must be length-one</span></span></code></pre></div>
 </div>
 <div id="use-with-ks.test" class="section level3">
 <h3>Use with <code>ks.test()</code></h3>
@@ -1212,77 +1228,77 @@ argument in <code>ks.test()</code>, so it cannot be passed via
 <code>B</code> should be something like
 <code>ks.test(x, function(q) pqfr(q, A, B, ...))</code> rather than
 <code>ks.test(x, pqfr, A = A, B = B, ...))</code>. For example,</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="do">## Small Monte Carlo sample</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rqfr</span>(<span class="dv">10</span>, A, B)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="do">## Calculate p-values</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>pseq <span class="ot">&lt;-</span> <span class="fu">pqfr</span>(x, A, B, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="do">## Maximum error when evaluated at x;</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="do">## looks small enough</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">attr</span>(pseq, <span class="st">&quot;abserr&quot;</span>))</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; [1] 8.318564e-07</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="do">## Correct syntax, expected outcome</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="do">## \(q) syntax could also be used in recent versions of R</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="fu">ks.test</span>(x, <span class="cf">function</span>(q) <span class="fu">pqfr</span>(q, A, B))</span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt;  Exact one-sample Kolmogorov-Smirnov test</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; data:  x</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; D = 0.29324, p-value = 0.2946</span></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two-sided</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="do">## Small Monte Carlo sample</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rqfr</span>(<span class="dv">10</span>, A, B)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="do">## Calculate p-values</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>pseq <span class="ot">&lt;-</span> <span class="fu">pqfr</span>(x, A, B, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="do">## Maximum error when evaluated at x;</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="do">## looks small enough</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">attr</span>(pseq, <span class="st">&quot;abserr&quot;</span>))</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; [1] 8.318564e-07</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="do">## Correct syntax, expected outcome</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="do">## \(q) syntax could also be used in recent versions of R</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="fu">ks.test</span>(x, <span class="cf">function</span>(q) <span class="fu">pqfr</span>(q, A, B))</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;  Exact one-sample Kolmogorov-Smirnov test</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; data:  x</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; D = 0.29324, p-value = 0.2946</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two-sided</span></span></code></pre></div>
 <p>rather than</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="do">## Incorrect; no error/warning because</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="do">## B is passed to ks.test rather than to pqfr</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">ks.test</span>(x, pqfr, <span class="at">A =</span> A, <span class="at">B =</span> B)</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;  Exact one-sample Kolmogorov-Smirnov test</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; data:  x</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; D = 0.78335, p-value = 5.182e-07</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two-sided</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="do">## Incorrect; no error/warning because</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="do">## B is passed to ks.test rather than to pqfr</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">ks.test</span>(x, pqfr, <span class="at">A =</span> A, <span class="at">B =</span> B)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;  Exact one-sample Kolmogorov-Smirnov test</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; data:  x</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; D = 0.78335, p-value = 5.182e-07</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two-sided</span></span></code></pre></div>
 </div>
 </div>
 <div id="series-expressions" class="section level2">
 <h2>Series expressions</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="do">## Used in pqfr(..., method = &quot;forchini&quot;)</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>pqfr_A1B1 <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">m =</span> 100L, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                      <span class="at">check_convergence =</span> <span class="fu">c</span>(<span class="st">&quot;relative&quot;</span>, <span class="st">&quot;strict_relative&quot;</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>                                            <span class="st">&quot;absolute&quot;</span>, <span class="st">&quot;none&quot;</span>),</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>                      <span class="at">stop_on_error =</span> <span class="cn">FALSE</span>, <span class="at">use_cpp =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                      <span class="at">cpp_method =</span> <span class="fu">c</span>(<span class="st">&quot;double&quot;</span>, <span class="st">&quot;long_double&quot;</span>, <span class="st">&quot;coef_wise&quot;</span>),</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>                      <span class="at">nthreads =</span> <span class="dv">1</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>                      <span class="at">tol_conv =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">^</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>),</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>                      <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>                      <span class="at">tol_sing =</span> tol_zero,</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>                      <span class="at">thr_margin =</span> <span class="dv">100</span>) { ... }</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="do">## Used in dqfr(..., method = &quot;hillier&quot;)</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>dqfr_A1I1 <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, LA, <span class="at">m =</span> 100L,</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>                      <span class="at">check_convergence =</span> <span class="fu">c</span>(<span class="st">&quot;relative&quot;</span>, <span class="st">&quot;strict_relative&quot;</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>                                            <span class="st">&quot;absolute&quot;</span>, <span class="st">&quot;none&quot;</span>),</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>                      <span class="at">use_cpp =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>                      <span class="at">tol_conv =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">^</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>),</span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>                      <span class="at">thr_margin =</span> <span class="dv">100</span>) { ... }</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="do">## Used in pqfr(..., method = &quot;forchini&quot;)</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>pqfr_A1B1 <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">m =</span> <span class="dv">100</span><span class="dt">L</span>, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                      <span class="at">check_convergence =</span> <span class="fu">c</span>(<span class="st">&quot;relative&quot;</span>, <span class="st">&quot;strict_relative&quot;</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>                                            <span class="st">&quot;absolute&quot;</span>, <span class="st">&quot;none&quot;</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                      <span class="at">stop_on_error =</span> <span class="cn">FALSE</span>, <span class="at">use_cpp =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>                      <span class="at">cpp_method =</span> <span class="fu">c</span>(<span class="st">&quot;double&quot;</span>, <span class="st">&quot;long_double&quot;</span>, <span class="st">&quot;coef_wise&quot;</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>                      <span class="at">nthreads =</span> <span class="dv">1</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>                      <span class="at">tol_conv =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">^</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>                      <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>                      <span class="at">tol_sing =</span> tol_zero,</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>                      <span class="at">thr_margin =</span> <span class="dv">100</span>) { ... }</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="do">## Used in dqfr(..., method = &quot;hillier&quot;)</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>dqfr_A1I1 <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, LA, <span class="at">m =</span> <span class="dv">100</span><span class="dt">L</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>                      <span class="at">check_convergence =</span> <span class="fu">c</span>(<span class="st">&quot;relative&quot;</span>, <span class="st">&quot;strict_relative&quot;</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>                                            <span class="st">&quot;absolute&quot;</span>, <span class="st">&quot;none&quot;</span>),</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>                      <span class="at">use_cpp =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>                      <span class="at">tol_conv =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">^</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>),</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>                      <span class="at">thr_margin =</span> <span class="dv">100</span>) { ... }</span></code></pre></div>
 <p>These functions evaluate the above series expressions as partial sums
 of the infinite series, using the recursive algorithm to calculate <span class="math inline">\(d\)</span> (<code>d1_i()</code> or
 <code>d2_ij_m()</code>), as in the moment-related functions of this
 package (see the vignette for moments <code>vignette(&quot;qfratio&quot;)</code>).
 Most of the arguments are common with those functions.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;forchini&quot;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978686</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;hillier&quot;</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.4506431</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, B, <span class="at">method =</span> <span class="st">&quot;forchini&quot;</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; [1] 0.6376791</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="do">## dqfr method does not accommodate B, mu, or Sigma</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, B, <span class="at">method =</span> <span class="st">&quot;hillier&quot;</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; Error in dqfr(1.5, A, B, method = &quot;hillier&quot;): dqfr() does not accommodate B, mu, or Sigma with method = &quot;hillier&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;forchini&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; [1] 0.1978686</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, <span class="at">method =</span> <span class="st">&quot;hillier&quot;</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.4506431</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, B, <span class="at">method =</span> <span class="st">&quot;forchini&quot;</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; [1] 0.6376791</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="do">## dqfr method does not accommodate B, mu, or Sigma</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, B, <span class="at">method =</span> <span class="st">&quot;hillier&quot;</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; Error in dqfr(1.5, A, B, method = &quot;hillier&quot;): dqfr() does not accommodate B, mu, or Sigma with method = &quot;hillier&quot;</span></span></code></pre></div>
 <p>As stated above, the density is undefined, and the distribution
 function has points of nonanalyticity, at the eigenvalues of <span class="math inline">\(\mathbf{B}^{-1} \mathbf{A}\)</span> (assuming
 nonsingular <span class="math inline">\(\mathbf{B}\)</span>; Hillier
@@ -1290,39 +1306,39 @@ nonsingular <span class="math inline">\(\mathbf{B}\)</span>; Hillier
 expressions tends to be <em>very slow</em>, and the evaluation of
 hypergeometric function involved in the distribution function may fail.
 In this case, avoid using the series expression methods.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="do">## p-value just below 2, an eigenvalue of A</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="do">## Typically throws two warnings:</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="do">##   Maximum iteration in hypergeometric function</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="do">##   and non-convergence of series</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.9999</span>, A, <span class="at">method =</span> <span class="st">&quot;forchini&quot;</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; Warning in p_A1B1_Ed(quantile, A, B, mu, m, stop_on_error, thr_margin, nthreads, : problem in gsl_sf_hyperg_2F1_e():</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;   max iteration reached</span></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; Warning in pqfr_A1B1(q, A, B, m = m, mu = mu, tol_zero = tol_zero, ...): Last term is &gt;1.2e-04 times as large as the series,</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt;   suggesting non-convergence. Consider using larger m</span></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; [1] 0.1052446</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="do">## More realistic value; expected from symmetry</span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.9999</span>, A, <span class="at">method =</span> <span class="st">&quot;imhof&quot;</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; [1] 0.4998044</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="do">## p-value just below 2, an eigenvalue of A</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="do">## Typically throws two warnings:</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="do">##   Maximum iteration in hypergeometric function</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="do">##   and non-convergence of series</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.9999</span>, A, <span class="at">method =</span> <span class="st">&quot;forchini&quot;</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; Warning in p_A1B1_Ed(quantile, A, B, mu, m, stop_on_error, thr_margin, nthreads, : problem in gsl_sf_hyperg_2F1_e():</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt;   max iteration reached</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; Warning in pqfr_A1B1(q, A, B, m = m, mu = mu, tol_zero = tol_zero, ...): Last term is &gt;1.2e-04 times as large as the series,</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt;   suggesting non-convergence. Consider using larger m</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; [1] 0.1052446</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="do">## More realistic value; expected from symmetry</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.9999</span>, A, <span class="at">method =</span> <span class="st">&quot;imhof&quot;</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; [1] 0.4998044</span></span></code></pre></div>
 </div>
 <div id="numerical-inversion-1" class="section level2">
 <h2>Numerical inversion</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="do">## Used in pqfr(..., method = &quot;imhof&quot;) (default)</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>pqfr_imhof <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                       <span class="at">autoscale_args =</span> <span class="dv">1</span>, <span class="at">stop_on_error =</span> <span class="cn">TRUE</span>, <span class="at">use_cpp =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>                       <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>                       <span class="at">epsabs =</span> epsrel, <span class="at">epsrel =</span> <span class="fl">1e-6</span>, <span class="at">limit =</span> <span class="fl">1e4</span>) { ... }</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="do">## Used in pqfr(..., method = &quot;davies&quot;)</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>pqfr_davies <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>                        <span class="at">autoscale_args =</span> <span class="dv">1</span>,</span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>                        <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>, ...) { ... }</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="do">## Used in dqfr(..., method = &quot;broda&quot;) (default)</span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>dqfr_broda <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>                       <span class="at">autoscale_args =</span> <span class="dv">1</span>, <span class="at">stop_on_error =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>                       <span class="at">use_cpp =</span> <span class="cn">TRUE</span>, <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>                       <span class="at">epsabs =</span> epsrel, <span class="at">epsrel =</span> <span class="fl">1e-6</span>, <span class="at">limit =</span> <span class="fl">1e4</span>) { ... }</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="do">## Used in pqfr(..., method = &quot;imhof&quot;) (default)</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>pqfr_imhof <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                       <span class="at">autoscale_args =</span> <span class="dv">1</span>, <span class="at">stop_on_error =</span> <span class="cn">TRUE</span>, <span class="at">use_cpp =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>                       <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>                       <span class="at">epsabs =</span> epsrel, <span class="at">epsrel =</span> <span class="fl">1e-6</span>, <span class="at">limit =</span> <span class="fl">1e4</span>) { ... }</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="do">## Used in pqfr(..., method = &quot;davies&quot;)</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>pqfr_davies <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>                        <span class="at">autoscale_args =</span> <span class="dv">1</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>                        <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>, ...) { ... }</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="do">## Used in dqfr(..., method = &quot;broda&quot;) (default)</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>dqfr_broda <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>                       <span class="at">autoscale_args =</span> <span class="dv">1</span>, <span class="at">stop_on_error =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>                       <span class="at">use_cpp =</span> <span class="cn">TRUE</span>, <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>                       <span class="at">epsabs =</span> epsrel, <span class="at">epsrel =</span> <span class="fl">1e-6</span>, <span class="at">limit =</span> <span class="fl">1e4</span>) { ... }</span></code></pre></div>
 <p><code>pqfr_imhof(..., use_cpp = TRUE)</code> and
 <code>dqfr_broda(..., use_cpp = TRUE)</code> conduct numerical
 integration by the <code>C</code> function
@@ -1370,22 +1386,22 @@ provided <span class="math inline">\(I \leq 0\)</span> (<span class="math inline
 an error bound calculated in the same way can only be conservative;
 <code>pqfr_imhof()</code> returns this value, but it can violate the
 user-specified relative tolerance <code>epsrel</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="do">## This error bound satisfies &quot;abserr &lt; value * epsrel&quot;</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">3.9</span>, A, <span class="at">method =</span> <span class="st">&quot;imhof&quot;</span>, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="dv">0</span>, <span class="at">epsrel =</span> <span class="fl">1e-6</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; [1] 0.9944167</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; [1] 3.325725e-08</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="do">## This one violates &quot;abserr &lt; value * epsrel&quot;,</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="do">## although abserr is a valid error bound</span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;imhof&quot;</span>, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="dv">0</span>, <span class="at">epsrel =</span> <span class="fl">1e-6</span>)</span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt; [1] 0.01611023</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; [1] 4.165996e-07</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="do">## This error bound satisfies &quot;abserr &lt; value * epsrel&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">3.9</span>, A, <span class="at">method =</span> <span class="st">&quot;imhof&quot;</span>, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="dv">0</span>, <span class="at">epsrel =</span> <span class="fl">1e-6</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; [1] 0.9944167</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; [1] 3.325725e-08</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="do">## This one violates &quot;abserr &lt; value * epsrel&quot;,</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="do">## although abserr is a valid error bound</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;imhof&quot;</span>, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="dv">0</span>, <span class="at">epsrel =</span> <span class="fl">1e-6</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; [1] 0.01611023</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; [1] 4.165996e-07</span></span></code></pre></div>
 </div>
 <div id="autoscale_args" class="section level3">
 <h3><code>autoscale_args</code></h3>
@@ -1400,20 +1416,20 @@ default, so that <span class="math inline">\(\max \lambda_i - \min
 (default <code>1</code>); remember that <span class="math inline">\(\min
 \lambda_i\)</span> is negative, so this quantity is sum of the absolute
 values.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="do">## Without autoscale_args</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="do">## We know these are equal</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, B, <span class="at">autoscale_args =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; [1] 0.6376791</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A <span class="sc">*</span> <span class="fl">1e-10</span>, B <span class="sc">*</span> <span class="fl">1e-10</span>, <span class="at">autoscale_args =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; [1] 0.5</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="do">## The latter failed because of numerically small eigenvalues</span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="do">## With autoscale_args = 1 (default)</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A <span class="sc">*</span> <span class="fl">1e-10</span>, B <span class="sc">*</span> <span class="fl">1e-10</span>)</span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; [1] 0.6376791</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="do">## Without autoscale_args</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="do">## We know these are equal</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, B, <span class="at">autoscale_args =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt; [1] 0.6376791</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A <span class="sc">*</span> <span class="fl">1e-10</span>, B <span class="sc">*</span> <span class="fl">1e-10</span>, <span class="at">autoscale_args =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt; [1] 0.5</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="do">## The latter failed because of numerically small eigenvalues</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="do">## With autoscale_args = 1 (default)</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A <span class="sc">*</span> <span class="fl">1e-10</span>, B <span class="sc">*</span> <span class="fl">1e-10</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; [1] 0.6376791</span></span></code></pre></div>
 </div>
 <div id="trim_values" class="section level3">
 <h3><code>trim_values</code></h3>
@@ -1435,40 +1451,40 @@ these functions try to return exact <code>0</code> or <code>1</code>
 when <span class="math inline">\(q\)</span> is outside the possible
 range of <span class="math inline">\(Q\)</span> (as numerically
 determined).</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="do">## Result without trimming;</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="do">## (typically) negative density, which is absurd</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="do">## In this case, error interval typically spans across 0</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>     <span class="at">trim_values =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt; [1] -4.638309e-17</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; [1] 8.043729e-08</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="do">## Result with trimming (default)</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; Warning in dqfr(1.2, diag(1:30), return_abserr_attr = TRUE): values &lt; 0 trimmed</span></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; up to tol_zero</span></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; [1] 2.220446e-14</span></span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#&gt; [1] 8.043726e-08</span></span>
-<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="do">## Note that the actual value is only bounded by</span></span>
-<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="do">## 0 and abserr</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="do">## Result without trimming;</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="do">## (typically) negative density, which is absurd</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="do">## In this case, error interval typically spans across 0</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>     <span class="at">trim_values =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; [1] -4.638309e-17</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; [1] 8.043729e-08</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="do">## Result with trimming (default)</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co">#&gt; Warning in dqfr(1.2, diag(1:30), return_abserr_attr = TRUE): values &lt; 0 trimmed</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#&gt; up to tol_zero</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#&gt; [1] 2.220446e-14</span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co">#&gt; [1] 8.043726e-08</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="do">## Note that the actual value is only bounded by</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="do">## 0 and abserr</span></span></code></pre></div>
 </div>
 </div>
 <div id="saddlepoint-approximation-1" class="section level2">
 <h2>Saddlepoint approximation</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="do">## Used in pqfr(..., method = &quot;butler&quot;)</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>pqfr_butler <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>                        <span class="at">order_spa =</span> <span class="dv">2</span>, <span class="at">stop_on_error =</span> <span class="cn">FALSE</span>, <span class="at">use_cpp =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>                        <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>                        <span class="at">epsabs =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">^</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>), <span class="at">epsrel =</span> <span class="dv">0</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>                        <span class="at">maxiter =</span> <span class="dv">5000</span>) { ... }</span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="do">## Used in dqfr(..., method = &quot;butler&quot;)</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>dqfr_butler <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>                        <span class="at">order_spa =</span> <span class="dv">2</span>, <span class="at">stop_on_error =</span> <span class="cn">FALSE</span>, <span class="at">use_cpp =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>                        <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>                        <span class="at">epsabs =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">^</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>), <span class="at">epsrel =</span> <span class="dv">0</span>,</span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>                        <span class="at">maxiter =</span> <span class="dv">5000</span>) { ... }</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="do">## Used in pqfr(..., method = &quot;butler&quot;)</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>pqfr_butler <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>                        <span class="at">order_spa =</span> <span class="dv">2</span>, <span class="at">stop_on_error =</span> <span class="cn">FALSE</span>, <span class="at">use_cpp =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>                        <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>                        <span class="at">epsabs =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">^</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>), <span class="at">epsrel =</span> <span class="dv">0</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>                        <span class="at">maxiter =</span> <span class="dv">5000</span>) { ... }</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="do">## Used in dqfr(..., method = &quot;butler&quot;)</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>dqfr_butler <span class="ot">&lt;-</span> <span class="cf">function</span>(quantile, A, B, <span class="at">mu =</span> <span class="fu">rep.int</span>(<span class="dv">0</span>, n),</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>                        <span class="at">order_spa =</span> <span class="dv">2</span>, <span class="at">stop_on_error =</span> <span class="cn">FALSE</span>, <span class="at">use_cpp =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>                        <span class="at">tol_zero =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>                        <span class="at">epsabs =</span> .Machine<span class="sc">$</span>double.eps <span class="sc">^</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>), <span class="at">epsrel =</span> <span class="dv">0</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>                        <span class="at">maxiter =</span> <span class="dv">5000</span>) { ... }</span></code></pre></div>
 <p>These functions evaluate the saddlepoint approximations described
 above. They conduct numerical root-finding for the saddlepoint by the
 Brent method (<code>C</code> function
@@ -1495,44 +1511,44 @@ numerical inversion method for a small number of quantiles.</p>
 calls this option). The first-order approximation can be used by setting
 <code>order_spa = 1</code>, but this is usually less accurate and only
 slightly faster than the second-order approximation.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="do">## Default for spa distribution function</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>, <span class="at">order_spa =</span> <span class="dv">2</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.07183068</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="do">## First-order spa</span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>, <span class="at">order_spa =</span> <span class="dv">1</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; [1] 0.0790331</span></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="do">## More accurate numerical inversion</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.2</span>, A)</span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co">#&gt; [1] 0.07359703</span></span>
-<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="do">## Default for density</span></span>
-<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>,</span>
-<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>     <span class="at">order_spa =</span> <span class="dv">2</span>, <span class="at">normalize_spa =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="co">#&gt; [1] 0.3716931</span></span>
-<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a></span>
-<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="do">## First-order</span></span>
-<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>,</span>
-<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>     <span class="at">order_spa =</span> <span class="dv">1</span>, <span class="at">normalize_spa =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a><span class="co">#&gt; [1] 0.4577787</span></span>
-<span id="cb13-25"><a href="#cb13-25" tabindex="-1"></a></span>
-<span id="cb13-26"><a href="#cb13-26" tabindex="-1"></a><span class="do">## Normalized density, second-order</span></span>
-<span id="cb13-27"><a href="#cb13-27" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>,</span>
-<span id="cb13-28"><a href="#cb13-28" tabindex="-1"></a>     <span class="at">order_spa =</span> <span class="dv">2</span>, <span class="at">normalize_spa =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-29"><a href="#cb13-29" tabindex="-1"></a><span class="co">#&gt; [1] 0.3913688</span></span>
-<span id="cb13-30"><a href="#cb13-30" tabindex="-1"></a></span>
-<span id="cb13-31"><a href="#cb13-31" tabindex="-1"></a><span class="do">## Normalized density, first-order</span></span>
-<span id="cb13-32"><a href="#cb13-32" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>,</span>
-<span id="cb13-33"><a href="#cb13-33" tabindex="-1"></a>     <span class="at">order_spa =</span> <span class="dv">1</span>, <span class="at">normalize_spa =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-34"><a href="#cb13-34" tabindex="-1"></a><span class="co">#&gt; [1] 0.4412349</span></span>
-<span id="cb13-35"><a href="#cb13-35" tabindex="-1"></a></span>
-<span id="cb13-36"><a href="#cb13-36" tabindex="-1"></a><span class="do">## More accurate numerical inversion</span></span>
-<span id="cb13-37"><a href="#cb13-37" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, A)</span>
-<span id="cb13-38"><a href="#cb13-38" tabindex="-1"></a><span class="co">#&gt; [1] 0.3837318</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="do">## Default for spa distribution function</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>, <span class="at">order_spa =</span> <span class="dv">2</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; [1] 0.07183068</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="do">## First-order spa</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>, <span class="at">order_spa =</span> <span class="dv">1</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt; [1] 0.0790331</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="do">## More accurate numerical inversion</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.2</span>, A)</span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt; [1] 0.07359703</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="do">## Default for density</span></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a>     <span class="at">order_spa =</span> <span class="dv">2</span>, <span class="at">normalize_spa =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a><span class="co">#&gt; [1] 0.3716931</span></span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a><span class="do">## First-order</span></span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a>     <span class="at">order_spa =</span> <span class="dv">1</span>, <span class="at">normalize_spa =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a><span class="co">#&gt; [1] 0.4577787</span></span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1"></a><span class="do">## Normalized density, second-order</span></span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>,</span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1"></a>     <span class="at">order_spa =</span> <span class="dv">2</span>, <span class="at">normalize_spa =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1"></a><span class="co">#&gt; [1] 0.3913688</span></span>
+<span id="cb14-30"><a href="#cb14-30" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" tabindex="-1"></a><span class="do">## Normalized density, first-order</span></span>
+<span id="cb14-32"><a href="#cb14-32" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>,</span>
+<span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a>     <span class="at">order_spa =</span> <span class="dv">1</span>, <span class="at">normalize_spa =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-34"><a href="#cb14-34" tabindex="-1"></a><span class="co">#&gt; [1] 0.4412349</span></span>
+<span id="cb14-35"><a href="#cb14-35" tabindex="-1"></a></span>
+<span id="cb14-36"><a href="#cb14-36" tabindex="-1"></a><span class="do">## More accurate numerical inversion</span></span>
+<span id="cb14-37"><a href="#cb14-37" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, A)</span>
+<span id="cb14-38"><a href="#cb14-38" tabindex="-1"></a><span class="co">#&gt; [1] 0.3837318</span></span></code></pre></div>
 <p><span class="citation">Paolella (<a href="#ref-Paolella2007">2007</a>, program listing 10.4)</span> noted
 that the second-order approximation for the distribution function can be
 “problematic”, which presumably means that the evaluation result can be
@@ -1546,25 +1562,27 @@ adjust root-finding-related parameters when any doubt exists.</p>
 </div>
 <div id="error-bound" class="section level2">
 <h2>Error bound</h2>
+<div id="pqfr-and-dqfr" class="section level3">
+<h3><code>pqfr()</code> and <code>dqfr()</code></h3>
 <p>Return values from <code>pqfr_imhof()</code> and
 <code>dqfr_broda()</code> have an error bound <code>abserr</code> for
 numerical integration, along with the evaluation result itself.
 Technically, the error bound from the integration algorithm is divided
 by <code>pi</code> before returned, as the evaluation result itself is.
-This can be passed to the external functions as an attribute by setting
-<code>return_abserr_attr = TRUE</code> (as already used in above
-examples):</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.06819534</span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; [1] 9.576418e-08</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt; [1] 0.22202</span></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt; [1] 5.738788e-08</span></span></code></pre></div>
+This can be passed to the external functions and returned as an
+attribute by setting <code>return_abserr_attr = TRUE</code> (as already
+used in above examples):</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">pqfr</span>(<span class="fl">1.5</span>, A, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.06819534</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt; [1] 9.576418e-08</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.5</span>, A, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt; [1] 0.22202</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; [1] 5.738788e-08</span></span></code></pre></div>
 <p>This error bound tries to accommodate the effect of
 <code>trim_values</code>. If the integration result is outside the
 permissible support (e.g., negative density), the possible error bound
@@ -1573,43 +1591,43 @@ calculated accurately). The returned <code>abserr</code> is truncated
 accordingly, unless trimming is beyond the original <code>abserr</code>
 (in which case it is replaced by <code>tol_zero</code>). See this in
 examples:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="do">## Without trimming, result is (typically) negative</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="do">## But note that value + abserr is positive</span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="fl">1e-10</span>, <span class="at">trim_values =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; [1] -2.208719e-18</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt; [1] 2.378926e-12</span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="do">## With trimming, value is replaced by tol_zero</span></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="do">## Note slightly shortened abserr</span></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="fl">1e-10</span>)</span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt; Warning in dqfr(1.2, diag(1:35), return_abserr_attr = TRUE, epsabs = 1e-10):</span></span>
-<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a><span class="co">#&gt; values &lt; 0 trimmed up to tol_zero</span></span>
-<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="co">#&gt; [1] 2.220446e-14</span></span>
-<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
-<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="co">#&gt; [1] 2.356719e-12</span></span>
-<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a></span>
-<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a></span>
-<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a><span class="do">## When untrimmed value + abserr &lt; tol_zero</span></span>
-<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.1</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="fl">1e-15</span>, <span class="at">trim_values =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a><span class="co">#&gt; [1] -3.865257e-18</span></span>
-<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
-<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a><span class="co">#&gt; [1] 7.796129e-16</span></span>
-<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a><span class="do">## True value is somewhere between 0 and value + abserr</span></span>
-<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a><span class="do">## (assuming these are reliable)</span></span>
-<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a></span>
-<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a><span class="do">## When trimmed, abserr reflects tol_zero</span></span>
-<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a><span class="do">## because the true value is between 0 and tol_zero</span></span>
-<span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.1</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb15-32"><a href="#cb15-32" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="fl">1e-15</span>)</span>
-<span id="cb15-33"><a href="#cb15-33" tabindex="-1"></a><span class="co">#&gt; Warning in dqfr(1.1, diag(1:35), return_abserr_attr = TRUE, epsabs = 1e-15):</span></span>
-<span id="cb15-34"><a href="#cb15-34" tabindex="-1"></a><span class="co">#&gt; values &lt; 0 trimmed up to tol_zero</span></span>
-<span id="cb15-35"><a href="#cb15-35" tabindex="-1"></a><span class="co">#&gt; [1] 2.220446e-14</span></span>
-<span id="cb15-36"><a href="#cb15-36" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
-<span id="cb15-37"><a href="#cb15-37" tabindex="-1"></a><span class="co">#&gt; [1] 2.220446e-14</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="do">## Without trimming, result is (typically) negative</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="do">## But note that value + abserr is positive</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="fl">1e-10</span>, <span class="at">trim_values =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt; [1] -2.208719e-18</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt; [1] 2.378926e-12</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="do">## With trimming, value is replaced by tol_zero</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="do">## Note slightly shortened abserr</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.2</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="fl">1e-10</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co">#&gt; Warning in dqfr(1.2, diag(1:35), return_abserr_attr = TRUE, epsabs = 1e-10):</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="co">#&gt; values &lt; 0 trimmed up to tol_zero</span></span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#&gt; [1] 2.220446e-14</span></span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a><span class="co">#&gt; [1] 2.356719e-12</span></span>
+<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a><span class="do">## When untrimmed value + abserr &lt; tol_zero</span></span>
+<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.1</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="fl">1e-15</span>, <span class="at">trim_values =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a><span class="co">#&gt; [1] -3.865257e-18</span></span>
+<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a><span class="co">#&gt; [1] 7.796129e-16</span></span>
+<span id="cb16-26"><a href="#cb16-26" tabindex="-1"></a><span class="do">## True value is somewhere between 0 and value + abserr</span></span>
+<span id="cb16-27"><a href="#cb16-27" tabindex="-1"></a><span class="do">## (assuming these are reliable)</span></span>
+<span id="cb16-28"><a href="#cb16-28" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" tabindex="-1"></a><span class="do">## When trimmed, abserr reflects tol_zero</span></span>
+<span id="cb16-30"><a href="#cb16-30" tabindex="-1"></a><span class="do">## because the true value is between 0 and tol_zero</span></span>
+<span id="cb16-31"><a href="#cb16-31" tabindex="-1"></a><span class="fu">dqfr</span>(<span class="fl">1.1</span>, <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>), <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-32"><a href="#cb16-32" tabindex="-1"></a>     <span class="at">epsabs =</span> <span class="fl">1e-15</span>)</span>
+<span id="cb16-33"><a href="#cb16-33" tabindex="-1"></a><span class="co">#&gt; Warning in dqfr(1.1, diag(1:35), return_abserr_attr = TRUE, epsabs = 1e-15):</span></span>
+<span id="cb16-34"><a href="#cb16-34" tabindex="-1"></a><span class="co">#&gt; values &lt; 0 trimmed up to tol_zero</span></span>
+<span id="cb16-35"><a href="#cb16-35" tabindex="-1"></a><span class="co">#&gt; [1] 2.220446e-14</span></span>
+<span id="cb16-36"><a href="#cb16-36" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb16-37"><a href="#cb16-37" tabindex="-1"></a><span class="co">#&gt; [1] 2.220446e-14</span></span></code></pre></div>
 <p>When <code>log</code>/<code>log.p = TRUE</code>, <code>abserr</code>
 is transformed so that it is a conservative absolute error bound on the
 log scale. That is, if the original value and its error bound is denoted
@@ -1625,6 +1643,52 @@ which case it should be taken as <span class="math inline">\(\delta
 calculated as
 <code>ifelse(abserr &gt; ans, Inf, -log1p(-abserr/ans))</code>.</p>
 </div>
+<div id="qqfr" class="section level3">
+<h3><code>qqfr()</code></h3>
+<p>The option <code>return_abserr_attr = TRUE</code> is available in
+<code>qqfr()</code> as well:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="fu">qqfr</span>(<span class="fl">0.95</span>, A, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co">#&gt; [1] 3.587557</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co">#&gt; [1] 6.648746e-06</span></span></code></pre></div>
+<p>In <code>qqfr()</code>, numerical errors arise from the root-finding
+with <code>stats::uniroot()</code> as well as in propagation from
+<code>pqfr()</code>. When <code>return_abserr_attr = TRUE</code>, it
+tries to evaluate a conservative error bound as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Store the estimated error in root-finding
+<code>uniroot()$estim.prec</code> as <span class="math inline">\(\delta
+q_{\mathrm{rf}}\)</span></li>
+<li>Store that in <code>pqfr()</code> at the root as <span class="math inline">\(\delta F\)</span></li>
+<li>If <span class="math inline">\(\delta F \neq 0\)</span>, calculate
+the density <span class="math inline">\(f\)</span> and its error bound
+<span class="math inline">\(\delta f\)</span> at the root using
+<code>dqfr(..., method = &quot;broda&quot;)</code>, so that the conservative slope
+of the tangent there is <span class="math inline">\(b = \max ( f -
+\delta f , 0 )\)</span>. The error <span class="math inline">\(\delta
+q_{\mathrm{p}}\)</span> in the root arising from <code>pqfr()</code> is
+at most <span class="math inline">\(b^{-1} \delta F\)</span>. If <span class="math inline">\(\delta F = 0\)</span>, <span class="math inline">\(\delta q_{\mathrm{p}} = 0\)</span> regardless of
+<span class="math inline">\(b\)</span>.</li>
+<li>The total error in the quantile is <span class="math inline">\(\delta q_{\mathrm{rf}} + \delta
+q_{\mathrm{p}}\)</span></li>
+</ol>
+<p>If <code>log.p = TRUE</code>, the root-finding is done on <span class="math inline">\(\log F\)</span>, so the slope used in 3 is
+replaced by <span class="math inline">\(b = \max ( f - \delta f , 0 ) /
+F\)</span>.</p>
+<p>For <code>probability = 0</code> or <code>1</code>, the quantile
+corresponds to the minimum or maximum of the ratio, and the above error
+bound does not apply. At present, an <em>arbitrary</em> value of
+<code>.Machine$double.eps * 100</code> (~<code>2.2e-14</code>) is
+returned as an error bound for a finite minimum/maximum, although the
+actual error in calculation can be larger.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">qqfr</span>(<span class="dv">0</span>, A, <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;abserr&quot;)</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt; [1] 2.220446e-14</span></span></code></pre></div>
+</div>
+</div>
 <div id="distribution-of-powers" class="section level2">
 <h2>Distribution of powers</h2>
 <p>For completeness, <code>pqfr()</code> and <code>dqfr()</code> can be
@@ -1637,8 +1701,8 @@ return appropriate results typically by transforming those from
 <p>For the rest of this section, consider the distribution and density
 functions of <span class="math inline">\(R = Q^p\)</span> at <span class="math inline">\(r = q^p\)</span>. The Jacobian for the density is
 <span class="math inline">\(\left| \frac{\mathrm{d} q}{\mathrm{d} r}
-\right| =  \frac{1}{p} \left| r \right| ^ {\frac{1}{p} -
-1}\)</span>.</p>
+\right| =
+\frac{1}{p} \left| r \right| ^ {\frac{1}{p} - 1}\)</span>.</p>
 <div id="when-mathbfa-is-nonnegative-definite-or-p-is-an-odd-integer" class="section level3">
 <h3>When <span class="math inline">\(\mathbf{A}\)</span> is nonnegative
 definite or <span class="math inline">\(p\)</span> is an odd
@@ -1715,46 +1779,46 @@ error,
 <h1>Graphical examples</h1>
 <p>First we compare evaluation methods for the distribution
 function:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>qseq <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="fl">0.8</span>, <span class="fl">4.2</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="do">## Generate p-value sequences</span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="do">## Warning is expected</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>pseq_inv <span class="ot">&lt;-</span> <span class="fu">pqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;imhof&quot;</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>                 <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>pseq_ser <span class="ot">&lt;-</span> <span class="fu">pqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;forchini&quot;</span>,</span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>                 <span class="at">check_convergence =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co">#&gt; Warning in p_A1B1_Ed(quantile, A, B, mu, m, stop_on_error, thr_margin, nthreads, : problem in gsl_sf_hyperg_2F1_e():</span></span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co">#&gt;   evaluation failed due to singularity</span></span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co">#&gt;   max iteration reached</span></span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>pseq_spa <span class="ot">&lt;-</span> <span class="fu">pqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>)</span>
-<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a></span>
-<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="do">## Maximum error in numerical inversion;</span></span>
-<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="do">## looks small enough</span></span>
-<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">attr</span>(pseq_inv, <span class="st">&quot;abserr&quot;</span>))</span>
-<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a><span class="co">#&gt; [1] 1.269026e-06</span></span>
-<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a><span class="do">## Graphical comparison</span></span>
-<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))</span>
-<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a><span class="fu">plot</span>(qseq, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;q&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;F(q)&quot;</span>)</span>
-<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a><span class="fu">lines</span>(qseq, pseq_inv, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
-<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a><span class="fu">lines</span>(qseq, pseq_ser, <span class="at">col =</span> <span class="st">&quot;tomato&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb16-26"><a href="#cb16-26" tabindex="-1"></a><span class="fu">lines</span>(qseq, pseq_spa, <span class="at">col =</span> <span class="st">&quot;slateblue&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb16-27"><a href="#cb16-27" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;inversion&quot;</span>, <span class="st">&quot;series&quot;</span>, <span class="st">&quot;saddlepoint&quot;</span>),</span>
-<span id="cb16-28"><a href="#cb16-28" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;gray&quot;</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;slateblue&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>qseq <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="fl">0.8</span>, <span class="fl">4.2</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="do">## Generate p-value sequences</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="do">## Warning is expected</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>pseq_inv <span class="ot">&lt;-</span> <span class="fu">pqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;imhof&quot;</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>                 <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>pseq_ser <span class="ot">&lt;-</span> <span class="fu">pqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;forchini&quot;</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>                 <span class="at">check_convergence =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co">#&gt; Warning in p_A1B1_Ed(quantile, A, B, mu, m, stop_on_error, thr_margin, nthreads, : problem in gsl_sf_hyperg_2F1_e():</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="co">#&gt;   evaluation failed due to singularity</span></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="co">#&gt;   max iteration reached</span></span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>pseq_spa <span class="ot">&lt;-</span> <span class="fu">pqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a><span class="do">## Maximum error in numerical inversion;</span></span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a><span class="do">## looks small enough</span></span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">attr</span>(pseq_inv, <span class="st">&quot;abserr&quot;</span>))</span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a><span class="co">#&gt; [1] 1.269026e-06</span></span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a><span class="do">## Graphical comparison</span></span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))</span>
+<span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a><span class="fu">plot</span>(qseq, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;q&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;F(q)&quot;</span>)</span>
+<span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a><span class="fu">lines</span>(qseq, pseq_inv, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a><span class="fu">lines</span>(qseq, pseq_ser, <span class="at">col =</span> <span class="st">&quot;tomato&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a><span class="fu">lines</span>(qseq, pseq_spa, <span class="at">col =</span> <span class="st">&quot;slateblue&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;inversion&quot;</span>, <span class="st">&quot;series&quot;</span>, <span class="st">&quot;saddlepoint&quot;</span>),</span>
+<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;gray&quot;</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;slateblue&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="do">## Logical vector to exclude q around eigenvalues of A</span></span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>avoid_evals <span class="ot">&lt;-</span> ((qseq <span class="sc">%%</span> <span class="dv">1</span>) <span class="sc">&gt;</span> <span class="fl">0.05</span>) <span class="sc">&amp;</span> ((qseq <span class="sc">%%</span> <span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fl">0.95</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="do">## Numerical comparison</span></span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="fu">all.equal</span>(pseq_inv[avoid_evals], pseq_ser[avoid_evals],</span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>          <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 0.0007499845&quot;</span></span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="fu">all.equal</span>(pseq_inv[avoid_evals], pseq_spa[avoid_evals],</span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>          <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 0.009893572&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="do">## Logical vector to exclude q around eigenvalues of A</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>avoid_evals <span class="ot">&lt;-</span> ((qseq <span class="sc">%%</span> <span class="dv">1</span>) <span class="sc">&gt;</span> <span class="fl">0.05</span>) <span class="sc">&amp;</span> ((qseq <span class="sc">%%</span> <span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fl">0.95</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="do">## Numerical comparison</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="fu">all.equal</span>(pseq_inv[avoid_evals], pseq_ser[avoid_evals],</span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>          <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 0.0007499845&quot;</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="fu">all.equal</span>(pseq_inv[avoid_evals], pseq_spa[avoid_evals],</span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>          <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 0.009893572&quot;</span></span></code></pre></div>
 <p>Around the eigenvalues of <code>A</code>, the series expression is
 slow to converge; this could partly be mitigated by using larger
 <code>m</code> (default <code>100</code>), but that will usually be
@@ -1764,42 +1828,42 @@ these points, the series and numerical inversion methods yield very
 similar values. The saddlepoint approximation yields slightly inaccurate
 result, but is usually the fastest among these methods.</p>
 <p>Next, we compare methods for the probability density:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="do">## Generate p-value sequences</span></span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>dseq_inv <span class="ot">&lt;-</span> <span class="fu">dqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;broda&quot;</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>                 <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>dseq_ser <span class="ot">&lt;-</span> <span class="fu">dqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;hillier&quot;</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>                 <span class="at">check_convergence =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>dseq_spa <span class="ot">&lt;-</span> <span class="fu">dqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>)</span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="do">## Maximum error in numerical inversion;</span></span>
-<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="do">## looks small enough</span></span>
-<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">attr</span>(dseq_inv, <span class="st">&quot;abserr&quot;</span>))</span>
-<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="co">#&gt; [1] 8.574178e-07</span></span>
-<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a></span>
-<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="do">## Graphical comparison</span></span>
-<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))</span>
-<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a><span class="fu">plot</span>(qseq, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.8</span>),</span>
-<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;q&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;f(q)&quot;</span>)</span>
-<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a><span class="fu">lines</span>(qseq, dseq_inv, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
-<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a><span class="fu">lines</span>(qseq, dseq_ser, <span class="at">col =</span> <span class="st">&quot;tomato&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a><span class="fu">lines</span>(qseq, dseq_spa, <span class="at">col =</span> <span class="st">&quot;slateblue&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;inversion&quot;</span>, <span class="st">&quot;series&quot;</span>, <span class="st">&quot;saddlepoint&quot;</span>),</span>
-<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;gray&quot;</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;slateblue&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="do">## Generate p-value sequences</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>dseq_inv <span class="ot">&lt;-</span> <span class="fu">dqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;broda&quot;</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>                 <span class="at">return_abserr_attr =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>dseq_ser <span class="ot">&lt;-</span> <span class="fu">dqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;hillier&quot;</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>                 <span class="at">check_convergence =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>dseq_spa <span class="ot">&lt;-</span> <span class="fu">dqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="do">## Maximum error in numerical inversion;</span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a><span class="do">## looks small enough</span></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">attr</span>(dseq_inv, <span class="st">&quot;abserr&quot;</span>))</span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="co">#&gt; [1] 8.574178e-07</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a><span class="do">## Graphical comparison</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>))</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a><span class="fu">plot</span>(qseq, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.8</span>),</span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;q&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;f(q)&quot;</span>)</span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a><span class="fu">lines</span>(qseq, dseq_inv, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a><span class="fu">lines</span>(qseq, dseq_ser, <span class="at">col =</span> <span class="st">&quot;tomato&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a><span class="fu">lines</span>(qseq, dseq_spa, <span class="at">col =</span> <span class="st">&quot;slateblue&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;inversion&quot;</span>, <span class="st">&quot;series&quot;</span>, <span class="st">&quot;saddlepoint&quot;</span>),</span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;gray&quot;</span>, <span class="st">&quot;tomato&quot;</span>, <span class="st">&quot;slateblue&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYAAAAEgCAIAAAAyuTMGAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAgAElEQVR4nO3dd0BTV98H8HMzSNhJgDBFhhAQBwqiIhXR2qoM7YNYtWpR6nxtXTwVtHaIVWu1WkcV28dH6xYHiEhbRWzdo4CACqjsKSuMBAhJ7vtH+lDKjBDuCfD7/AX3ntz79Rh/3nXOJUiSRFjFxMQcPXq0vr7e398/MDDw8OHDGzZsKC8vZ7PZn3322YYNGwiCwJsQANBDGHh3HxERMWvWrFGjRhkZGS1ZsuTRo0c///zz+vXrXV1d79y589VXX5mami5atKibe/nkk0+uX7+uksCgNTqd7ubmxmBg/i6B3mXWrFmTJk0i8B4BjRw5csyYMT/88ANC6NChQ8uXL9+2bVtISIhi7YYNG3755ZeEhIRu7sXExGTmzJnDhg3rblzQlk2bNn388cd8Ph93ENBrxMfHGxoa7tu3D5FYaWlpxcTEKH4uLS1FCN2+fbtpbWxsrLa2dvf3YmxsfPny5e5vB7Rp0KBBL168wJ0C9Cb79u1buXIlSZI0vIXQ3Nw8NTVV8fOrV68QQi9fvmxam5GRMWDAADzJAAA9D/N5+6JFi7744ouioiIul3v48OFRo0Zt2LDBzMxs5MiRd+7c2bx587Jly/AmBAD0HMwFKDg4WCQSHTlypLGx0d/ff+/evStWrHjnnXcUa729vTds2IA3IQCg52AuQAwGIywsLCwsrGnJjz/+uG7dukePHgkEAjc3N4zZAAA9TR1vnTo4ODg4OCCEGhoapFKptrY27kQAgB6hjgWoSWBg4JkzZ0glHhRITU0NDAxsb63i/hoAQN2odQHy8vLS0dFRpuXgwYN/+uknmUzW5lp3d3eV5gIAqIZaF6AlS5YsWbJEmZY0Gs3Z2bm9tTCYAwD1hPk5oOYkEklZWVllZSXuID0rPT3d1NS0t+8CAJXAX4Dy8vI2btxoY2PDZrONjIx4PB6bzbazswsNDc3KysKdTvVMTU3379/f23cBgEpgPgVLTEz08PAwMDDw8fFxcHDg8XgkSQqFwoyMjHPnzoWHh8fHxw8fPhxvSNXS09Pz9/dX1dakUilBEHQ6ved2AUAPwjskZMKECVOnThWLxa1XNTY2zpkz5+233+7+XlgslvqMBUtLSzMxMSFJMj8/38rKavPmzXw+X19fPyQkhCTJadOmbdmypakli8WqrKxMSUkZP368vr7+pEmTbt68SZJkdnb2oEGDjh8/bmRklJ+fv2nTJlNTU11dXT8/P6FQ2LQLkiTj4+NdXFx0dHRGjRp169at9vbbHTAWDLwpdRkLlpCQEBQUpKmp2XoVg8FYsWLF48ePqUlSW1tb02319fVvtNPc3NysrKzc3NyoqKhvvvkmLS1t1qxZkZGRirURERHTp09nMpmTJ0+ePXt2Xl7eypUrAwICFGemxcXFd+/ezcjISElJCQ8Pj4uLS0tLKy4ubn7yVVxc7Ofnt3bt2oKCguXLl/v4+JSXl7e5X9V1JABvAPMpmL29/Y0bN9o7X4iLixMIBBTEaGxsTE9PJ7s9M4menp69vb3y7eVyeXBwMIvF8vT0FAgE5eXl06dPX7p0aX5+voWFxblz57Zt2xYTE8PhcJYvX44QmjFjxrFjxy5cuBAQEFBbWxsWFsbhcBobG6VSaU5OzqRJk+7cuYP+N6wXIRQZGTl27Ni5c+cihBYuXHjkyJGYmJhJkya13m83/+AAdA3mAhQSEqL4L33mzJmOjo5cLpcgCMU1oMjIyKioqLNnz1IQg8lkuri4ULCjFlgs1uDBgxU/Kyb04nA4b7/9dlRU1KRJk0pKSt59993vvvsuLy/P2tq66VOjR49GCGlqahoYGCCEfHx8Pv/88w0bNmRkZEycOHHHjh1Njx0UFBTY2Ng0fdDW1jY/P7/N/QKABeYvn7+/f3R09K5du4KCgpovJwjCy8srOjp66tSpuLJRoM0HlGbNmnX8+PHy8vIPPviAwWCYmJh4enrGxMQo1qampvL5/Lq6uqYLz9nZ2b6+vqtWraqoqAgNDQ0ODt61a5dilbm5+aNHj5q2nJ2dPWHChPb2CwD18N+G9/b2vnHjRkVFRWpq6rVr165du5acnFxWVhYXF9e3q097pk+ffu/evWPHji1YsAAhNG3atIcPH544cUIkEkVHR48ePbqqqqp5+9jY2Pfeey8vL48gCBqNJpFImm/q7t27ERERdXV1J0+eTEpK8vHxofrPA0D71OXwm8vlcrlcJycn3EHw09fXnzhxYlZWluLZbkNDw6ioqNWrVy9dutTKyurUqVN2dnY5OTlN7YOCgh4+fOjs7NzY2Oju7n7o0KHGxkbFKlNT08jIyODg4EWLFjk4OFy5csXQ0LCgoADPHwyAVjDPCU0NNpsdERHh6+uLO0jfZGdnFxsbO2jQINxBQK+xf//+9PT0ffv24T8FAwD0W1CAAADYQAECAGADBQgAgA0UIAAANlCAegGY3wf0VVCAegGY3wf0VVCA1J3ivSAwvw/ok6AAYfD555+bmZnp6elNnz5dMa4iNTXV09NTMRL1999/Rwjl5OTY2dmdOHHCzMzs999/bzoFa92yzQ0C0Cuoy1AMzGqq0Pa1SC7/61f7IWjhuq4sV8Ivv/wSHh5+8+ZNfX399957b//+/atXr548efLnn39+5cqVuLi4gICABw8e0Gi0phl/SkpKFJ8ViUStW6anp7fY4MaNG1XTLQD0MChACCGEdPXR2m1I/r+3+mhqd3G5ElpP33Px4sWOZ/xpKkBtzg0kEAhabBCA3gIK0P8Y8FWzvDOtp+/Jzs7ueMafJm22bL1BxXtlAVB/cA2IaorpexISEnJzc01NTYODgxUz/mT9T3R09KJFixBCLaaaRwi12bL1BnH8sQDoCihAVGs9fU+nM/40abNlB/MBAaDm4BSMaq2n7+l0xp8mbba0tLRssUHq/1AAdA0UIKqxWKyjR4+2WOju7v7w4cPmSwYOHFhTU6P4WSAQFBUVtdeyzQ0C0CvAKRgAABsoQAAAbKAAAQCwgQIEAMAGClDvMHny5AsXLrS58NWrV1wut/u7gEk/APWgAIG/dDrpx1tvvZWXl0dZHtAfQAECf9HT0+t40o+0tDR4yhGoFhQgDFrPnnH+/PmhQ4dqaWnZ2tqeOHFC0ezMmTMCgcDQ0HDFihVN//LbXNik9WQdUVFRU6dO9fHx0dbWFggETRu/efOmq6urrq6um5vb7du3UbNTsIKCAmtr67CwMGNjYw6HExoaihB69913KyoqPD09Hzx4QEUfgX6CVD+VlZUZGRkymUxVG2SxWJcvX+6gQUO97Fp08Z/3K7r5szJiY2P5fP6zZ88KCgrc3Ny2bNlSUVHBZDLPnj0rFAqPHTumra0tk8mSkpK0tLSioqIqKysVJeD8+fNtLnz58iWHwyFJsra21sTE5Icffqiurr506ZKRkVFmZmZkZCRCaOPGjUKhMDo6WktLKzExsaioSFdX9+TJk1VVVUeOHNHX1y8rK0tLSzMxMSFJMj8/n0ajLVy4sL6+/ubNmwRBPH/+nCRJQ0PDly9ftv4TDRo06MWLF2/yFwL6u3379q1cuZIkSfxHQCdOnHB3d09JSUEIlZSU+Pr6crlce3t7Dofz/fffUxajoUEuk5Hd/7lTTdNxGBkZ3blzZ/369To6Ounp6bNmzVIMfxeJRI2NjadOnZozZ46fnx+Hw9m8eTOfz0cItbmwSdNkHbq6ujNmzBg3bpziurWRkdFXX32lr6/v4+Mzd+7cU6dORUZGjh07du7cuXp6egsXLhw6dGhMTEzzTcnl8uDgYBaL5enpKRAIysvLu9ClAHQK81CMvXv3rlq16q233lL8W1qwYMHTp08PHjxoZWV148aN4OBgHo83f/78no6hwaJ5+5t2/2dltJ49w97e/tSpU0ePHtXS0ho8eLCiWWFhoZOTk+JnBoOhePFxmwubtDetx8CBA5sG1tvb2ycmJrJYLBsbm6Zmtra2+fn5isYKLBarKQmDAeN1QE/B/N3as2dPaGjo1q1bEUIlJSW//fbbH3/88dZbbyGEpkyZQqfTd+/eTUEBopJi9oxVq1ZVVFSEhoYGBwd/9NFHP/744927d83MzEQi0ZkzZxBCFhYWr169UnyEJMmCgoL2FjZRTNbRdCyTmprK5/Pv3buXm5srk8kUNSgzM9PMzMzc3PzRo0fNI02YMKH5pgiC6KE/PgDNYT4Fq66udnV1VfxcWlqKEBo5cmTT2vHjx798+RJPsh7TevaMyspKNputqalZV1e3efNmhFBdXd2cOXNOnToVGxsrEom2bduWn5+PEGpzYZP2pvV4/fr15s2bRSLRb7/9dvz48dmzZ0+fPv3u3bsRERF1dXUnT55MSkry8fFRJrxIJOqBLgH9F+YC9NZbb/3nP/9R3M1xcHDQ1dW9f/9+09pbt241nQj0GUFBQSNGjHB2dh44cGBWVtahQ4fmzJkzZMgQa2trV1dXR0fHadOm+fn5DRs27Kefflq9evWAAQOys7Pff/99hFCbC5soJuvYu3cvn88PCQlRTNaBEBo1alRpaamlpeWKFSsOHjzo6upqamoaGRm5bds2Pp+/Z8+eK1euGBoadpp85syZnp6e9+7d66GeAf0R3ovhz58/5/P5Q4YM2bFjR3x8/JYtW8zMzI4cORIfHx8aGspkMk+fPt39vXR6F6wPi4yM9PDw6NFdwF0w8Kaa7oJhvgbk4OBw+/bt3bt3b9++vaKiQrFQMSGpk5PTiRMnZs2ahTUgAKAH4b/BYWdn98MPP3z//ff5+fklJSUVFRVcLtfExKT53RzQZQ4ODoqCDoAawl+AFJhMprW1dYui09DQoHgvKK5UfYBAIBAIBLhTANA2dSlAbQoMDDxz5gxJdv6MX1VVVUREhLzpTYH/JJPJ2lwOAMBLrQuQl5eXjo6OMi2FQmHzB1taUKaEAQCop9YFaMmSJUuWLFGm5cCBA8PDw9tbe+zYMdWFAgCojBoVIIlEUl1dTafTVTK9FgBA/eEfjJqXl7dx40YbGxs2m21kZMTj8dhstp2dXWhoaFZWFu50AIAehPkIKDEx0cPDw8DAwMfHx8HBgcfjkSQpFAozMjLOnTsXHh4eHx8/fPjw7u+opKQkMzOz+9sBrTU2NuKOAHorAu8FWi8vL01NzQsXLmhqarZYJZVKFyxYUFpaeu3atW7uRUdHR0NDA87segiTybx9+7YygzkAUNi/f396evq+ffswHwElJCQcOXKkdfVBCDEYjBUrVvj6+nZ/Lzo6OosXLw4LC+v+pgAAKoT5GpC9vf2NGzfaWxsXFwcP0QHQh2E+AgoJCQkICMjKypo5c6ajoyOXyyUIQnENKDIyMioq6uzZs3gTAjWR/UpEEMRAGy2EUEFuna4eQ4/DxB0KdBfmAuTv7x8dHb1r166goKDmywmC8PLyio6Onjp1Kq5sALtjB7MryiRrNtmTJPo1slhblzFwyUCSRJdOFyASrQwZJJWSZ4/mCQbrurrDBb5eCf9zQN7e3t7e3pWVlYWFhUVFRQghY2Njc3NzHo+HOxrA4Neo4ge3K0K3OjCZNPcJhnxTFkKIINDSdbaKBgSBVq7/ay5aOp0QDNatq5MhhGqqGm/+Vjraw0DxEdAr4C9AClwul8vlNk14DPqVxkb5n/cr7Rx0DYw0rAZpu4zlMpk0hJCdYycDcQgCNR37sNh0hNDTJ1V8U75cRiIC0Wgwsay6w/8gIgCPblc8eSgkaAghJHDSNeR35RBGg0XzDTDzmsJHCN29Wf7F6qcFuXWqzQlUTl2OgEA/9PB2RUWZZMoME3cvQ3cvVT5G5DHJ0MZem2uggRAqe93QtYoGKABHQAAPqZRMTapyHKbXQ9s3G6CpqUVHCP30fdaxg9k9tBfQTXAEBDpCkuTt27dHXTjArhUqltTrcO5NX6r4eWxU+JsuZ9bWxEvdHWkvDPTqracvzczJzszpynaUX+42EdlHnkMfZckRQUOkCrefPHetm5tbl/oV/AXzUAxqmJiYwJPQXSMWi5OTk8eMGaOqDT55LHx4u2JOkKWOLtX/+V05X/QyrXbFp7YaGio48CdJ8tatW+PGjWt66SNQnroMxQBqTiQSqWpK3KyXIitb7eGunOGuHJVs8E15+5s+ulOBVPQfLkEQmpqaYrFYV1dXNVvsl+AaEOgIIy7SLOVu97cTd7XkeHiOVNr2nLnUIAjk5sHTYNGyXoh+vVwsl3e3FFk9uSX987ZKsvVbUIBAR2h5mQwDfve34zyKuz7MQfF0D3Z8U1Zmhij7ZXff8srU1CRepakkUr+lFl8IoLaYpYXMgYO6/PHC/LrDuzMRQgZGGiy2unzZtHUYy4Ntbex15HKyvq7rLyygmVvTSvJUGKwfUpfvBFBDpEzGrq5gDbTt8hYe36kcOVp9R2nlZdeF/ftZSWF91z7OtBqkUVqk2kj9DVyEBu2qr6psMLXiaGp14bOiWqm2DsPvfTOVp1KhgTZa85dZEV0dscEeYN0gl8mkUjoD/h11ERwBgXbVysi8fyn1VpIW7t8q3/F5usrz9ASHIbp8E1ZluST9ac2bfpag01Pm/buuvosHUABBAQIdEIvFXbsHr6vL+CTUTuV5ek5jI3nsh+ycTPGbflBLS0sk6u7F7P4MChBoV31FmZbWm51/PU2qkstJJ2d9AyONHkrVE/gmrNCtDuYD2pgauGPa2tpQgLoDChBol8XZA7o1lcq3v3uz/NLpAnnvfA+2rj6TwSSeJ1c/ulOh/Kc4r/MMzh/uuVR9Hlw8A20j5XK2sBSZWyr/EcehusNd9RnMXjwLj5Ex6/SRXIGTrpLzvbL5JgjuxHcDHAGBtjXkZ0s1dehaSl0Deni7orJcwjXQ0Nbp3f+lGRqzNu8Zovxs06wB1hqiajlch+4qKECgbZLslw0Gxsq0fPG8NuZiEVMVIzzVx9WLRckJVZ02I+iMBj1efc5LCiL1SX3qSwNUqE4mb3AYoUxLG3vt0K0O1I9u71FDR+r//utrZVqKrR3qqzsvVaBNfepLA1So3NiS5+jccZtnT6pJknRy1u97U1IMsNL6WLknCWqmzpHL5fAGha6BIyDQNrFY3PE9+EaJ/PjhHH1ub7rd3gV7t74oLujoEo+2trZY/MYPEAEFKECgDSRJkkV5HT+FyNSghe0ZYjHwjZ+d6V3Geho8+VPYQQMtLa36ynLK8vQxUIBAGxrys4fGR7R3YlVRLom5UIQQ6tV33JU0ahzvXT+TDhpoaWk5n9kjb4AbYV0BBQi0of7hHw0WNu2tvXgiv49dcu5Ufk7doV2vpI1tzGFGEES9oUnt/ZuUh+oLoACBNmg8vEl769321i5cae35jhGVebAzt9TkcJkFeW2/aEw2eiK68xvFkfqGjgqQXC6vrKyUyXrno/Wgq8TPk+mSeh2XcS2WkySKjiisEjbS6X3/zKsFgkCzF1kOtGn7qrzOhGla+ZmNZSUUp+oDWhYgqVR68eLFRYsW2djYaGho8Hg8DQ0NS0vL+fPnnz59WiKRUBMrKiqqtLSUmn2BFkpEdZXTAwlay+9GSkLVy7Ta3v6sczfFXCi6HVfWYiFdS7vUa0ZpMUxO9sb+/pLJ5fIDBw5YW1tv2LCBxWJ99tlnV65cuXv3bmxs7JYtW7hc7vbt2y0tLb/99lupVNrTsWbMmJGcnNzTewGtyeXygvpGzhjP1quGjtRftcGOweh3hz/NjRlv8Cy5uvVyrXfeyxM1UJ+nt/v7fzMPDw8HB4dLly65urq2brdgwQKEUGpq6sGDB8eOHXvr1i02m9393V+6dOnixYttrtq2bdvRo0cRQsePH+/+joCSSktLdXV1W/zlZjyrqamWuozhEv3v5KsFAyONJWvauDyvr6+PEKqqqlL8AJT0dwE6cuSIg4NDx62HDBly4MCBrKwsWqvj865hsVgXL14Ui8UuLi5M5j9GABYWFsJMK9QjLv7X/J1/NV9CkujnQzlBH1vjiqSG5HLy+69fLFxpzeH+/aW10NQQ/3ZJPyAQX67e5+860mn1aWJtba2hoZrnX6dNm5aQkODi4kKn048dO3bvfxBC+/bta/oZUENSlM9NfcCz+McUHASBvtzlZG2nmtcT9g00GuE8ivPk0T8eUOSbmRnFR8rE8L/mG2jjQMaoMwMGDFDhC50FAsG9e/e8vLxcXFwOHTqkqs2CLhDHRoiGuNFYf51/NUrk/eeBwzflNYXf4lkEpqGx2MKm5loUrki9URt3NHbu3Llo0aKBAwfOnDnTzMysuLj4/PnzZWVlmzdvZrFYijb19fWamip7Bp/JZG7fvn3q1Knz58+/fPnykSNHVLVloLzGynKdhFuy0N1NS36JKq4sp+i+Zy+VklCVmyX29jdV/MqYsYAevk0+1Z+mwcIbrLdoowD98ssvkyZNunr1KuN/LxvZsmWLj49PWlraDz/80HNRPD09k5OTly1bNnTo0J7bC2hP2cPbrBEePPOBTUve8TVhasCxT0dsBTrXrpR4TjbS0WMghLQGO1ebDKh5eNvQYxLuaL1DG6dg8fHxy5YtYzR71RGDwVi+fPnly5d7Og2Hwzlz5sy+fftWr149YMCAnt4daNLY2PhK20B73v8pfk1NrCrIrWOxabSuvjOrn9DSpq/93F5RfRSIlV9k0DTlcjnGVL1IGwWIxWLl5ua2WJibm0tZn86ePXv37t329vYNDQ1wI4waubm5xsbGilPsynLJicM5fWyGw5527lieYtYOXV1dXV3dwsJC3Il6hza+ZNOnT//iiy+io6OblsTExGzatOmdd96hMBhCCAUGBuro6CjTMjk5mde+0tLS16+Vmt2uf2qsLG+8e93S8q+bXxyexqZvB/NN4CrGG7Cy1b525a+hGNbW1lX3bsol8Fxi59q4BrRjx46srCw/Pz8ej2dmZlZYWFhRUeHm5rZnzx6Kw3l5eSlZgIYNG5aZmdnevTkHBwc+n6/SaH2K6NxPJgixWCyxSPY8pdplDLefj7foAjcPnpvHX9Mi6ujoWGQmV0dKOLMW4U2l/tr4nrHZ7Ojo6AcPHty9ezc3N5fP548YMWLKlCnUh1uyZMmSJcq+GpjD4bS3iiDgQka76l6la6c8RJsPIYTO/DfXwIjlMoaLO1Rv9bq44W582fTZ5qxZH9F3hTRO9GEawv98Hfm7AP3nP/8JDAxsmoNq9OjRo0ePbv0BuVx+5syZGTNmvOk7MzslkUiqq6vpdDqXC/8AqCM7vrfh7X9xeEYIoRlzzLm8Pj7Fao/i8pgv02tfZdQOEtgLnccRP+/VX7sFdyi19vc1oOfPnw8bNmz37t3FxcVtNi0vLz9w4MCIESNu3bqlqiehEUJ5eXkbN260sbFhs9lGRkY8Ho/NZtvZ2YWGhmZlZalqL6BNZc9T5Ajp+81J/rOqTizjGWjAwWJ3MDVowV8KBgl0EEK6c5ex8jOFedm4Q6m1v4+Adu7cOW/evO3bt4eEhAwaNGjUqFFmZmZ6eno1NTXFxcWPHz9+/vz5tGnTDh8+3OaRUdckJiZ6eHgYGBj4+Pg4ODjweDySJIVCYUZGxrlz58LDw+Pj44cPH66q3YHmpFJpRmXNkLXbMl+Izx3LC92q7Fgc0KlbcWUWAzV1Qr/PysoaZTEQLgK0h2h94ba4uPjXX3+9efNmdnZ2eXk5j8eztLQcP378lClTLCwsVLt7Ly8vTU3NCxcutH6uWiqVLliwoLS09Nq1a93ci4mJyeLFi8PCwrq5nT7mxYsXJEna29vXiWX1dTKuAZx8qczzlOpLpwo2bHN88uQJl8ttusMIFPbv35+enr5v376/j4Dy8vJMTEyYTGZDQ8P8+fM//PBDCnIkJCQcOXKkzVEdDAZjxYoVvr6+FMToh2qTHxNJjzjvfpiTKR5oo6Wp1dde7IWX41A9uzBdhJC9vX3OxRP1npPZFla4Q6mjv68BOTo6Pnr0CCFkZWVF2WyE9vb2N27caG9tXFycQCCgJkm/IhPVMo9+Z2xrd3h3TmE78xyDbmIwCKmUjL1YYaipJTv4NSnr8Wn8eqO/j4AmTJjw/vvvKyblCAgIaBp32lz3z4ZaCAkJCQgIyMrKmjlzpqOjI5fLJQhCcQ0oMjIyKirq7Nmzqt0jQAjV/LSTsHbQH/f2AnPxACsV380ETRgMorys4cmgt900HwlPH+bOW4E7kdr5uwDt37//4MGD1dXV169ft7a2Vvld9jb5+/tHR0fv2rUrKCio+XKCILy8vKKjo6dOnUpBjH6l5u4Nds6LtJnfOSME1aenBX1sTZJI5rqeHbZS5OKh7TgMdyL18ncBsrKy+uabbxBC2dnZe/bsoexhHG9vb29v78rKysLCwqKiIoSQsbGxubk5jwev21Y9iURSkJuTPXTd02tVzu7GuOP0fYrRvDlVegUuK02SE2zsndp73WP/1MaT0LGxsdTn4HK5XC7XycmJ+l33HyRJPnv2TH/0hBFs0/F6zM4/AFREj8P46bGhf6BxRkaGo6Mj7jhqBEY89yO5z1JLixGPY25sytbShv+HqWPIZ321x2mEi0NtbW1RXsupJvozKED9Re29eMbhH65HEmIRTFWDAZNJo9FolUWm5DdbRM/hlVN/gQLULzQU5rFOHdCav/CTDfamFip4nxLoGh1d9lnNQPrhbdJqYeet+wEoQH2fTCyq/m7bM6dZXFc3c0uVzeQNusDdy/DjrWPrHUbU7fkcngxCUID6g+KY80dq/css23jZKaAeg0lozl8TU+ZWGH0Bdxb8YN6pPi4zM1NoO3TuKMEAK3ixl7rQ0GRWWY2NK62cVFBgbm6OOw5OUID6ssLCovt/lAd84NzirbMAL4JAS9bYisXipKRELS2t/jwBFpyC9Vm1D/+4vyW6vEgPqo8aIgikra2lzbK98+VZcXoq7jjYQAHqm+pePNc4/v3YD5yXrbPDnQW0a5C9YYJsZOW+fQ0F/fThIChAfVBDQc7jnRLe40IAABlSSURBVOdfT11iOs4N3q6jznT0GJ/vd9Oe7EnuCmmsoGgKCrUC386+RiKRJIRHXadNNpjwNu4sQCmc6XN/0fW/t+eiTCbDnYVqUID6FKlU+uTJE+PA6Rt2u8EcY72I20fT7kjHPHnypL/VIChAfYdU0nDxTGJ1ha6NzUAWG/5mexOzAZqhW4draWmlpqb2q9c6w9e0j5CJRWVfrE+6KR/ubI07C+gigUBw/Ujlky/29J+HpKEA9QUycW3d9mBNM97WH90MjeGVyr0VQRB+i4dnVvNqdm3sJzUIClCvJ6sT3//s0PWG8Xr/9xmC17/0cnZDuO99O4dolFTs2NQfahAUoN5NJpNl3Lt1XzLCbeV0ggZ/m30BTYPFWrNtR7rfHxfutn5rVh8DX9leTHHPi2ZutW7/JLMBMLtz36GhxQ5a71TN5PT5a9JQgHqrxoqy2O9jr0Uy4M1FfZK9o57PjKEEwXh86opMLMIdp6dAAeqVJK+LpNvWSGrIhcuh+vRZBEGYm9mej+M/++JbaU017jg9AgpQ71Ofl1W25auGkW/5f+nHN4V7Xn0Zl6exZvNwHTOOZOvqPjlWAwpQLyOqrLy9JeI/sg85c5bgzgKoYDpA03rN6tfW7gmbfqirrcEdR8WgAPUmQqEw6dkzrv+01dtG4c4CKMWZ+eFluc+vvz4VifrU9SCYkKzXKCko/DU21+dfg3m8/jt/Vb/F4TE37XYWVpYlJSU5OTlxOBzciVQDjoB6B+GFY7e/viIs5fbn2fP6OTabbmJqzKJb/xp6QXgjBncc1VCLAiSTybKysurr61ssr6+vLykpwRJJjZCk8KedrHvXJwVP+b9P7eFR535uiLNxuYlL1cWrwvNHcWdRAcwFSCqVfv7557q6ujY2Njweb/369c2nIzh79qyJiQnGeNjJZbL8bV+demAtX7+HY2NJp0P56e/YbPqKL5xNNoQwH9woD/+2tz8qjfka0O7du7dt27Zq1aqxY8feuXPnu+++Ky0tPXLkCN5UaqKxsfFpSnK2dJjNVDdtIwPccYAaYZkNSJ627dfTL6Y+TnEe6USn99a5nzAXoJ9++unf//731q1bEUL+/v4uLi7z5s2bMWOGn58f3mDYicXix4+SLQbwZ3zugjsLUEejvMwlpAZCpUlJSUOHDtXQ0MCdqCswn4IVFBR4eHg0/frBBx/Mmzdv9erVra8H9Ss1j+882Rp+5RTb3MwKdxagvsZNNHIZNZhGcp/t2CfOeIo7TldgLkCDBw+Oi4trvmTXrl0ikSg4OBhXJOyqrpxjH9vNGjHm41B7mNgQdIrLMT6V5Vm1Z3f17eu4s7wxzKdg8+fP/+STT6RSqY+Pz/jx41ksFp/P/+9//+vn51dTU2Nqaoo3HsVIuVx4ZHdKgmTEuu0jbQfhjgN6B6tB2ht3DqflLWf9tF1YlMcJWIg70RvAXIA+/vjjqqqqb7/9du/evS9fvrS1tUUITZs2LTIycunSpYWFhXjjUUkmk6Un/pmeZpxjPNLDyhZ3HNCb6HOZiOuSOH3780t3XQTJ9kOHEr3keQ38T0J/9tlnn376aX5+fvOXZPv4+OTk5Pzxxx8vXrzAmI0yDQ0NKSkpOjp6U8Jma2jQaXC7Hbw5x3FWic+J1xUiUWLikCFDesVlafwFCCGkoaFhY2PTYiGDwRg3btzo0aOxRKKSKOnhs5uJ10vdP90sgCd9QJex2fRFK21IksxIz3xx7IjNxAmatg64Q3VCLQpQewIDA8+cOaPMo1YlJSVHjx5tb61IJFLbIXzVMRGav5wtH7ruXV8LqD6g+wiCIOT84w9dVifsbPzgfT2PybgTdUStC5CXl5eOjo6Sjaurq9t7qZt6Pi1KymRVP+0se/bafN32KVZwyRmojP1g3cXBjjThcvapb4T52ZzZi3EnapdaF6AlS5YsWaLUrDfGxsZff/11e2uPHj2qra2tulwqIJVKM29eS00zydD2CYHqA1TNVqCDkEuu5q7UHy8LTK5bj59IU8t3FqhRAZJIJNXV1XQ6vc8P+K6rq0tOTuYMsHFb7eljwsYdB/RZhrZm6fzJ9FpJxZ9/Dh06lM1Wuy8b/qKYl5e3ceNGGxsbNpttZGTE4/HYbLadnV1oaGhWVhbudKpXc/fG45PRKQ/0BQKBxUAtDRb+vwLQV2lp09dssn/XZ4ixsXF69CVRagLuRC1hPgJKTEz08PAwMDDw8fFxcHDg8XgkSQqFwoyMjHPnzoWHh8fHxw8fPhxvSJUhSeGZH7XuX8+0CB3hYYw7DehHWAz+mev2y2/8KPV7W3+qP+44f8NcgNauXevp6XnhwgVNTc0Wq3bv3r1gwYLg4OBr165hyaZacklD9f6vxYWVmiG7PjQdgDsO6F+MzdgfrrST1KzRuLBZ+OKp/v9tIOhqcfkF8/F/QkJCUFBQ6+qDEGIwGCtWrHj8+DH1qVSuoaEhN+JYVO7wy8afsKD6ABwchuoNcreXrd/7IMso59zPUqlavPcZcwGyt7e/ceNGe2vj4uL6wFv3amtrExISSPfJroFvB62GMRYAJzaXm2E8+aF0zOPHj8ViMe44uE/BQkJCAgICsrKyZs6c6ejoyOVyCYJQXAOKjIyMioo6e/Ys3oTdJLwR86CALtEUjB1rjTsLAIjBJFauHySXk69fFz+7ddOeb6A3AudgA8wFyN/fPzo6eteuXUFBQc2XEwTh5eUVHR09depUXNm6iZTLq47tZSc/SGKF+s6B+QyBuiAIRKcTRoYm+6NM55HH5e9kcN6bjysM/gtR3t7e3t7elZWVhYWFRUVFCCFjY2Nzc3Mej4c7WtfJxKLa779EtSL6pr3reUa44wDQEoNJLFxlV569cmB8mDAvS39FKMFgYohB/S7bxOVyuVyuk5MT7iAq0NDQUPnjdxcKJvBdhwRA9QHqapBAZ5BAR+ax79GX/7X7cTd/8VoGg+qCoC4FqM+oqalJSUkxm75geKb2mPFw5gXUHV1bJ8NsWlqdyPnPP4cNG9bmLemeAwVIlaqTHv7xot7A2MrKytLKCncaAJTz0WpbsUhaXVOa9PChk6mRnv1gynYN4wBURnj+KDqy99Z1PUOjPj6WDfQxBIG0dRimpqaPbujnf/dTVdwVynYNR0CqQJLC4wdYKQ9oIdu+NrJgMGFaH9ArTZ09KPWPQNvLXwsLsjkLVlKwRzgC6i65XF52aMeluwZ3xoWxzAZA9QG9l52jzntLhxGh31UkZZX+fICCibTgCKhbpFJpSkoKw8FdR9Ny/DQYYwH6Ag0T81jDxYycco9nzxwdHXt0IiEoQF0nkUju3X2ipanrPMF5aC95CQEAyljyb/vcTFG9NDc5OXnIkCE9d3seTsG6qKEgR7R+2a9naDS5cW95BQoASmIyabYC3cGDB6fF177e9GljZXkP7QgKUFfUZ79EO/5NvjVxSbCDy1i45wX6JoIgjAT2F+umSLeuaSx73RO7gAL0xuqzX7zacSjBaSHvX/OsBqnXVNMAqNakafyVe96ROLtLt62VvC5S+fahAL0ZsViceeuPE43vm04cjzsLABTR/2DZgcYlD8/dqK+vV+2WoQC9AZFIlJiYaPiu77YfR8GxD+hXpgU5F+m7JiUlNTQ0qHCzUICU1VCU99uxW1nPjfh8Pu4sAFBt8HC9gPkCc3PzZzeuN1ZVqmqzUICU0lhWQn67Pi9be+K78LAP6L+MDM1ORxhlbt4hralWyQahAHVOWi2U7vi0fpTnJzveMhtA6VhhANQKW5MetM6xhjewfmeIXKKCczEoQJ0gSTJ92/69tR9y5izFnQUA/AROui6hSxrY+sXff9v9rUEB6sTLFy/S2U6+S0fiDgKAuiBotNJ31x1M93z5Iqebm4KhGB0pKiqqqKz02+hL/UxxAKgzh5GG78yxz8vN5HC1DQ0Nu7wdOAJql/BlxtHvc3Q1B0H1AaC1tyYZj3Qd/Oxxcn1FWZc3AgWobTKxqGrvPmNdwmFIL54bH4Aepa+vn3xT4/aXp0iZrGtbgALUtpqj33NseIs2jqbRYKApAO2avdqVZNCrIv7btY9DAWpD2Z3bMX8aay9agzsIAOrO0IQ9PthP+1ZM3au0LnwcClBLMpns1oUMmZ0TQ4+DOwsAvQDLbMBtweLfDt7rwgyKUIBaysrKEnzkPn/9GNxBAOg1XBZMTpANz88veNMPQgH6B5lMlvb0tY2NFUwxBoDy9DjMtV/aFhTkv+lBkBoVIIlEUlZWVlmpsnFuXZB45fGjOCabzcaYAYDeSF9fv6GoviQt840+hb8A5eXlbdy40cbGhs1mGxkZ8Xg8NpttZ2cXGhqalZVFcRjt36NmeKh4xhMA+omS59Lfwx+80UcwP2KXmJjo4eFhYGDg4+Pj4ODA4/FIkhQKhRkZGefOnQsPD4+Pjx8+fDg1YUSpCdZkFmvmOGp2B0Af884i1xebvpWUFGkYmyr5EcwFaO3atZ6enhcuXGj9Rurdu3cvWLAgODj42rVr1IRJPPeI7+Rj35MvIQGgD+OYcOycNcW/XdSY/39KfgTzP7aEhISgoKDW1QchxGAwVqxY8fjxY2qSSOvEMVmOWh4TqdkdAH0SfZL/9d9pyl+KxlyA7O3tb9y40d7auLg4gUBATZKisvLpc5gWDsoeOgIAWtMROD7RGJmSpOz09ZhPwUJCQgICArKysmbOnOno6MjlcgmCUFwDioyMjIqKOnv2LAUxZDJZfn7+4HGDKdgXAH0YQaDAtZblFYUkaarM+/IwFyB/f//o6Ohdu3YFBQU1X04QhJeXV3R09NSpUymIcf7HxJpG7bFj9SnYFwB9m42tSXVNcebTF7ZD7DttjH+iCW9vb29v78rKysLCwqKiIoSQsbGxubk5j0fRMHRR8mPpoyfTv55Nze4A6NsIgjA3Gvhd6NO1oXT+YNuOG+MvQApcLpfL5To5OTVf2NDQIJVKtbV78AU4ckkD7fj3vvPm6JnAa3YAUA2+Be9d5/Ka47/wt25BHZ6IqUsBalNgYOCZM2eUvKIuFArba0kQhBahUV9RyWAQCKE6KZOppaH4+dq2SAutYUO9pqkwNgBgwmpf8RdXSy+e1Hw3gM2mI4Qa6ySy+no2i4YQYslJgqAhNS9AXl5eOjo6yrRMTk6eMGFCe2tdrIdUZk6MWHdxjmZ0uZzzrXiZqT3NzbNBWix6kGk4erOnyhIDABBCCBF0Ov2jf5//KuHl1RTvufVMDTLxlLCwhrNR94AmUS8Vva/DK0AIEV0YQd/r+Pn5LV682NfXF3cQAABCCO3fvz89PX3fvn1qdAQkkUiqq6vpdDqXy8WdBQBABfzDDtRqMCoAgEowGBUAgA0MRgUAYAODUQEA2GA+AlIMRvX3929zrQoHo965c6e+vt2ZxkpLS5OSkpS85d/TZDJZTU0Nh6MWU+KTJFlRUWFgYIA7yF/Kysq68x5O1VKrMOXl5TweT5nhVxSorq728PDo4BHixMRELS0thL0AUTMYdcqUKTdv3szMbHeyyNTU1NzcXDW5+9bQ0FBTU6Mm32ypVFpeXm5sbIw7CEIIkSRZVFRkZmaGO8hfCgsLTU2VGnJJgZKSEgMDAzV5i29ZWVlqaqqlpWUHbaZMmYIQQiRuV65c8fLyahGOIIiJEydevXqVmgyHDx9evHgxNfvqVGxs7JQpU3Cn+EtKSsqQIUNwp/iLUCjU19fHneJvurq61dXVuFP8ZfDgwU+fPsWd4i/vvPPOr7/+qkxL/PUS+2BUAAAu+AuQQpuDUQEAfRv+BxEBAP0WFCAAADZQgAAA2EABAgBgAwUIAIANFCCEEKLRaGryOBmCMO2j0Wg0dXptpFrlIQiiN4bpFxOSdUooFFZXV3f84CZl6uvrc3Nz7e07f6MABWQyWVpamvo8HpGcnDxs2DDcKf6iVmGePn3q4OBAp9NxB0EIoYyMDEtLSzab3WlLKEAAAGzU5ZgNANAPQQECAGADBQgAgA0UIAAANlCAAADYQAECAGADBQgAgA0UIAAANlCAAADYQAECAGADBQgAgE1/LEDXr1+/fPlyBw0uXLjg5ubG4XAmTpyYlJSEMcylS5eIf1q8eHFPxNi/f/+YMWN0dXUdHBx27twplUrbbEZNzygThrKeqa2tXbNmjY2NjY6Ojqur6/nz59trSUHnKBmGss5pcvXq1UuXLrW3tqOe6dnXc6gfmUzm5uYWHBzcXoMrV64QBLF8+fKIiIgpU6Zoa2vn5ubiCrNz504+n3+omZs3b6o8RlhYGEJo7dq1V65cCQkJYTAYmzZtat2Mmp5RMgw1PUOS5Lx583R1dXfv3n316tWFCxcihK5du9a6GTWdo2QYyjpHIS0tTUtLa968eW2u7bhn+lEBysvLO3DgwPjx4xFCHfyb9/Lyanotl1gsHjBgwIYNG3CFWbFixaRJk1S+9+YaGhr09PQ++eSTpiXr1q3T1NSUSqUtWlLQM8qHoaBnSJIUCoUEQfz888+KX+VyuUAgCAwMbN2Sgs5RPgw1naMgkUhcXFwQQu0VoI57ph+dgqWkpJw+fVoul3cwTUllZWV8fHxAQIDiV01NTW9v79OnT2MJgxDKzMy0tbVV+d6by8/Pr66u9vHxaVoyduzYurq63Nzc5s2o6RklwyBKegYh9Pr1a09PT3d3d8WvBEEYGxuLxeIWzajpHCXDIKo6R2HTpk10Ol1Rg1rrtGf6UQGaOnXqrVu3bt26ZWFh0V6bwsJChJCjo2PTEkdHx+zsbIlEQn0YhFBmZmZOTo6Li4uOjo6zs/Phw4dVGwMhZG5u/vLlS8WxmMKdO3c0NTVNTU2bN6OmZ5QMgyjpGYSQnZ1dfHy84h8zSZKxsbGPHj3y9fVt0YyazlEyDKKqcxBCv//++4EDB44fP85kMtts0GnP9KMCpIzi4mKEUPOXxPN4PJIkq6urqQ8jl8uzs7MfP3784Ycfnjx5ctSoUUuXLt21a5dq98JisWxtbVksluLXkydP7tu3b+XKlS0OzajpGSXDUNMzze3du1dLS2vatGlLly6dN29ei7UUf206DkNZ5wiFwgULFnz77bcdzN7Zac+oy5tR1QRJkgih5rMgK5ZgmelSKpX+/PPPo0aNsrGxQQhNnz5dIpFs3rx5zZo1PTH7b2lp6bp1644fPx4YGLh169YWaynumY7DUNwzCCFfX19LS8u7d+/u2bPHwsJi3bp1zddS3Dkdh6Gsc5YtW+bk5LRs2bIO2nTeMz1zZUqtDRo0qL3rvsnJyQih+/fvNy3Zu3cvi8XCEqa1ixcvIoRevnyp8hgxMTF8Pt/a2joyMrLNBlT2TKdhWuu5nmlhzZo1tra2LRZS/7XpIExrPdE5p0+fNjAwKCoqUvw6ZsyYNi9Cd9ozcAr2D+bm5gRBZGRkNC158eJFx5dpes7r16///PNPstmk3QwGAyGko6Oj2h1dvXrVz89v5syZz549mz59epttKOsZZcJQ1jPnz5/39vZuviMnJ6dXr161uPRLTecoGYaaznnw4EF5ebmpqaniOaP79++fOHGCIIioqKjmzTrtGShA/8Dj8by8vCIjIxW/SqXSmJiYmTNnYgmTnJzs6ura/JZBTEyMpaWlsbGxCvcilUoXL148d+7cAwcOdHBLjpqeUTIMNT2DENLW1r569erjx4+blty7d8/CwkJLS6t5M2o6R8kw1HTO8uXLrzfj6Og4adKk69evN92kU+i8Z1R4VNZbtD7rCQ8Pnz17dn19PUmSV69epdPpX3311e3bt+fOncvlcjMzM7GEkUqlo0eP5vP5YWFhMTExn3zyCY1Gi4iIUG2AuLg4hNCnn3569J/q6upIyntGyTDU9AxJkhKJxN3d3cbG5ujRo7/88ktwcDCNRjt06JBiLcWdo2QYyjqnuRanYMr3DBQgkiTJjz76CCFUW1ur+DUiIsLNzU1fX3/SpEmJiYkYw4jF4tWrVzs4OOjq6rq7u8fGxqo8wKFDh9r8L664uJikvGeUD0NBzyhUV1d/9NFHAoFAMfrh5MmTTauo/9ooGYayzmnSogAp3zPwXjAAADZwDQgAgA0UIAAANlCAAADYQAECAGADBQgAgA0UIAAANlCAAADYQAECAGADBQgAgA0UIAAANlCAAADYQAECAGADBQgAgA0UIAAANlCAAADYQAECAGADBQgAgA0UIAAANlCAAADYQAECAGADBQgAgA0UIAAANlCAAADYQAECAGADBQgAgA0UIAAANlCAAADYQAECAGADBQj0AvX19atWrbK2tjY1Nf3ggw9+/vlnIyMj3KGAChAkSeLOAEAn/Pz8fv/99y+//NLS0vLQoUM3btzg8XilpaW4c4HuggIE1N3Dhw9Hjx4dFRXl5+eHEGpsbLS3t6+trYUC1AfAKRhQd3fu3OFyuYrqgxBiMpkBAQF4IwFVgQIE1F1ubq65uXnzJWZmZrjCANWCAgTUHZ/PLywsbL6kuLgYVxigWlCAgLobMWJERUVFTEyM4lepVHrhwgW8kYCqwEVo0AuMHj06PT19y5YtlpaWBw8evHfvHpPJhIvQfQAUINALCIXCVatWXbt2jUaj+fr6Ojo6hoWFQQHqAxi4AwDQOQ6Hc+zYsaZfw8PDMYYBKgTXgAAA2EABAr0Sm83GHQGoAFwDAr1PXV0di8Wi0eC/z17v/wFXRu7vXfwu5gAAAABJRU5ErkJggg==" /><!-- --></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="do">## Numerical comparison</span></span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="fu">all.equal</span>(dseq_inv, dseq_ser, <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 8.806696e-07&quot;</span></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="fu">all.equal</span>(dseq_inv, dseq_spa, <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 0.05382156&quot;</span></span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="do">## Do densities sum up to 1?</span></span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="fu">sum</span>(dseq_inv <span class="sc">*</span> <span class="fu">diff</span>(qseq)[<span class="dv">1</span>])</span>
-<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co">#&gt; [1] 1.001194</span></span>
-<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="fu">sum</span>(dseq_ser <span class="sc">*</span> <span class="fu">diff</span>(qseq)[<span class="dv">1</span>])</span>
-<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="co">#&gt; [1] 1.001193</span></span>
-<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="fu">sum</span>(dseq_spa <span class="sc">*</span> <span class="fu">diff</span>(qseq)[<span class="dv">1</span>])</span>
-<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a><span class="co">#&gt; [1] 0.9613508</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="do">## Numerical comparison</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="fu">all.equal</span>(dseq_inv, dseq_ser, <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 8.806696e-07&quot;</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="fu">all.equal</span>(dseq_inv, dseq_spa, <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 0.05382156&quot;</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a><span class="do">## Do densities sum up to 1?</span></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a><span class="fu">sum</span>(dseq_inv <span class="sc">*</span> <span class="fu">diff</span>(qseq)[<span class="dv">1</span>])</span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a><span class="co">#&gt; [1] 1.001194</span></span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a><span class="fu">sum</span>(dseq_ser <span class="sc">*</span> <span class="fu">diff</span>(qseq)[<span class="dv">1</span>])</span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a><span class="co">#&gt; [1] 1.001193</span></span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a><span class="fu">sum</span>(dseq_spa <span class="sc">*</span> <span class="fu">diff</span>(qseq)[<span class="dv">1</span>])</span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a><span class="co">#&gt; [1] 0.9613508</span></span></code></pre></div>
 <p>The series expression looks successful across the range. The
 saddlepoint approximation usually fails to capture a fancy profile as
 seen in the above plot. That will be less of a concern as the
@@ -1811,18 +1875,18 @@ methods are expected to approach <code>1</code> as we use a finer
 sequence. The saddlepoint approximation density could be normalized at
 the cost of slight computational time, although the normalization may or
 may not yield more accurate results at a particular quantile:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="do">## Normalized saddlepoint approximation density</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>dseq_spa_normalized <span class="ot">&lt;-</span> <span class="fu">dqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>                            <span class="at">normalize_spa =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="fu">all.equal</span>(dseq_inv, dseq_spa_normalized,</span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>          <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 0.05248723&quot;</span></span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="fu">sum</span>(dseq_spa_normalized <span class="sc">*</span> <span class="fu">diff</span>(qseq)[<span class="dv">1</span>])</span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="co">#&gt; [1] 1.000242</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="do">## Normalized saddlepoint approximation density</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>dseq_spa_normalized <span class="ot">&lt;-</span> <span class="fu">dqfr</span>(qseq, A, <span class="at">method =</span> <span class="st">&quot;butler&quot;</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>                            <span class="at">normalize_spa =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="fu">all.equal</span>(dseq_inv, dseq_spa_normalized,</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>          <span class="at">check.attributes =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 0.05248822&quot;</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="fu">sum</span>(dseq_spa_normalized <span class="sc">*</span> <span class="fu">diff</span>(qseq)[<span class="dv">1</span>])</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="co">#&gt; [1] 1.000244</span></span></code></pre></div>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
-<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0" line-spacing="2">
 <div id="ref-BrodaPaolella2009" class="csl-entry">
 Broda, S. and Paolella, M. S. (2009) Evaluating the density of ratios of
 noncentral quadratic forms in normal variables. <em>Computational
@@ -1843,7 +1907,7 @@ doi:<a href="https://doi.org/10.48550/arXiv.0803.2132">10.48550/arXiv.0803.2132<
 <div id="ref-ButlerPaolella2008" class="csl-entry">
 Butler, R. W. and Paolella, M. S. (2008) Uniform saddlepoint
 approximations for ratios of quadratic forms. <em>Bernoulli</em>,
-<strong>14</strong>, 140–154. doi:<a href="https://doi.org/10.3150/07-BEJ616">10.3150/07-BEJ616</a>.
+<strong>14</strong>, 140–154. doi:<a href="https://doi.org/10.3150/07-BEJ6169">10.3150/07-BEJ6169</a>.
 </div>
 <div id="ref-Chikuse1980msa" class="csl-entry">
 Chikuse, Y. (1980) Invariant polynomials with matrix arguments and their

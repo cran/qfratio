@@ -59,10 +59,10 @@ devtools::install_github("watanabe-j/qfratio", dependencies = TRUE, build_vignet
 
 ### Dependencies
 
-    Imports: Rcpp, MASS
+    Imports: Rcpp, MASS, stats
     LinkingTo: Rcpp, RcppEigen
-    Suggests: gsl, mvtnorm, CompQuadForm, graphics, stats, testthat (>= 3.0.0),
-              rlang (>= 0.4.7), knitr, rmarkdown
+    Suggests: mvtnorm, CompQuadForm, graphics, testthat (>= 3.0.0),
+              knitr, rmarkdown
 
 If installing from source, you also need [`pandoc`](https://pandoc.org)
 for correctly building the vignette. For `pandoc < 2.11`,
@@ -209,14 +209,14 @@ plot(mom_A2B3)
 ### Distributions
 
 This functionality concerns evaluation of the (cumulative) distribution
-function and probability density of
+function, probability density, and quantiles of
 $\left( \mathbf{x}^T \mathbf{A} \mathbf{x} /  \mathbf{x}^T \mathbf{B} \mathbf{x} \right) ^ p$,
 where
 $\mathbf{x} \sim N_n \left(\boldsymbol{\mu}, \boldsymbol{\Sigma}\right)$.
 
-These are handled by `pqfr(quantile, A, B, p, ...)` and
-`dqfr(quantile, A, B, p, ...)`, whose usage mimics that of regular
-distribution-related functions.
+These are implemented in `pqfr(quantile, A, B, p, ...)`,
+`dqfr(quantile, A, B, p, ...)`, and `qqfr(probability, A, B, p, ...)`,
+whose usage mimics that of regular distribution-related functions.
 
 ``` r
 ## Example parameters
@@ -232,6 +232,10 @@ pqfr(quantiles, A, B)
 #> [1] 0.0000000 0.4349385 0.8570354 0.9816503 1.0000000
 dqfr(quantiles, A, B)
 #> [1] 0.00000000 0.57079928 0.21551262 0.06123152 0.00000000
+
+## 95, 99, and 99.9 percentiles of the same
+qqfr(c(0.05, 0.01, 0.001), A, B, lower.tail = FALSE)
+#> [1] 3.111025 3.654857 3.921405
 
 ## Comparing profiles
 qseq <- seq.int(1 / sqrt(nv) - 0.2, nv + 0.2, length.out = 100)
@@ -307,7 +311,7 @@ doi:[10.1016/j.csda.2008.10.035](https://doi.org/10.1016/j.csda.2008.10.035).
 
 Butler, R. W. and Paolella, M. S. (2008) Uniform saddlepoint
 approximations for ratios of quadratic forms. *Bernoulli*, **14**,
-140–154. doi:[10.3150/07-BEJ616](https://doi.org/10.3150/07-BEJ616).
+140–154. doi:[10.3150/07-BEJ6169](https://doi.org/10.3150/07-BEJ6169).
 
 </div>
 

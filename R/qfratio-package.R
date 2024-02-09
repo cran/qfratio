@@ -5,9 +5,9 @@
 #' forms in normal variables, specifically using recursive algorithms developed
 #' by Bao et al. (2013) and Hillier et al. (2014) (see also Smith, 1989, 1993;
 #' Hillier et al., 2009).  It also provides some functions to evaluate
-#' distribution and probability density functions of simple ratios of quadratic
-#' forms in normal variables using several algorithms.  It was originally
-#' developed as a supplement to Watanabe (2023) for evaluating
+#' distribution, quantile, and probability density functions of simple ratios
+#' of quadratic forms in normal variables using several algorithms.  It was
+#' originally developed as a supplement to Watanabe (2023) for evaluating
 #' average evolvability measures in evolutionary quantitative genetics,
 #' but can be used for a broader class of statistics.
 #'
@@ -27,9 +27,9 @@
 #' related to the top-order zonal and invariant
 #' polynomials of matrix arguments.
 #'
-#' The package also has some functions to evaluate distribution and
-#' density functions of simple ratios of quadratic forms: \code{\link{pqfr}()}
-#' and \code{\link{dqfr}()}.
+#' The package also has some functions to evaluate distribution, quantile, and
+#' density functions of simple ratios of quadratic forms: \code{\link{pqfr}()},
+#' \code{\link{qqfr}()}, and \code{\link{dqfr}()}.
 #'
 #' See package vignettes (\code{vignette("qfratio")} and
 #' \code{vignette("qfratio_distr")}) for more details.
@@ -39,7 +39,7 @@
 #' \packageIndices{qfratio}
 #'
 #' @section Author/Maintainer:
-#' Junya Watanabe <jw2098@cam.ac.uk>
+#' Junya Watanabe <Junya.Watanabe@uab.cat>
 #'
 #' @references
 #' Bao, Y. and Kan, R. (2013) On the moments of ratios of quadratic forms in
@@ -127,9 +127,11 @@
 #' ## A Monte Carlo mean
 #' mean(rqfp(1000, A = A, B = B, D = D, p = 1, q = 1, r = 1, mu = mu))
 #'
-#' ## Distribution function and density of (x^T A x) / (x^T B x)
+#' ## Distribution and quantile functions,
+#' ## and density of (x^T A x) / (x^T B x)
 #' quantiles <- 0:nv + 0.5
-#' pqfr(quantiles, A, B)
+#' (probs <- pqfr(quantiles, A, B))
+#' qqfr(probs, A, B)     # p = 1 yields maximum of ratio
 #' dqfr(quantiles, A, B)
 #'
 #' @docType package
@@ -203,16 +205,52 @@ NULL
 #'
 #' @return
 #'   All return a list via \code{Rcpp::List} of the following (as appropriate):
-#'   \itemize{
-#'      \item{\code{$ans}: }{Exact moment, from \code{double} or
+#'   \describe{
+#'      \item{\code{$ans}}{Exact moment, from \code{double} or
 #'                           \code{long double}}
-#'      \item{\code{$ansseq}: }{Series for the moment, from
+#'      \item{\code{$ansseq}}{Series for the moment, from
 #'                              \code{Eigen::Array}}
-#'      \item{\code{$errseq}: }{Series of errors, from \code{Eigen::Array}}
-#'      \item{\code{$twosided}: }{Logical, from \code{bool}}
-#'      \item{\code{$dimnished}: }{Logical, from \code{bool}}
+#'      \item{\code{$errseq}}{Series of errors, from \code{Eigen::Array}}
+#'      \item{\code{$twosided}}{Logical, from \code{bool}}
+#'      \item{\code{$dimnished}}{Logical, from \code{bool}}
 #'   }
 #'
 #' @name qfrm_cpp
+#'
+NULL
+
+## Documentation of wrapper of gsl_sf_hyperg
+#' Internal C++ wrappers for \proglang{GSL}
+#'
+#' These are internal \proglang{C++} functions which wrap hypergeometric
+#' functions from \proglang{GSL} with vectorization.  These are for
+#' particular use cases in this package, and direct access by the user is
+#' **not** assumed.
+#'
+#' @param a,b
+#'   Parameters of hypergeometric functions; passed as \code{double}
+#' @param bvec,cvec
+#'   Parameters of hypergeometric functions; passed as
+#'   \code{Rcpp::NumericVector}
+#' @param Amat
+#'   Parameter of hypergeometric functions; passed as
+#'   \code{Rcpp::NumericMatrix}.  Dimension must be square of the length of
+#'   \code{cvec}.
+#' @param x
+#'   Argument of hypergeometric functions; passed as \code{double}
+#'
+#' @return
+#'   Return a list via \code{Rcpp::List} of the following:
+#'   \describe{
+#'      \item{\code{$val}}{Evaluation result, numeric}
+#'      \item{\code{$err}}{Absolute error, numeric}
+#'      \item{\code{$status}}{Error code, integer}
+#'   }
+#'   In \code{hyperg_1F1_vec_b}, these are vectors from
+#'   \code{Rcpp::NumericVector} and \code{Rcpp::IntegerVector}, whereas in
+#'   \code{hyperg_2F1_mat_a_vec_c}, they are matrices
+#'   from \code{Rcpp::NumericMatrix} and \code{Rcpp::IntegerMatrix}.
+#'
+#' @name gsl_wrap
 #'
 NULL

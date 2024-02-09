@@ -1,13 +1,18 @@
 ##### pqfr #####
 #' Probability distribution of ratio of quadratic forms
 #'
-#' The user is supposed to use the exported functions \code{dqfr()} and
-#' \code{pqfr()}, which are (pseudo-)vectorized with respect to
-#' \code{quantile}.  The actual calculations are done by one
-#' of the internal functions, which only accommodate a length-one
+#' The user is supposed to use the exported functions \code{dqfr()},
+#' \code{pqfr()}, and \code{qqfr()}, which are (pseudo-)vectorized with respect
+#' to \code{quantile} or \code{probability}.  The actual calculations are done
+#' by one of the internal functions, which only accommodate a length-one
 #' \code{quantile}.  The internal functions skip most checks on argument
 #' structures and do not accommodate \code{Sigma}
 #' to reduce execution time.
+#'
+#' \code{qqfr()} is based on numerical root-finding with \code{pqfr()} using
+#' \code{\link[stats]{uniroot}()}, so its result can be affected by the
+#' numerical errors in both the algorithm used in \code{pqfr()} and
+#' root-finding.
 #'
 #' \code{dqfr_A1I1()} and \code{pqfr_A1B1()} evaluate the probability density
 #' and (cumulative) distribution function, respectively,
@@ -66,6 +71,8 @@
 #'
 #' @param quantile
 #'   Numeric vector of quantiles \eqn{q}
+#' @param probability
+#'   Numeric vector of probabilities
 #' @param A,B
 #'   Argument matrices.  Should be square.  \code{B} should be nonnegative
 #'   definite.  Will be automatically symmetrized in \code{dqfr()} and
@@ -87,23 +94,23 @@
 #' @param method
 #'   Method to specify an internal function (see \dQuote{Details}).  In
 #'   \code{dqfr()}, options are:
-#'   \itemize{
-#'     \item{\code{"broda"}: }{default; uses \code{dqfr_broda()}, numerical
+#'   \describe{
+#'     \item{\code{"broda"}}{default; uses \code{dqfr_broda()}, numerical
 #'           inversion of Broda & Paolella (2009)}
-#'     \item{\code{"hillier"}: }{uses \code{dqfr_A1I1()}, series expression
+#'     \item{\code{"hillier"}}{uses \code{dqfr_A1I1()}, series expression
 #'           of Hillier (2001)}
-#'     \item{\code{"butler"}: }{uses \code{dqfr_butler()}, saddlepoint
+#'     \item{\code{"butler"}}{uses \code{dqfr_butler()}, saddlepoint
 #'           approximation of Butler & Paolella (2007, 2008)}
 #'   }
 #'   In \code{pqfr()}, options are:
-#'   \itemize{
-#'     \item{\code{"imhof"}: }{default; uses \code{pqfr_imhof()}, numerical
+#'   \describe{
+#'     \item{\code{"imhof"}}{default; uses \code{pqfr_imhof()}, numerical
 #'           inversion of Imhof (1961)}
-#'     \item{\code{"davies"}: }{uses \code{pqfr_davies()}, numerical inversion
+#'     \item{\code{"davies"}}{uses \code{pqfr_davies()}, numerical inversion
 #'           of Davies (1973, 1980)}
-#'     \item{\code{"forchini"}: }{uses \code{pqfr_A1B1()}, series expression
+#'     \item{\code{"forchini"}}{uses \code{pqfr_A1B1()}, series expression
 #'           of Forchini (2002, 2005)}
-#'     \item{\code{"butler"}: }{uses \code{pqfr_butler()}, saddlepoint
+#'     \item{\code{"butler"}}{uses \code{pqfr_butler()}, saddlepoint
 #'           approximation of Butler & Paolella (2007, 2008)}
 #'   }
 #' @param trim_values
@@ -137,21 +144,28 @@
 #' @param nthreads
 #'   Number of threads used in \proglang{OpenMP}-enabled \proglang{C++}
 #'   functions (see \dQuote{Multithreading} in \code{\link{qfrm}})
-#' @param epsabs,epsrel,limit,maxiter
+#' @param epsabs,epsrel,limit,maxiter,epsabs_q,maxiter_q
 #'   Optional arguments used in numerical integration or root-finding
-#'   algorithm (see vignette: \code{vignette("qfratio_distr")})
+#'   algorithm (see vignette:
+#'   \code{vignette("qfratio_distr")}).  In \code{qqfr()}, \code{epsabs_q}
+#'   and \code{maxiter_q} are used in root-finding for quantiles whereas
+#'   \code{epsabs} and \code{maxiter} are passed to \code{pqfr()} internally.
 #' @param ...
-#'   Additional arguments passed to internal functions
+#'   Additional arguments passed to internal functions.  In \code{qqfr()},
+#'   these are passed to \code{pqfr()}.
 #'
 #' @return
-#' \code{dqfr()} gives the density, and \code{pqfr()} gives the
-#' distribution function or \eqn{p}-values corresponding to \code{quantile}.
+#' \code{dqfr()} and \code{pqfr()} give the density and distribution
+#' (or \eqn{p}-values) functions, respectively, corresponding to
+#' \code{quantile}, whereas \code{qqfr()} gives the quantile function
+#' corresponding to \code{probability}.
 #'
 #' When \code{return_abserr_attr = TRUE}, an absolute
 #' error bound of numerical evaluation is returned as an attribute; this
-#' feature is currently available with \code{dqfr(..., method = "broda")} and
-#' \code{pqfr(..., method = "imhof")} only.  This error bound is automatically
-#' transformed when trimming happens with \code{trim_values} (above) or when
+#' feature is currently available with \code{dqfr(..., method = "broda")},
+#' \code{pqfr(..., method = "imhof")}, and \code{qqfr(..., method = "imhof")}
+#' (all default) only.  This error bound is automatically transformed when
+#' trimming happens with \code{trim_values} (above) or when
 #' \code{log}/\code{log.p = TRUE}.  See vignette for details
 #' (\code{vignette("qfratio_distr")}).
 #'
@@ -159,16 +173,16 @@
 #' (for density and lower \eqn{p}-value, respectively), and only this is passed
 #' to the external function by default.  Other components may be inspected
 #' for debugging purposes:
-#' \itemize{
-#'   \item{\code{dqfr_A1I1()} and \code{pqfr_A1B1()}: }{have \code{$terms},
+#' \describe{
+#'   \item{\code{dqfr_A1I1()} and \code{pqfr_A1B1()}}{have \code{$terms},
 #'      a vector of \eqn{0}th to \eqn{m}th order terms.}
-#'   \item{\code{pqfr_imhof()} and \code{dqfr_broda()}: }{have \code{$abserr},
+#'   \item{\code{pqfr_imhof()} and \code{dqfr_broda()}}{have \code{$abserr},
 #'      absolute error of numerical integration; the one returned from
 #'      \code{CompQuadForm::\link[CompQuadForm]{imhof}()} is divided by
 #'      \code{pi}, as the integration result itself is (internally).  This is
 #'      passed to the external functions when \code{return_abserr_attr = TRUE}
 #'      (above).}
-#'   \item{\code{pqfr_davies()}: }{has the same components as
+#'   \item{\code{pqfr_davies()}}{has the same components as
 #'      \code{CompQuadForm::\link[CompQuadForm]{davies}()} apart from \code{Qq}
 #'      which is replaced by \code{p = 1 - Qq}.}
 #' }
@@ -238,13 +252,22 @@
 #' dqfr(1.5, A)
 #' pqfr(1.5, A)
 #'
+#' ## 95 percentile for the same
+#' qqfr(0.95, A)
+#' qqfr(0.05, A, lower.tail = FALSE) # same
+#'
 #' ## P{ (x^T A x) / (x^T B x) <= 1.5} where x ~ N(mu, Sigma)
 #' pqfr(1.5, A, B, mu = mu, Sigma = Sigma)
 #'
 #' ## These are (pseudo-)vectorized
 #' qs <- 0:nv + 0.5
 #' dqfr(qs, A, B, mu = mu)
-#' pqfr(qs, A, B, mu = mu)
+#' (pres <- pqfr(qs, A, B, mu = mu))
+#'
+#' ## Quantiles for above p-values
+#' ## Results equal qs, except that those for prob = 0 and 1
+#' ## are replaced by mininum and maximum of the ratio
+#' qqfr(pres, A, B, mu = mu) # = qs
 #'
 #' ## Various methods for density
 #' dqfr(qs, A, method = "broda")   # default
@@ -265,6 +288,7 @@
 #' ## To see error bounds
 #' dqfr(qs, A, return_abserr_attr = TRUE)
 #' pqfr(qs, A, return_abserr_attr = TRUE)
+#' qqfr(pres, A, return_abserr_attr = TRUE)
 #'
 NULL
 
@@ -453,7 +477,7 @@ pqfr <- function(quantile, A, B, p = 1, mu = rep.int(0, n), Sigma = diag(n),
 #' exact series expression of Forchini (2002, 2005).
 #'
 #' @rdname pqfr
-#' @order 6
+#' @order 7
 #'
 pqfr_A1B1 <- function(quantile, A, B, m = 100L,
                       mu = rep.int(0, n),
@@ -470,10 +494,6 @@ pqfr_A1B1 <- function(quantile, A, B, m = 100L,
     check_convergence <- match.arg(check_convergence)
     if(!missing(cpp_method)) use_cpp <- TRUE
     cpp_method <- match.arg(cpp_method)
-    if(!use_cpp && !requireNamespace("gsl", quietly = TRUE)) {
-        stop("Package 'gsl' is required to use forchini method\n  ",
-             "with \"use_cpp = FALSE\"")
-    }
     ## If A or B is missing, let it be an identity matrix
     if(missing(A)) {
         if(missing(B)) stop("Provide at least one of A and B")
@@ -567,10 +587,10 @@ pqfr_A1B1 <- function(quantile, A, B, m = 100L,
         ansmat <- t(t(ansmat) - lscf2)
         ansmat <- ansmat - (sum(mu1 ^ 2) + sum(mu2 ^ 2)) / 2
         ansmat <- exp(ansmat)
-        hgres <- gsl::hyperg_2F1(ordmat, 1, n1 / 2 + 1 + seq0m, sum(D1d), give = TRUE, strict = FALSE)
+        hgres <- hyperg_2F1_mat_a_vec_c(ordmat, 1, n1 / 2 + 1 + seq0m, sum(D1d))
         hgstatus <- hgres$status[ordmat <= m + 2]
         if(any(hgstatus)) {
-            ermsg <- "problem in gsl::hyperg_2F1():"
+            ermsg <- "problem in gsl_hyperg_2F1():"
             eunimpl <- any(hgstatus == 24)
             eovrflw <- any(hgstatus == 16)
             emaxiter <- any(hgstatus == 11)
@@ -653,7 +673,7 @@ pqfr_A1B1 <- function(quantile, A, B, m = 100L,
 #' exact numerical inversion algorithm of Imhof (1961).
 #'
 #' @rdname pqfr
-#' @order 7
+#' @order 8
 #'
 pqfr_imhof <- function(quantile, A, B, mu = rep.int(0, n),
                        autoscale_args = 1, stop_on_error = TRUE, use_cpp = TRUE,
@@ -715,10 +735,10 @@ pqfr_imhof <- function(quantile, A, B, mu = rep.int(0, n),
 #' This is **experimental** and may be removed in the future.
 #'
 #' @rdname pqfr
-#' @order 8
+#' @order 9
 #'
 pqfr_davies <- function(quantile, A, B, mu = rep.int(0, n),
-                        autoscale_args = 1,
+                        autoscale_args = 1, stop_on_error = NULL,
                         tol_zero = .Machine$double.eps * 100, ...) {
     ## If A or B is missing, let it be an identity matrix
     if(missing(A)) {
@@ -768,7 +788,7 @@ pqfr_davies <- function(quantile, A, B, mu = rep.int(0, n),
 #' saddlepoint approximation of Butler & Paolella (2007, 2008).
 #'
 #' @rdname pqfr
-#' @order 9
+#' @order 10
 #'
 pqfr_butler <- function(quantile, A, B, mu = rep.int(0, n),
                         order_spa = 2, stop_on_error = FALSE, use_cpp = TRUE,
@@ -914,7 +934,7 @@ dqfr <- function(quantile, A, B, p = 1, mu = rep.int(0, n), Sigma = diag(n),
                     return_abserr_attr = return_abserr_attr, m = m,
                     tol_zero = tol_zero, tol_sing = tol_sing, ...))
     }
-    eigB <- eigen(B, symmetric = TRUE, only.values = normalize_spa)
+    eigB <- eigen(B, symmetric = TRUE, only.values = !normalize_spa)
     LB <- eigB$values
     ## Check basic requirements for arguments
     stopifnot(
@@ -997,19 +1017,9 @@ dqfr <- function(quantile, A, B, p = 1, mu = rep.int(0, n), Sigma = diag(n),
                       function(q) dqfr_butler(q, A, B, mu,
                                               tol_zero = tol_zero, ...)$d)
         if(normalize_spa) {
-            if(any(LB < tol_sing)) {
-                LA <- eigen(A, symmetric = TRUE, only.values = TRUE)$values
-                l_intg <- if(min(LA) > -tol_sing) 0 else -Inf
-                u_intg <- if(max(LA) <  tol_sing) 0 else  Inf
-            } else {
-                Ad <- with(eigB, crossprod(crossprod(A, vectors), vectors))
-                BiA <- t(Ad / sqrt(LB)) / sqrt(LB)
-                LBiA <- eigen(BiA, symmetric = TRUE, only.values = TRUE)$values
-                l_intg <- min(LBiA)
-                u_intg <- max(LBiA)
-            }
+            r_intg <- range_qfr(A, B, eigB, tol = tol_zero)
             intg_res <- stats::integrate(
-                dqfr, l_intg, u_intg, A = A, B = B, mu = mu, log = FALSE,
+                dqfr, r_intg[1], r_intg[2], A = A, B = B, mu = mu, log = FALSE,
                 method = "butler", normalize_spa = FALSE, tol_zero = tol_zero,
                 tol_sing = tol_sing, ...)
             ans <- ans / intg_res$value
@@ -1063,7 +1073,7 @@ dqfr <- function(quantile, A, B, p = 1, mu = rep.int(0, n), Sigma = diag(n),
 #' \eqn{\bm{\mu} = \mathbf{0}_n}{\mu = 0_n}.
 #'
 #' @rdname pqfr
-#' @order 3
+#' @order 4
 #'
 dqfr_A1I1 <- function(quantile, LA, m = 100L,
                       check_convergence = c("relative", "strict_relative",
@@ -1195,7 +1205,7 @@ dqfr_A1I1 <- function(quantile, LA, m = 100L,
 #' exact numerical inversion algorithm of Broda & Paolella (2009).
 #'
 #' @rdname pqfr
-#' @order 4
+#' @order 5
 #'
 dqfr_broda <- function(quantile, A, B, mu = rep.int(0, n),
                        autoscale_args = 1, stop_on_error = TRUE,
@@ -1271,7 +1281,7 @@ dqfr_broda <- function(quantile, A, B, mu = rep.int(0, n),
 #' saddlepoint approximation of Butler & Paolella (2007, 2008).
 #'
 #' @rdname pqfr
-#' @order 5
+#' @order 6
 #'
 dqfr_butler <- function(quantile, A, B, mu = rep.int(0, n),
                         order_spa = 2, stop_on_error = FALSE, use_cpp = TRUE,
@@ -1359,4 +1369,176 @@ dqfr_butler <- function(quantile, A, B, mu = rep.int(0, n),
         }
     }
     list(d = value)
+}
+
+##### qqfr #####
+#' Probability distribution of ratio of quadratic forms
+#'
+#' \code{qqfr()}: Quantile function of the same.
+#'
+#' @rdname pqfr
+#' @order 3
+#'
+#' @export
+#'
+qqfr <- function(probability, A, B, p = 1, mu = rep.int(0, n), Sigma = diag(n),
+                 lower.tail = TRUE, log.p = FALSE, trim_values = FALSE,
+                 return_abserr_attr = FALSE, stop_on_error = FALSE, m = 100L,
+                 tol_zero = .Machine$double.eps * 100,
+                 tol_sing = tol_zero, epsabs_q = .Machine$double.eps ^ (1/2),
+                 maxiter_q = 5000, ...) {
+    ## If A or B is missing, let it be an identity matrix
+    ## If they are given, symmetrize
+    if(missing(A)) {
+        if(missing(B)) stop("Provide at least one of A and B")
+        n <- dim(B)[1L]
+        In <- diag(n)
+        A <- In
+    } else {
+        n <- dim(A)[1L]
+        In <- diag(n)
+        A <- (A + t(A)) / 2
+    }
+    if(missing(B)) {
+        B <- In
+    } else {
+        B <- (B + t(B)) / 2
+    }
+    zeros <- rep.int(0, n)
+    ## If Sigma is given, transform A, B, and mu, and
+    ## call this function recursively with new arguments
+    if(!missing(Sigma) && !iseq(Sigma, In, tol_zero)) {
+        KiKS <- KiK(Sigma, tol_sing)
+        K <- KiKS$K
+        iK <- KiKS$iK
+        KtAK <- t(K) %*% A %*% K
+        KtBK <- t(K) %*% B %*% K
+        iKmu <- iK %*% mu
+        ## If Sigma is singular, check conditions for A, B, mu, and Sigma
+        if(ncol(K) != n) {
+            okay <- (iseq(K %*% iKmu, mu, tol_zero)) ||
+                    (iseq(A %*% mu, zeros, tol_zero) &&
+                     iseq(B %*% mu, zeros, tol_zero)) ||
+                    (iseq(crossprod(iK, KtAK %*% iK), A) &&
+                     iseq(crossprod(iK, KtBK %*% iK), B))
+            if(!okay) {
+                stop("For singular Sigma, certain condition must be met ",
+                     "for A, B, mu.\n  See documentation for details")
+            }
+        }
+        return(qqfr(probability, KtAK, KtBK, p = p, mu = iKmu,
+                    lower.tail = lower.tail, log.p = log.p,
+                    tol_zero = tol_zero, tol_sing = tol_sing,
+                    stop_on_error = stop_on_error, epsabs_q = epsabs_q,
+                    maxiter_q = maxiter_q, ...))
+    }
+    eigB <- eigen(B, symmetric = TRUE)
+    LB <- eigB$values
+    ## Check basic requirements for arguments
+    stopifnot(
+        "A and B must be square matrices" = all(c(dim(A), dim(B)) == n),
+        "B must be nonnegative definite" =
+            all(LB >= -tol_sing) && any(LB > tol_sing),
+        "probability must be numeric" = is.numeric(probability),
+        "p must be a positive scalar" = is.numeric(p) && length(p) == 1 && p > 0
+    )
+    ## Determine the possible range of ratio: l_lim, u_lim
+    LBiArange <- range_qfr(A, B, eigB, tol = tol_sing)
+    LBiAmin <- LBiArange[1]
+    LBiAmax <- LBiArange[2]
+    if(p == 1) {
+        l_lim <- LBiAmin
+        u_lim <- LBiAmax
+    } else if(p %% 2 == 0) {
+        l_lim <- if(LBiAmin * LBiAmax < 0) 0
+                 else min(abs(LBiAmin), abs(LBiAmax)) ^ p
+        u_lim <- max(abs(LBiAmin), abs(LBiAmax)) ^ p
+    } else {
+        l_lim <- sign(LBiAmin) * abs(LBiAmin) ^ p
+        u_lim <- sign(LBiAmax) * abs(LBiAmax) ^ p
+    }
+    ## The search interval is c(l_lim, u_lim), but Inf should be truncated
+    ## to use uniroot()
+    l_int <- l_lim
+    u_int <- u_lim
+    if(is.infinite(l_int)) l_int <- -1 / tol_zero
+    if(is.infinite(u_int)) u_int <-  1 / tol_zero
+    p_lower <- 0
+    p_upper <- 1
+    if(log.p) {
+        p_lower <- log(p_lower)
+        p_upper <- log(p_upper)
+        if(!lower.tail) probability <- log1p(-exp(probability))
+    } else {
+        if(!lower.tail) probability <- 1 - probability
+    }
+    ## Find quantiles using uniroot;
+    ## there are existing packages that have this functionality,
+    ## e.g., gbutils::cdf2quantile(), flexsurv::qgeneric(), but they do not
+    ## fit the use here and the increased dependencies do not pay off
+    get_quantile <- function(x) {
+        if(is.nan(x))
+            return(c(q = NaN, q_abserr = NaN, p_abserr = NaN))
+        if(is.na(x))
+            return(c(q = NA_real_, q_abserr = NA_real_, p_abserr = NA_real_))
+        if(x < p_lower || x > p_upper)
+            return(c(q = NaN, q_abserr = NA_real_, p_abserr = NA_real_))
+        if(x == p_lower)
+            return(c(q = l_lim,
+                     q_abserr = if(is.infinite(l_lim)) 0
+                                else .Machine$double.eps * 100,
+                     p_abserr = 0))
+        if(x == p_upper)
+            return(c(q = u_lim,
+                     q_abserr = if(is.infinite(u_lim)) 0
+                                else .Machine$double.eps * 100,
+                     p_abserr = 0))
+        pfun <- function(q_opt) {
+            pqfr(q_opt, A, B, p = p, mu = mu, lower.tail = TRUE, log.p = log.p,
+                 trim_values = trim_values, stop_on_error = stop_on_error,
+                 return_abserr_attr = return_abserr_attr, m = m, ...) - x
+        }
+        root_res <- stats::uniroot(pfun, lower = l_int, upper = u_int,
+                                   f.lower = if(log.p) -Inf else -x,
+                                   f.upper = p_upper - x,
+                                   extendInt = "upX",
+                                   check.conv = stop_on_error,
+                                   maxiter = maxiter_q, tol = epsabs_q)
+        p_abserr <- attr(root_res$f.root, "abserr")
+        res <- c(q = root_res$root,
+                 q_abserr = root_res$estim.prec,
+                 p_abserr = if(is.null(p_abserr)) NA_real_ else p_abserr)
+        return(res)
+    }
+    quantile_res <- sapply(probability, get_quantile)
+    ans <- quantile_res["q", ]
+    if(return_abserr_attr) {
+        abserr <- quantile_res["q_abserr", ]
+        p_abserr <- quantile_res["p_abserr", ]
+        density <- dqfr(ans, A, B, p = p, mu = mu, log = FALSE,
+                        trim_values = FALSE, return_abserr_attr = TRUE,
+                        tol_zero = tol_zero, tol_sing = tol_sing,
+                        stop_on_error = stop_on_error)
+        slope <- pmax.int(density - attr(density, "abserr"), 0)
+        if(log.p) slope <- slope / exp(probability)
+        abserr <- abserr + ifelse(p_abserr == 0, 0, p_abserr / slope)
+    }
+    if(any((abs(ans[!is.na(ans)]) >= 1 / tol_zero) &
+           (probability[!is.na(ans)] != p_lower) &
+           (probability[!is.na(ans)] != p_upper))) {
+        warning("very large quantile is difficult to estimate ",
+                "so likely inaccurate")
+    }
+    attributes(ans) <- attributes(probability)
+    if(exists("abserr", inherits = FALSE) && return_abserr_attr) {
+        if(is.null(dim(probability))) {
+            names(abserr) <- names(probability)
+        } else {
+            dim(abserr) <- dim(probability)
+            dimnames(abserr) <- dimnames(probability)
+        }
+        attr(ans, "abserr") <- abserr
+    }
+    if(any(is.nan(ans[!is.nan(probability)]))) warning("NaNs produced")
+    return(ans)
 }

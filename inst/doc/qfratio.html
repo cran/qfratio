@@ -49,7 +49,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -148,6 +148,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 div.csl-bib-body { }
 div.csl-entry {
 clear: both;
+margin-bottom: 0em;
 }
 .hanging div.csl-entry {
 margin-left:2em;
@@ -1049,8 +1050,9 @@ terms in the truncated series and error bound when available. Simple
 <em>m</em>oment</h2>
 <p>This function is for evaluating moments of the simple ratios of
 quadratic forms, <span class="math inline">\(\qfrE \left( \frac{\left(
-\mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p} {\left( \mathbf{x}^T
-\mathbf{B} \mathbf{x} \right)^q} \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim
+\mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p}
+{\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q} \right)\)</span>,
+where <span class="math inline">\(\mathbf{x} \sim
 \qfrmvnorm{\boldsymbol{\mu}}{\boldsymbol{\Sigma}}\)</span>.</p>
 <div id="usage" class="section level4">
 <h4>Usage</h4>
@@ -1178,9 +1180,9 @@ functions. The steps 7 and 8 can be suppressed if desired (by using
 <em>m</em>ultiple <em>r</em>atio <em>m</em>oment</h2>
 <p>This function is for evaluating moments of the multiple ratios of
 quadratic forms, <span class="math inline">\(\qfrE \left( \frac{\left(
-\mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p} {\left( \mathbf{x}^T
-\mathbf{B} \mathbf{x} \right)^q\left( \mathbf{x}^T \mathbf{D} \mathbf{x}
-\right)^r} \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim
+\mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p}
+{\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q\left( \mathbf{x}^T
+\mathbf{D} \mathbf{x} \right)^r} \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim
 \qfrmvnorm{\boldsymbol{\mu}}{\boldsymbol{\Sigma}}\)</span>.</p>
 <p>It works in a way very similar to <code>qfrm()</code>, just with the
 additional arguments <code>D</code> and <code>r</code>. The
@@ -1266,11 +1268,13 @@ corresponding “internal” functions are:</p>
 <p>These functions are for evaluating moments of (products of) quadratic
 forms, <span class="math inline">\(\qfrE \left( \left( \mathbf{x}^T
 \mathbf{A} \mathbf{x} \right)^p \right)\)</span>, <span class="math inline">\(\qfrE \left( \left( \mathbf{x}^T \mathbf{A}
-\mathbf{x} \right)^p  \left( \mathbf{x}^T \mathbf{B} \mathbf{x}
-\right)^q \right)\)</span>, and <span class="math inline">\(\qfrE \left(
-\left( \mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p  \left( \mathbf{x}^T
-\mathbf{B} \mathbf{x} \right)^q  \left( \mathbf{x}^T \mathbf{D}
-\mathbf{x} \right)^r \right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim
+\mathbf{x} \right)^p
+    \left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q
+\right)\)</span>, and <span class="math inline">\(\qfrE \left( \left(
+\mathbf{x}^T \mathbf{A} \mathbf{x} \right)^p
+    \left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q
+    \left( \mathbf{x}^T \mathbf{D} \mathbf{x} \right)^r
+\right)\)</span>, where <span class="math inline">\(\mathbf{x} \sim
 \qfrmvnorm{\boldsymbol{\mu}}{\boldsymbol{\Sigma}}\)</span>, using the
 algorithm described in <span class="citation">Hillier et al. (<a href="#ref-HillierEtAl2014">2014, secs. 3–4</a>)</span>. The exponents
 must be positive integers.</p>
@@ -1297,14 +1301,16 @@ functions.</p>
 <h2><code>rqfr()</code>, <code>rqfmr()</code>, <code>rqfp()</code>:
 random number generation</h2>
 <p>These functions generate a random sample of the simple ratio <span class="math inline">\(\frac{\left( \mathbf{x}^T \mathbf{A} \mathbf{x}
-\right)^p} {\left( \mathbf{x}^T \mathbf{B} \mathbf{x}
-\right)^q}\)</span>, multiple ratio <span class="math inline">\(\frac{\left( \mathbf{x}^T \mathbf{A} \mathbf{x}
-\right)^p} {\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q\left(
-\mathbf{x}^T \mathbf{D} \mathbf{x} \right)^r}\)</span>, and product
-<span class="math inline">\(\left( \mathbf{x}^T \mathbf{A} \mathbf{x}
-\right)^p \left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q \left(
-\mathbf{x}^T \mathbf{D} \mathbf{x} \right)^r\)</span>, respectively, of
-quadratic forms in normal variables <span class="math inline">\(\mathbf{x} \sim
+\right)^p}
+{\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q}\)</span>, multiple
+ratio <span class="math inline">\(\frac{\left( \mathbf{x}^T \mathbf{A}
+\mathbf{x} \right)^p}
+{\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q\left( \mathbf{x}^T
+\mathbf{D} \mathbf{x} \right)^r}\)</span>, and product <span class="math inline">\(\left( \mathbf{x}^T \mathbf{A} \mathbf{x}
+\right)^p
+\left( \mathbf{x}^T \mathbf{B} \mathbf{x} \right)^q \left( \mathbf{x}^T
+\mathbf{D} \mathbf{x} \right)^r\)</span>, respectively, of quadratic
+forms in normal variables <span class="math inline">\(\mathbf{x} \sim
 \qfrmvnorm{\boldsymbol{\mu}}{\boldsymbol{\Sigma}}\)</span>.</p>
 <p>They can be used for verifying results from the above functions, or
 as a Monte Carlo surrogate when numerical convergence cannot be obtained
@@ -1665,7 +1671,7 @@ approach using <code>rqfr()</code>.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
-<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0" line-spacing="2">
 <div id="ref-BaoKan2013" class="csl-entry">
 Bao, Y. and Kan, R. (2013) On the moments of ratios of quadratic forms
 in normal random variables. <em>Journal of Multivariate Analysis</em>,

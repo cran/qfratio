@@ -28,6 +28,7 @@ qfrm_ApIq_int(
   m = 100L,
   mu = rep.int(0, n),
   use_cpp = TRUE,
+  exact_method = TRUE,
   cpp_method = "double",
   nthreads = 1,
   tol_zero = .Machine$double.eps * 100,
@@ -120,15 +121,18 @@ the appropriate \dQuote{internal} function.}
 \item{use_cpp}{Logical to specify whether the calculation is done with \proglang{C++}
 functions via \code{Rcpp}.  \code{TRUE} by default.}
 
+\item{exact_method}{Logical to specify whether the exact method is used in
+\code{qfrm_ApIq_int()} (see \dQuote{Details}).}
+
 \item{cpp_method}{Method used in \proglang{C++} calculations to avoid numerical
 overflow/underflow (see \dQuote{Details}).  Options:
-\itemize{
-\item{\code{"double"}: }{default; fastest but prone to underflow in
+\describe{
+\item{\code{"double"}}{default; fastest but prone to underflow in
 some conditions}
-\item{\code{"long_double"}: }{same algorithm but using the
+\item{\code{"long_double"}}{same algorithm but using the
 \code{long double} variable type; robust but slow and
 memory-inefficient}
-\item{\code{"coef_wise"}: }{coefficient-wise scaling algorithm;
+\item{\code{"coef_wise"}}{coefficient-wise scaling algorithm;
 most robust but variably slow}
 }}
 
@@ -145,15 +149,15 @@ in \code{\link{d1_i}}).  Passed to internal functions (\code{\link{d1_i}},
 
 \item{check_convergence}{Specifies how numerical convergence is checked (see \dQuote{Details}).
 Options:
-\itemize{
-\item{\code{"relative"}: }{default; magnitude of the last term of
+\describe{
+\item{\code{"relative"}}{default; magnitude of the last term of
 the series relative to the sum is compared with \code{tol_conv}}
-\item{\code{"strict_relative"} or \code{TRUE}: }{same, but stricter than
+\item{\code{"strict_relative"} or \code{TRUE}}{same, but stricter than
 default by setting \code{tol_conv = .Machine$double.eps}
 (unless a smaller value is specified by the user)}
-\item{\code{"absolute"}: }{absolute magnitude of the last term is
+\item{\code{"absolute"}}{absolute magnitude of the last term is
 compared with \code{tol_conv}}
-\item{\code{"none"} or \code{FALSE}: }{skips convergence check}
+\item{\code{"none"} or \code{FALSE}}{skips convergence check}
 }}
 
 \item{alphaA, alphaB}{Factors for the scaling constants for \eqn{\mathbf{A}}{A} and
@@ -164,11 +168,11 @@ with \code{check_convergence}.}
 }
 \value{
 A \code{\link[=new_qfrm]{qfrm}} object consisting of the following:
-\itemize{
-\item{\code{$statistic}: }{evaluation result (\code{sum(terms)})}
-\item{\code{$terms}: }{vector of \eqn{0}th to \eqn{m}th order terms}
-\item{\code{$error_bound}: }{error bound of \code{statistic}}
-\item{\code{$seq_error}: }{vector of error bounds corresponding to
+\describe{
+\item{\code{$statistic}}{evaluation result (\code{sum(terms)})}
+\item{\code{$terms}}{vector of \eqn{0}th to \eqn{m}th order terms}
+\item{\code{$error_bound}}{error bound of \code{statistic}}
+\item{\code{$seq_error}}{vector of error bounds corresponding to
 partial sums (\code{cumsum(terms)})}
 }
 }
@@ -312,19 +316,15 @@ a larger value or \code{0} for (typically marginal) speed gains in large
 problems.
 }
 
-\subsection{Dependency note}{
+\subsection{Exact method for \code{qfrm_ApIq_int()}}{
 
 An exact expression of the moment is available when
 \eqn{p} is integer and \eqn{\mathbf{B} = \mathbf{I}_n}{B = I_n}
-(handled by \code{qfrm_ApIq_int()}), but this requires evaluation of
+(handled by \code{qfrm_ApIq_int()}), whose expression involves
 a confluent hypergeometric function when \eqn{\bm{\mu}}{\mu} is nonzero
-(Hillier et al. 2014: theorem 4).  When \code{use_cpp = FALSE}, this is
-handled with \code{gsl::hyperg_1F1()} if the package \pkg{gsl} is installed
-(which this package \code{Suggests}).  Otherwise, the function uses
-the ordinary infinite series expression (Hillier et al. 2009),
-which is less accurate and slow, and throws a message.  When
-\code{use_cpp = TRUE}, this is handled by the \proglang{C} function
-\code{gsl_sf_hyperg_1F1()} via \pkg{RcppGSL}.
+(Hillier et al. 2014: theorem 4).  There is an option
+(\code{exact_method = FALSE}) to use the ordinary infinite series expression
+(Hillier et al. 2009), which is less accurate and slow.
 }
 }
 \examples{
